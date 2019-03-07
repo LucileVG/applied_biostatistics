@@ -1,0 +1,44 @@
+---
+title: "Project 1"
+output: html_notebook
+---
+
+Data set: regression 1 (fishermen - do not use the variable MeHg)
+
+Group: Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué
+
+# Data description
+
+Source: N.B. Al-Majed and M.R. Preston (2000). "Factors Influencing the Total
+Mercury and Methyl Mercury in the Hair of Fishermen in Kuwait," 
+Environmental Pollution, Vol. 109, pp. 239-250
+
+Description: Factors related to mercury levels among fishermen and a control
+group of non-fishermen.
+
+Variables/names
+
+- Fisherman indicator  (_fisherman_)
+- Age in years  (_age_)
+- Residence Time in years   (_restime_)
+- Height in cm    (_height_)
+- Weight in kg    (_weight_)
+- Fish meals per week    (_fishmlwk_)
+- Parts of fish consumed: 0=none, 1=muscle tissue only, 2=mt and sometimes whole fish, 3=whole fish  (_fishpart_)
+- Methyl Mercury in mg/g    (_MeHg_)
+- Total Mercury in mg/g     (_TotHg_)
+
+# Imports and loading data
+
+```{r}
+# Load here the libraries and packages you need for the rest of the analysis.
+```
+
+
+```{r}
+DATA_FILE = "fishermen_mercury.csv" # Location of the data csv file
+dataset = read.csv(DATA_FILE) # Loading the data
+dataset$MeHg <- NULL # We are asked not to use the variable MeHg
+dataset
+```
+
