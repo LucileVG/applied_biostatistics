@@ -42,3 +42,17 @@ dataset$MeHg <- NULL # We are asked not to use the variable MeHg
 dataset
 ```
 
+
+Let's separate the table into the table of interest (the fisherman) vs the control table (the non fisherman).
+```{r}
+dataset.fisherman=dataset[which(dataset$fisherman==1),]
+dataset.non_fisherman=dataset[which(dataset$fisherman==0),]
+```
+
+We can now do some regression on both datasets and compare the results with some statistical tests? 
+
+```{r}
+
+```
+
+
