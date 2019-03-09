@@ -32,6 +32,7 @@ Variables/names
 
 ```{r}
 # Load here the libraries and packages you need for the rest of the analysis.
+library(tidyverse)
 ```
 
 
@@ -41,6 +42,25 @@ dataset = read.csv(DATA_FILE) # Loading the data
 dataset$MeHg <- NULL # We are asked not to use the variable MeHg
 dataset
 ```
+We have the following continuous variables:
+- Age in years  (_age_)
+- Residence Time in years   (_restime_)
+- Height in cm    (_height_)
+- Weight in kg    (_weight_)
+- Total Mercury in mg/g     (_TotHg_)
+
+We have the following categorical or boolean variables:
+- Fisherman indicator  (_fisherman_)
+- Fish meals per week    (_fishmlwk_)
+- Parts of fish consumed: 0=none, 1=muscle tissue only, 2=mt and sometimes whole fish, 3=whole fish  (_fishpart_)
+
+NB: pour _restime_ et _fishmlwk_ je ne sais pas trop si on les compte comme catégoriques ou pas.
+
+```{r}
+dataset$fisherman <- factor(dataset$fisherman)
+dataset$fishmlwk <- factor(dataset$fishmlwk)
+dataset$fishpart <- factor(dataset$fishpart)
+```
 
 
 Let's separate the table into the table of interest (the fisherman) vs the control table (the non fisherman).
@@ -48,11 +68,32 @@ Let's separate the table into the table of interest (the fisherman) vs the contr
 dataset.fisherman=dataset[which(dataset$fisherman==1),]
 dataset.non_fisherman=dataset[which(dataset$fisherman==0),]
 ```
-
 We can now do some regression on both datasets and compare the results with some statistical tests? 
 
-```{r}
+# Exploratory analysis
 
+## Summarize the dataset
+
+```{r}
+summary(dataset)
 ```
 
+## Plots
 
+```{r}
+ggplot(dataset, aes(fisherman, TotHg)) + geom_boxplot()
+ggplot(dataset, aes(age, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() ##Uncomment for log scales
+ggplot(dataset, aes(restime, TotHg, colour = fisherman)) + geom_point()
+ggplot(dataset, aes(height, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() 
+ggplot(dataset, aes(weight, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10()
+ggplot(dataset, aes(fishmlwk, TotHg, colour = fisherman)) + geom_boxplot()
+ggplot(dataset, aes(fishpart, TotHg, colour = fisherman)) + geom_boxplot()
+```
+Comments:
+- The fishermen have higher levels of mercury in their hair. Is the difference between fishermen and non-fishermen significant? (to be tested) What are the differences between the two populations that can explain such observations?
+- The population of non-fishermen is between 25 and 35 years while the population of fishermen is between 15 and 60 years. As there seem to be a little correlation between age and mercury levels this could affect our other results.
+- The variable restime seems difficult to interpret (poor correlation with Hg levels, narrow range of values for non-fishermen).
+- The height indicator for non-fishermen is not very precise (it takes only 3 different values: 170cm, 175cm, 180cm).
+- There seems to be a correlation between weight and mercury levels. Should we study mercury levels per kg instead? (that may be not very relevant because the mercury levels are the mercury levels in the hair so there have no reason to be linearly correlated with the total mass of the body)
+- There is a clear difference in way of life between fishermen and non-fishermen: the first ones eat fish more often than the second. We have to be very careful in interpreting our results because any correlation found between high levels of fish consumption and mercury can reflect the correlation between being a fisherman and having high levels of mercury without meaning that it is fish consumption that causes high levels of Hg. However, among the non-fishermen population there seems to be a clear trend between fish consumption and Hg mercury.
+- No clear trend between fishpart and Hg levels, maybe we need to put in relation fishpart and fish consumption.
