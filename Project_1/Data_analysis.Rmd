@@ -97,3 +97,19 @@ Comments:
 - There seems to be a correlation between weight and mercury levels. Should we study mercury levels per kg instead? (that may be not very relevant because the mercury levels are the mercury levels in the hair so there have no reason to be linearly correlated with the total mass of the body)
 - There is a clear difference in way of life between fishermen and non-fishermen: the first ones eat fish more often than the second. We have to be very careful in interpreting our results because any correlation found between high levels of fish consumption and mercury can reflect the correlation between being a fisherman and having high levels of mercury without meaning that it is fish consumption that causes high levels of Hg. However, among the non-fishermen population there seems to be a clear trend between fish consumption and Hg mercury.
 - No clear trend between fishpart and Hg levels, maybe we need to put in relation fishpart and fish consumption.
+
+
+## Possible analysis
+
+- Add a correlation coefficient to the scatterplots
+- Check homoscedasticity
+- Fit a linear model to the data
+- Model selection:
+  - Compare models using F-tests, AIC, BIC
+  - If the number of variables is small enough, could compare all possible models. Usually this is not practical, use automatic procedures: forward selection, backward elimination, stepwise selection
+- Adjusted $R^2$, ANOVA
+- Look for influential points (studentized residuals, Cook's distance)
+- Other diagnostic plots: residuals against predicted values, normal QQ-plot, scale location, residual vs leverage
+
+=> *What is the scientific question we want to answer?*
+=> In our model, how do we deal with correlated explanatory variables?
