@@ -28,6 +28,23 @@ Variables/names
 - Methyl Mercury in mg/g    (_MeHg_)
 - Total Mercury in mg/g     (_TotHg_)
 
+# Proposition of analysis 
+
+First : we should maybe show that the study makes sense, by showing that the mean of TotHg is significantly different for the fisherman and the control group.
+
+Then, we could look for possible outliers, that we will eventually take out of the study afterwards.
+
+Then, we could fit 2 or 3 models (with or without interaction terms, with more or less degrees of interaction), and determine with anova comparison, or AIC, which one we will use to draw conclusions; eventually also plot some QQ and things to show that ok the model is acceptable and to maybe find other outliers.
+
+Proposition of 3 models (they can of course be changed, it's just a propostion) : 
+- TotHg ~ restime + height + weight + fishmlwk + fishpart 
+
+- TotHg ~ (restime + height + weight + fishmlwk + fishpart)^2
+
+At last, we could take the "best" model to draw conclusions about which variables explain significantly the concentration TotHg, and what are the coefficients. 
+
+In all the calculations, we should (to my opinion) separate the fisherman and the control group (to find the best model and do calculations).
+
 # Imports and loading data
 
 ```{r}
