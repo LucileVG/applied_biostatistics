@@ -30,22 +30,7 @@ Variables/names
 - Methyl Mercury in mg/g    (_MeHg_)
 - Total Mercury in mg/g     (_TotHg_)
 
-# Proposition of analysis 
 
-First : we should maybe show that the study makes sense, by showing that the mean of TotHg is significantly different for the fisherman and the control group.
-
-Then, we could look for possible outliers, that we will eventually take out of the study afterwards.
-
-Then, we could fit 2 or 3 models (with or without interaction terms, with more or less degrees of interaction), and determine with anova comparison, or AIC, which one we will use to draw conclusions; eventually also plot some QQ and things to show that ok the model is acceptable and to maybe find other outliers.
-
-Proposition of 3 models (they can of course be changed, it's just a propostion) : 
-- TotHg ~ restime + height + weight + fishmlwk + fishpart 
-
-- TotHg ~ (restime + height + weight + fishmlwk + fishpart)^2
-
-At last, we could take the "best" model to draw conclusions about which variables explain significantly the concentration TotHg, and what are the coefficients. 
-
-In all the calculations, we should (to my opinion) separate the fisherman and the control group (to find the best model and do calculations).
 
 # Imports and loading data
 
@@ -229,9 +214,21 @@ plot(hg.lmNF.fishmlwk)
 mtext("TotHg as a function of fishmlwk - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
 ```
 
-Comments:
 
-- The fishermen have higher levels of mercury in their hair. Is the difference between fishermen and non-fishermen significant? (to be tested) What are the differences between the two populations that can explain such observations?
+
+### Two groups significantly different
+
+The fishermen have higher levels of mercury in their hair.
+
+Test of the difference between fishermen and non-fishermen 
+```{r}
+hg.form.fisherman = TotHg ~ fisherman
+hg.aov.fisherman = aov(hg.form.fisherman, data= dataset)
+summary(hg.aov.fisherman)
+```
+There is indeed a significant difference between these two groups. What are the differences between the two populations that can explain such observations?
+
+Comments:
 
 - The population of non-fishermen is between 25 and 35 years while the population of fishermen is between 15 and 60 years. As there seem to be a little correlation between age and mercury levels this could affect our other results.
 
@@ -267,6 +264,7 @@ Comments:
 - Look for influential points (studentized residuals, Cook's distance)
 
 - Other diagnostic plots: residuals against predicted values, normal QQ-plot, scale location, residual vs leverage
+
 
 => *What is the scientific question we want to answer?*
 => In our model, how do we deal with correlated explanatory variables?
