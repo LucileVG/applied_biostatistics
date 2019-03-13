@@ -37,6 +37,7 @@ Variables/names
 ```{r}
 # Load here the libraries and packages you need for the rest of the analysis.
 library(tidyverse)
+library("MASS")
 ```
 
 
@@ -264,6 +265,17 @@ Comments:
 - Look for influential points (studentized residuals, Cook's distance)
 
 - Other diagnostic plots: residuals against predicted values, normal QQ-plot, scale location, residual vs leverage
+  
+### Selection of the model 
+
+```{r}
+hg.form.full = TotHg~restime + height + weight + fishmlwk + fishpart 
+fit <- lm(hg.form.full,data=dataset)
+step <- stepAIC(fit, direction="both")
+step$anova # display results
+```
+With this method of stewise selection, it seems that the best model would be : 
+TotHg ~ height + weight + fishmlwk
 
 
 => *What is the scientific question we want to answer?*
