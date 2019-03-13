@@ -1,6 +1,8 @@
 ---
 title: "Project 1"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 Data set: regression 1 (fishermen - do not use the variable MeHg)
@@ -49,6 +51,7 @@ In all the calculations, we should (to my opinion) separate the fisherman and th
 
 ```{r}
 # Load here the libraries and packages you need for the rest of the analysis.
+library(tidyverse)
 ```
 
 
@@ -58,6 +61,25 @@ dataset = read.csv(DATA_FILE) # Loading the data
 dataset$MeHg <- NULL # We are asked not to use the variable MeHg
 dataset
 ```
+We have the following continuous variables:
+- Age in years  (_age_)
+- Residence Time in years   (_restime_)
+- Height in cm    (_height_)
+- Weight in kg    (_weight_)
+- Total Mercury in mg/g     (_TotHg_)
+
+We have the following categorical or boolean variables:
+- Fisherman indicator  (_fisherman_)
+- Fish meals per week    (_fishmlwk_)
+- Parts of fish consumed: 0=none, 1=muscle tissue only, 2=mt and sometimes whole fish, 3=whole fish  (_fishpart_)
+
+NB: pour _restime_ et _fishmlwk_ je ne sais pas trop si on les compte comme catégoriques ou pas.
+
+```{r}
+dataset$fisherman <- factor(dataset$fisherman)
+dataset$fishmlwk <- factor(dataset$fishmlwk)
+dataset$fishpart <- factor(dataset$fishpart)
+```
 
 
 Let's separate the table into the table of interest (the fisherman) vs the control table (the non fisherman).
@@ -65,11 +87,186 @@ Let's separate the table into the table of interest (the fisherman) vs the contr
 dataset.fisherman=dataset[which(dataset$fisherman==1),]
 dataset.non_fisherman=dataset[which(dataset$fisherman==0),]
 ```
-
 We can now do some regression on both datasets and compare the results with some statistical tests? 
 
-```{r}
+# Exploratory analysis
 
+## Summarize the dataset
+
+```{r}
+summary(dataset)
 ```
 
+## Plots
 
+```{r}
+ggplot(dataset, aes(fisherman, TotHg)) + geom_boxplot()
+ggplot(dataset, aes(age, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() ##Uncomment for log scales
+ggplot(dataset, aes(restime, TotHg, colour = fisherman)) + geom_point()
+ggplot(dataset, aes(height, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() 
+ggplot(dataset, aes(weight, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10()
+ggplot(dataset, aes(fishmlwk, TotHg, colour = fisherman)) + geom_boxplot()
+ggplot(dataset, aes(fishpart, TotHg, colour = fisherman)) + geom_boxplot()
+```
+
+## Analyze
+
+### 1-D linear models
+
+#### Age
+
+##### Code
+
+```{r}
+hg.form.age = TotHg ~ age # 1-D regression
+
+hg.lm.age = lm(hg.form.age, data=dataset) # Whole population
+hg.lmFi.age = lm(hg.form.age, data=dataset.fisherman) # Fishermen population
+hg.lmNF.age = lm(hg.form.age, data=dataset.non_fisherman) # Control population
+
+# Diagnostic plots
+par(mfrow=c(2,2))
+plot(hg.lm.age)
+mtext("TotHg as a function of age - Whole population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+par(mfrow=c(2,2))
+plot(hg.lmFi.age)
+mtext("TotHg as a function of age - Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+
+par(mfrow=c(2,2))
+plot(hg.lmNF.age)
+mtext("TotHg as a function of age - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+```
+
+##### Comments:
+
+- Residuals seem all in all well distributed in all three populations suggesting that the distribution of TotHg as a function of age is homoscedastic.
+- Normal Q-Q fits a line for Non-Fishermen population reinforcing the assumption that the distribution of TotHg given an age follows a normal distribution.
+- Normal Q-Q suggest however a heavy right tail for Fishermen population on this same distribution
+
+```{r}
+hg.form.restime = TotHg ~ restime
+
+hg.lm.restime = lm(hg.form.restime, data=dataset)
+hg.lmFi.restime = lm(hg.form.restime, data=dataset.fisherman)
+hg.lmNF.restime = lm(hg.form.restime, data=dataset.non_fisherman)
+
+par(mfrow=c(2,2))
+plot(hg.lm.restime)
+mtext("TotHg as a function of restime - Whole population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+par(mfrow=c(2,2))
+plot(hg.lmFi.restime)
+mtext("TotHg as a function of restime - Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+
+par(mfrow=c(2,2))
+plot(hg.lmNF.restime)
+mtext("TotHg as a function of restime - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+```
+
+```{r}
+hg.form.weight = TotHg ~ weight
+
+hg.lm.weight = lm(hg.form.weight, data=dataset)
+hg.lmFi.weight = lm(hg.form.weight, data=dataset.fisherman)
+hg.lmNF.weight = lm(hg.form.weight, data=dataset.non_fisherman)
+
+par(mfrow=c(2,2))
+plot(hg.lm.weight)
+mtext("TotHg as a function of weight - Whole population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+par(mfrow=c(2,2))
+plot(hg.lmFi.weight)
+mtext("TotHg as a function of weight - Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+
+par(mfrow=c(2,2))
+plot(hg.lmNF.weight)
+mtext("TotHg as a function of weight - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+```
+
+```{r}
+hg.form.height = TotHg ~ height
+
+hg.lm.height = lm(hg.form.height, data=dataset)
+hg.lmFi.height = lm(hg.form.height, data=dataset.fisherman)
+hg.lmNF.height = lm(hg.form.height, data=dataset.non_fisherman)
+
+par(mfrow=c(2,2))
+plot(hg.lm.height)
+mtext("TotHg as a function of height - Whole population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+par(mfrow=c(2,2))
+plot(hg.lmFi.height)
+mtext("TotHg as a function of height - Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+
+par(mfrow=c(2,2))
+plot(hg.lmNF.height)
+mtext("TotHg as a function of height - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+```
+
+```{r}
+hg.form.fishmlwk = TotHg ~ fishmlwk
+
+hg.lm.fishmlwk = lm(hg.form.fishmlwk, data=dataset)
+hg.lmFi.fishmlwk = lm(hg.form.fishmlwk, data=dataset.fisherman)
+hg.lmNF.fishmlwk = lm(hg.form.fishmlwk, data=dataset.non_fisherman)
+
+par(mfrow=c(2,2))
+plot(hg.lm.fishmlwk)
+mtext("TotHg as a function of fishmlwk - Whole population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+par(mfrow=c(2,2))
+plot(hg.lmFi.fishmlwk)
+mtext("TotHg as a function of fishmlwk - Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+
+par(mfrow=c(2,2))
+plot(hg.lmNF.fishmlwk)
+mtext("TotHg as a function of fishmlwk - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+```
+
+Comments:
+
+- The fishermen have higher levels of mercury in their hair. Is the difference between fishermen and non-fishermen significant? (to be tested) What are the differences between the two populations that can explain such observations?
+
+- The population of non-fishermen is between 25 and 35 years while the population of fishermen is between 15 and 60 years. As there seem to be a little correlation between age and mercury levels this could affect our other results.
+
+- The variable restime seems difficult to interpret (poor correlation with Hg levels, narrow range of values for non-fishermen).
+
+- The height indicator for non-fishermen is not very precise (it takes only 3 different values: 170cm, 175cm, 180cm).
+
+- There seems to be a correlation between weight and mercury levels. Should we study mercury levels per kg instead? (that may be not very relevant because the mercury levels are the mercury levels in the hair so there have no reason to be linearly correlated with the total mass of the body)
+
+- There is a clear difference in way of life between fishermen and non-fishermen: the first ones eat fish more often than the second. We have to be very careful in interpreting our results because any correlation found between high levels of fish consumption and mercury can reflect the correlation between being a fisherman and having high levels of mercury without meaning that it is fish consumption that causes high levels of Hg. However, among the non-fishermen population there seems to be a clear trend between fish consumption and Hg mercury.
+
+- No clear trend between fishpart and Hg levels, maybe we need to put in relation fishpart and fish consumption.
+
+- Unbalanced design (more fishermen than controls)
+
+
+## Possible analysis
+
+- Add a correlation coefficient to the scatterplots
+
+- Check homoscedasticity
+
+- Fit a linear model to the data
+
+- Model selection:
+
+  - Compare models using F-tests, AIC, BIC
+
+  - If the number of variables is small enough, could compare all possible models. Usually this is not practical, use automatic procedures: forward selection, backward elimination, stepwise selection
+
+- Adjusted $R^2$, ANOVA
+
+- Look for influential points (studentized residuals, Cook's distance)
+
+- Other diagnostic plots: residuals against predicted values, normal QQ-plot, scale location, residual vs leverage
+
+=> *What is the scientific question we want to answer?*
+=> In our model, how do we deal with correlated explanatory variables?
