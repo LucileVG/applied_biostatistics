@@ -327,12 +327,33 @@ Comments:
 - Look for influential points (studentized residuals, Cook's distance)
 
 - Other diagnostic plots: residuals against predicted values, normal QQ-plot, scale location, residual vs leverage
+
+## Plan 
+
+- VIF to check for multicolinearity between variables + choose which we want to keep 
+
+- stepwise selection on the model with interactions
+
+- fit the model, with the whole population, the fishermen, and the non fishermen
+
+- diagnostic plots
+
+- eventually robust regression 
+
+- conclude for the values of the parameters + some nice plots 
+
   
 ### Selection of the model 
 
 ```{r}
-hg.form.full = TotHg~restime + height + weight + fishmlwk + fishpart 
+hg.form.full = TotHg~ age + restime + height + weight + fishmlwk + fishpart 
+hg.form.full2 = TotHg~ (age + restime + height + weight + fishmlwk + fishpart)^2
+
 fit <- lm(hg.form.full,data=dataset)
+step <- stepAIC(fit, direction="both")
+step$anova # display results
+
+fit <- lm(hg.form.full2,data=dataset)
 step <- stepAIC(fit, direction="both")
 step$anova # display results
 ```
