@@ -38,6 +38,7 @@ Variables/names
 # Load here the libraries and packages you need for the rest of the analysis.
 library(tidyverse)
 library("MASS")
+library(GGally)
 ```
 
 
@@ -45,6 +46,7 @@ library("MASS")
 DATA_FILE = "fishermen_mercury.csv" # Location of the data csv file
 dataset = read.csv(DATA_FILE) # Loading the data
 dataset$MeHg <- NULL # We are asked not to use the variable MeHg
+dataset$LogTotHg = log(dataset$TotHg)
 dataset
 ```
 We have the following continuous variables:
@@ -53,6 +55,7 @@ We have the following continuous variables:
 - Height in cm    (_height_)
 - Weight in kg    (_weight_)
 - Total Mercury in mg/g     (_TotHg_)
+**- I added log(Total Mercury) for some tests (_LogTotHg_)**
 
 We have the following categorical or boolean variables:
 - Fisherman indicator  (_fisherman_)
@@ -84,7 +87,15 @@ summary(dataset)
 ```
 
 ## Plots
+### Pairwise behaviour of explnatory variables
 
+```{r}
+ggpairs(dataset[, c("fisherman", "age", "weight", "restime", "fishmlwk", "fishpart")])
+ggpairs(dataset.fisherman[, c("fisherman", "age", "weight", "restime", "fishmlwk", "fishpart")])
+ggpairs(dataset.non_fisherman[, c("fisherman", "age", "weight", "restime", "fishmlwk", "fishpart")])
+```
+
+### Plots of factored data
 ```{r}
 ggplot(dataset, aes(fisherman, TotHg)) + geom_boxplot()
 ggplot(dataset, aes(age, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() ##Uncomment for log scales
@@ -131,6 +142,10 @@ mtext("TotHg as a function of age - Non-Fishermen population", side = 3, line = 
 - Normal Q-Q fits a line for Non-Fishermen population reinforcing the assumption that the distribution of TotHg given an age follows a normal distribution.
 - Normal Q-Q suggest however a heavy right tail for Fishermen population on this same distribution
 
+#### Restime
+
+##### Code
+
 ```{r}
 hg.form.restime = TotHg ~ restime
 
@@ -152,6 +167,41 @@ plot(hg.lmNF.restime)
 mtext("TotHg as a function of restime - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
 ```
 
+##### Comments
+
+- There is a great difference of the distribution of *restime* between Fishermen and control population. In the control population it takes a complete range of values whereas in the control population, the distribution is discrete and takes only 3 (even 2) different values. Thus it might be difficult to draw conclusions on whether *restime* is corelated or not with the *TotHg* value. 
+
+- There also is this problem in Fishermen population of the right long tail and the left short tail for *TotHg* distribution. **It might be useful to use a log scale.**
+
+- Residuals in Fishermen population for fitted *TotHg* as a function of *restime* are all in all well distributed around 0 for all values of *restime* suggesting an homoscedasticity of the distribution of *TotHg* according to *restime*.
+
+- However, there are some residuals with very high positive values when there are none with very "high" negative values, suggesting some possible bias in the distribution.
+
+```{r}
+hg.form.logWeight = LogTotHg ~ weight
+
+hg.lm.logWeight = lm(hg.form.logWeight, data=dataset)
+hg.lmFi.logWeight = lm(hg.form.logWeight, data=dataset.fisherman)
+hg.lmNF.logWeight = lm(hg.form.logWeight, data=dataset.non_fisherman)
+
+par(mfrow=c(2,2))
+plot(hg.lm.logWeight)
+mtext("LogTotHg as a function of weight - Whole population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+par(mfrow=c(2,2))
+plot(hg.lmFi.logWeight)
+mtext("LogTotHg as a function of weight - Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+
+
+par(mfrow=c(2,2))
+plot(hg.lmNF.logWeight)
+mtext("LogTotHg as a function of weight - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
+```
+
+#### Weight
+
+##### Code
+
 ```{r}
 hg.form.weight = TotHg ~ weight
 
@@ -172,6 +222,11 @@ par(mfrow=c(2,2))
 plot(hg.lmNF.weight)
 mtext("TotHg as a function of weight - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
 ```
+##### Comments
+
+#### Height
+
+##### Code
 
 ```{r}
 hg.form.height = TotHg ~ height
@@ -194,6 +249,12 @@ plot(hg.lmNF.height)
 mtext("TotHg as a function of height - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
 ```
 
+##### Comments
+
+#### Fish meal per week
+
+##### Code
+
 ```{r}
 hg.form.fishmlwk = TotHg ~ fishmlwk
 
@@ -215,6 +276,7 @@ plot(hg.lmNF.fishmlwk)
 mtext("TotHg as a function of fishmlwk - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
 ```
 
+##### Comments
 
 
 ### Two groups significantly different
