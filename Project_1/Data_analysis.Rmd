@@ -341,4 +341,4 @@ TotHg ~ height + weight + fishmlwk
 
 
 => *What is the scientific question we want to answer?*
-=> In our model, how do we deal with correlated explanatory variables?
+=> In our model, how do we deal with correlated explanatory variables??
