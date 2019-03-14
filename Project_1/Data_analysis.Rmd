@@ -169,7 +169,7 @@ mtext("TotHg as a function of restime - Non-Fishermen population", side = 3, lin
 
 ##### Comments
 
-- There is a great difference of the distribution of *restime* between Fishermen and control population. In the control population it takes a complete range of values whereas in the control population, the distribution is discrete and takes only 3 (even 2) different values. Thus it might be difficult to draw conclusions on whether *restime* is corelated or not with the *TotHg* value. 
+- There is a great difference of the distribution of *restime* between Fishermen and control population. In the control population it takes a complete range of values whereas in the control population, the distribution is discrete and takes only 3 (even 2) different values. Thus it might be difficult to draw conclusions on whether *restime* is correlated or not with the *TotHg* value. 
 
 - There also is this problem in Fishermen population of the right long tail and the left short tail for *TotHg* distribution. **It might be useful to use a log scale.**
 
