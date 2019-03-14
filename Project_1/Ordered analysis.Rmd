@@ -1,0 +1,61 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Imports and loading data
+
+```{r}
+# Load here the libraries and packages you need for the rest of the analysis.
+library(tidyverse)
+library("MASS")
+library(GGally)
+```
+
+
+```{r}
+DATA_FILE = "fishermen_mercury.csv" # Location of the data csv file
+dataset = read.csv(DATA_FILE) # Loading the data
+dataset$MeHg <- NULL # We are asked not to use the variable MeHg
+dataset$LogTotHg = log(dataset$TotHg)
+dataset
+```
+
+# Introduction
+
+```{r}
+ggplot(dataset, aes(fisherman, TotHg)) + geom_boxplot()
+```
+```{r}
+t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fisherman==0),]$TotHg, alternative = "greater", var.equal=FALSE)
+```
+Mercury levels in the hair of fishermen are statistically hgher than in the hair of non-fishermen. How do we explain it?
+
+
+
+# Exploratory analysis
+
+## Summarize the dataset
+```{r}
+summary(dataset)
+```
+
+
+## Pairwise behaviour of explnatory variables
+_NB: peut-on remplacer le coefficient de corrélation par l'adjusted $R^2$ ?_
+
+
+
+# Analysis: 1-D linear models
+_Looking for influential points and testing the hypothesis of the model_
+=> Cette partie risque d'être longue et très répétitive. Que garde-t-on dans le rapport ?
+
+
+
+# Model
+_Use stewise selection to generate the best model_
+
+
+
+# Conclusion
+_Is our model able to predict the observed means of fishermen and non-fishermen populations observed in the introduction?_
