@@ -452,6 +452,18 @@ plot(hg.lm.new.selected.model, which=6)
 
 We should maybe use the robust regression because we have now other influencial points.
 
+### Robust regression 
+```{r}
+hg.rlm.selected.model <- rlm(selected.model, data=dataset)  # robust reg model
+#hg.rlmFi.selected.model <- rlm(selected.model, data=dataset.fisherman)
+#hg.rlmNF.selected.model <- rlm(selected.model, data=dataset.non_fisherman)
+
+summary(hg.rlm.selected.model)
+#summary(hg.rlmFi.selected.model)
+#summary(hg.rlmNF.selected.model)
+```
+
+Now we have no significant result anymore. Do we remove by hand some more influencial points so that we don't remove everything? 
 
 => *What is the scientific question we want to answer?*
 => In our model, how do we deal with correlated explanatory variables??
