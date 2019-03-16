@@ -67,7 +67,7 @@ NB: pour _restime_ et _fishmlwk_ je ne sais pas trop si on les compte comme cat√
 
 ```{r}
 dataset$fisherman <- factor(dataset$fisherman)
-dataset$fishmlwk <- factor(dataset$fishmlwk)
+#dataset$fishmlwk <- factor(dataset$fishmlwk)
 dataset$fishpart <- factor(dataset$fishpart)
 ```
 
@@ -386,7 +386,71 @@ step$anova # display results
 
 
 With this method of stewise selection, it seems that the best model would be : 
-TotHg ~ height + weight + fishmlwk
+TotHg ~ age + height + weight + fishmlwk
+
+### Fit of the selected model
+#### Code
+
+```{r}
+selected.model = TotHg ~ age + restime + height + weight + fishmlwk + fishpart + age:height + age:weight + age:fishpart + restime:weight + restime:fishmlwk + restime:fishpart + height:fishmlwk + height:fishpart + weight:fishpart
+
+hg.lm.selected.model=lm(selected.model, data=dataset)
+hg.lmFi.selected.model=lm(selected.model, data=dataset.fisherman)
+hg.lmNF.selected.model=lm(selected.model, data=dataset.non_fisherman)
+
+summary(hg.lm.selected.model)
+summary(hg.lmFi.selected.model)
+summary(hg.lmNF.selected.model)
+```
+
+#### Comments 
+
+### Diagnostic plots 
+#### Code 
+
+```{r}
+plot(hg.lm.selected.model, which=1)
+plot(hg.lm.selected.model, which=2)
+plot(hg.lm.selected.model, which=3)
+plot(hg.lm.selected.model, which=4)
+plot(hg.lm.selected.model, which=5)
+plot(hg.lm.selected.model, which=6)
+```
+
+#### Comments
+It seems that there are some influencial points and we sould maybe remove them to analyse the results without them.
+
+### Removing the influencial points 
+
+```{r}
+dataset.without.inf=dataset[c(-6,-56,-70,-85),]
+dataset.fisherman.without.inf=dataset.fisherman[c(-6,-56,-70,-85),]
+dataset.non_fisherman.without.inf=dataset.non_fisherman[c(-6,-56,-70,-85),]
+
+```
+
+### New fit
+
+```{r}
+hg.lm.new.selected.model=lm(selected.model, data=dataset.without.inf)
+hg.lmFi.new.selected.model=lm(selected.model, data=dataset.fisherman.without.inf)
+hg.lmNF.new.selected.model=lm(selected.model, data=dataset.non_fisherman.without.inf)
+
+summary(hg.lm.new.selected.model)
+summary(hg.lmFi.new.selected.model)
+summary(hg.lmNF.new.selected.model)
+```
+### New diagnostic plots
+```{r}
+plot(hg.lm.new.selected.model, which=1)
+plot(hg.lm.new.selected.model, which=2)
+plot(hg.lm.new.selected.model, which=3)
+plot(hg.lm.new.selected.model, which=4)
+plot(hg.lm.new.selected.model, which=5)
+plot(hg.lm.new.selected.model, which=6)
+```
+
+We should maybe use the robust regression because we have now other influencial points.
 
 
 => *What is the scientific question we want to answer?*
