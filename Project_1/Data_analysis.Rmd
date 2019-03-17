@@ -1,13 +1,17 @@
 ---
-title: "Project 1"
-output:
-  html_document:
-    df_print: paged
+title: "Project 1: regression 1 (fishermen - do not use the variable MeHg)"
+author: Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué
+date: March 17, 2019
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
+output: pdf_document
+fontsize: 12pt
+geometry: margin=2.5cm
+df_print: paged
 ---
 
-Data set: regression 1 (fishermen - do not use the variable MeHg)
-
-Group: Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué
 
 # Data description
 
