@@ -1,6 +1,8 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 # Imports and loading data
@@ -24,7 +26,7 @@ dataset
 # Introduction
 
 ```{r}
-ggplot(dataset, aes(fisherman, TotHg)) + geom_boxplot()
+ggplot(dataset, aes(group=fisherman, y=TotHg)) + geom_boxplot()
 ```
 ```{r}
 t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fisherman==0),]$TotHg, alternative = "greater", var.equal=FALSE)

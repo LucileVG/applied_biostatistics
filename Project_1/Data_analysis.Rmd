@@ -55,19 +55,17 @@ We have the following continuous variables:
 - Residence Time in years   (_restime_)
 - Height in cm    (_height_)
 - Weight in kg    (_weight_)
+- Fish meals per week    (_fishmlwk_)
 - Total Mercury in mg/g     (_TotHg_)
-**- I added log(Total Mercury) for some tests (_LogTotHg_)**
 
 We have the following categorical or boolean variables:
 - Fisherman indicator  (_fisherman_)
-- Fish meals per week    (_fishmlwk_)
 - Parts of fish consumed: 0=none, 1=muscle tissue only, 2=mt and sometimes whole fish, 3=whole fish  (_fishpart_)
 
 NB: pour _restime_ et _fishmlwk_ je ne sais pas trop si on les compte comme catégoriques ou pas.
 
 ```{r}
 dataset$fisherman <- factor(dataset$fisherman)
-dataset$fishmlwk <- factor(dataset$fishmlwk)
 dataset$fishpart <- factor(dataset$fishpart)
 ```
 
@@ -370,7 +368,7 @@ Comments:
 hg.form.full = TotHg~ age + restime + height + weight + fishmlwk + fishpart 
 hg.form.full2 = TotHg~ (age + restime + height + weight + fishmlwk + fishpart)^2
 
-vif(lm(hg.form.full,data=dataset))
+vif(lm(hg.form.full2,data=dataset))
 ```
 - The Variance Inflation Factors tends to show there is no case of too high colinearity here. (BUT problem with the fact we have categorical var vs. continuous var ?)
 
