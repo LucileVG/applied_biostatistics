@@ -1,13 +1,17 @@
 ---
-title: "Project 1"
-output:
-  html_document:
-    df_print: paged
+title: "Project 1: regression 1 (fishermen - do not use the variable MeHg)"
+author: Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué
+date: March 17, 2019
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
+output: pdf_document
+fontsize: 12pt
+geometry: margin=2.5cm
+df_print: paged
 ---
 
-Data set: regression 1 (fishermen - do not use the variable MeHg)
-
-Group: Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué
 
 # Data description
 
@@ -66,6 +70,7 @@ NB: pour _restime_ et _fishmlwk_ je ne sais pas trop si on les compte comme cat�
 
 ```{r}
 dataset$fisherman <- factor(dataset$fisherman)
+#dataset$fishmlwk <- factor(dataset$fishmlwk)
 dataset$fishpart <- factor(dataset$fishpart)
 ```
 
@@ -326,6 +331,12 @@ Comments:
 
 - Unbalanced design (more fishermen than controls)
 
+```{r}
+hg.form.fishpart = TotHg ~ fishpart
+hg.aov.fishpart = aov(hg.form.fishpart, data= dataset)
+summary(hg.aov.fishpart)
+```
+
 
 ## Possible analysis
 
@@ -372,20 +383,176 @@ vif(lm(hg.form.full2,data=dataset))
 ```
 - The Variance Inflation Factors tends to show there is no case of too high colinearity here. (BUT problem with the fact we have categorical var vs. continuous var ?)
 
+#### Whole population, non-squared model
+
 ```{r}
 fit <- lm(hg.form.full,data=dataset)
 step <- stepAIC(fit, direction="both")
 step$anova # display results
+summary(step)
+plot(step)
+```
+With this method of stewise selection, it seems that the best model would be : 
+TotHg ~ weight + fishmlwk
+The Multiple R-squared is only 0.2498: it seems we are unable to explain most of the variability of TotHg between individuals.
+However as the p-values for those two parameters are excellents, their influence on TotHg seems well established.
 
+#### Attempt of backward selection
+
+```{r}
+hg.form.custom = TotHg ~ age + restime + height + weight + fishmlwk + fishpart
+drop1(lm(hg.form.custom, data = dataset), test="F")
+# > delete age
+
+hg.form.custom = TotHg ~ restime + height + weight + fishmlwk + fishpart
+drop1(lm(hg.form.custom, data = dataset), test="F")
+# > delete height
+
+hg.form.custom = TotHg ~ restime + weight + fishmlwk + fishpart
+drop1(lm(hg.form.custom, data = dataset), test="F")
+# > delete fishpart
+
+hg.form.custom = TotHg ~ restime + weight + fishmlwk
+drop1(lm(hg.form.custom, data = dataset), test="F")
+# > delete restime
+
+hg.form.custom = TotHg ~ weight + fishmlwk
+drop1(lm(hg.form.custom, data = dataset), test="F")
+summary(lm(hg.form.custom, data = dataset))
+# > seems ok !
+# The backward selection gives the same model than stepwise.
+```
+
+#### Whole population, squared model
+
+```{r}
 fit <- lm(hg.form.full2,data=dataset)
 step <- stepAIC(fit, direction="both")
 step$anova # display results
+summary(step)
 ```
 
+### Fit of the selected model
+#### Code
 
-With this method of stewise selection, it seems that the best model would be : 
-TotHg ~ height + weight + fishmlwk
+```{r}
+selected.model = TotHg ~ age + restime + height + weight + fishmlwk + fishpart + age:height + age:weight + age:fishpart + restime:weight + restime:fishmlwk + restime:fishpart + height:fishmlwk + height:fishpart + weight:fishpart
 
+hg.lm.selected.model=lm(selected.model, data=dataset)
+hg.lmFi.selected.model=lm(selected.model, data=dataset.fisherman)
+hg.lmNF.selected.model=lm(selected.model, data=dataset.non_fisherman)
+
+summary(hg.lm.selected.model)
+summary(hg.lmFi.selected.model)
+summary(hg.lmNF.selected.model)
+```
+
+#### Comments 
+
+### Diagnostic plots 
+#### Code 
+
+```{r}
+plot(hg.lm.selected.model, which=1)
+plot(hg.lm.selected.model, which=2)
+plot(hg.lm.selected.model, which=3)
+plot(hg.lm.selected.model, which=4)
+plot(hg.lm.selected.model, which=5)
+plot(hg.lm.selected.model, which=6)
+```
+
+#### Comments
+It seems that there are some influencial points and we sould maybe remove them to analyse the results without them.
+
+### Removing the influencial points 
+
+```{r}
+dataset.without.inf=dataset[c(-6,-56,-70,-85),]
+dataset.fisherman.without.inf=dataset.fisherman[c(-6,-56,-70,-85),]
+dataset.non_fisherman.without.inf=dataset.non_fisherman[c(-6,-56,-70,-85),]
+
+```
+
+### New fit
+
+```{r}
+hg.lm.new.selected.model=lm(selected.model, data=dataset.without.inf)
+hg.lmFi.new.selected.model=lm(selected.model, data=dataset.fisherman.without.inf)
+hg.lmNF.new.selected.model=lm(selected.model, data=dataset.non_fisherman.without.inf)
+
+summary(hg.lm.new.selected.model)
+summary(hg.lmFi.new.selected.model)
+summary(hg.lmNF.new.selected.model)
+```
+### New diagnostic plots
+```{r}
+plot(hg.lm.new.selected.model, which=1)
+plot(hg.lm.new.selected.model, which=2)
+plot(hg.lm.new.selected.model, which=3)
+plot(hg.lm.new.selected.model, which=4)
+plot(hg.lm.new.selected.model, which=5)
+plot(hg.lm.new.selected.model, which=6)
+```
+
+We should maybe use the robust regression because we have now other influencial points.
+
+### Robust regression 
+```{r}
+hg.rlm.selected.model <- rlm(selected.model, data=dataset)  # robust reg model
+#hg.rlmFi.selected.model <- rlm(selected.model, data=dataset.fisherman)
+#hg.rlmNF.selected.model <- rlm(selected.model, data=dataset.non_fisherman)
+
+summary(hg.rlm.selected.model)
+#summary(hg.rlmFi.selected.model)
+#summary(hg.rlmNF.selected.model)
+```
+
+Now we have no significant result anymore. Do we remove by hand some more influencial points so that we don't remove everything? 
 
 => *What is the scientific question we want to answer?*
 => In our model, how do we deal with correlated explanatory variables??
+
+## What I think we should do to answer the "scientific question" (Joseph)
+### Model selection
+#### Whole population
+```{r}
+fit <- lm(hg.form.full,data=dataset)
+step <- stepAIC(fit, direction="both")
+step$anova # display results
+summary(step)
+plot(step)
+```
+With this method of stewise selection, it seems that the best model would be : 
+TotHg ~ weight + fishmlwk
+The Multiple R-squared is only 0.2498: it seems we are unable to explain most of the variability of TotHg between individuals.
+However as the p-values for those two parameters are excellents, their influence on TotHg seems well established.
+
+#### Fishermen only
+
+```{r}
+fit <- lm(hg.form.full,data=dataset.fisherman)
+step <- stepAIC(fit, direction="both")
+step$anova # display results
+summary(step)
+plot(step)
+```
+For the fishermen population only, with the same method of stewise selection, the same best model is obtained : 
+TotHg ~ weight + fishmlwk
+The Multiple R-squared is still very low, and the p-values is good only for the weight parameter.
+Moreover the weight coefficient is higher than it was in the whole population model. Therefore it seems weight is the dominant explanatory variable among fishermen.
+Also we have among fishermen a non-negligible amount of very high values for TotHg > The model do not explain that obviously (maybe we can imagine that a small proportion of the pop are fixing Hg much more / eliminating Hg much slower...)
+
+#### Non-Fishermen only
+
+```{r}
+fit <- lm(TotHg~ age + restime + height + weight + fishmlwk, data=dataset.non_fisherman) # hg.form.full
+step <- stepAIC(fit, direction="both")
+step$anova # display results
+summary(step)
+plot(step)
+```
+
+For the non-fishermen population only, with the same method of stewise selection, a model with weight, fishmlwk and fishpart is obtained. However the values of the parameters for fishpart are absurd, or too strange to be interpreted. If fishpart is removed from the formula, the model obtained is the same as before : 
+TotHg ~ weight + fishmlwk
+The Multiple R-squared is now very good, and the p-values is good only for the fishmlwk parameter.
+Moreover the fishmlwk coefficient is higher than it was in the whole population model. Therefore it seems fishmlwk is the dominant explanatory variable by a very large margin among non-fishermen.
