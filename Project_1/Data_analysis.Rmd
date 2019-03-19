@@ -1,14 +1,16 @@
 ---
-title: "Project 1: regression 1 (fishermen - do not use the variable MeHg)"
-author: Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué
-date: March 17, 2019
+title: 'Project 1: regression 1 (fishermen - do not use the variable MeHg)'
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu�f©"
+date: "March 17, 2019"
+output:
+  html_document:
+    df_print: paged
+geometry: margin=2.5cm
 header-includes:
 - \usepackage{fancyhdr}
 - \pagestyle{fancy}
-- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
-output: pdf_document
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu�f©}
 fontsize: 12pt
-geometry: margin=2.5cm
 df_print: paged
 ---
 
@@ -51,7 +53,8 @@ library(car) # contains the vif() and leveneTest() functions
 DATA_FILE = "fishermen_mercury.csv" # Location of the data csv file
 dataset = read.csv(DATA_FILE) # Loading the data
 dataset$MeHg <- NULL # We are asked not to use the variable MeHg
-dataset$LogTotHg = log(dataset$TotHg)
+dataset$LogTotHg <- log(dataset$TotHg)
+dataset$logFishmlwk <- log(dataset$fishmlwk + 1)
 dataset
 ```
 We have the following continuous variables:
@@ -199,28 +202,6 @@ ncvTest(hg.lmNF.restime ) # Output: Chisquare = 0.2388775, Df = 1, p = 0.62502
 ```
 This time those results suggest that all 3 pop have homoskedastic HgTot vs. restime values.
 
-#### LogWeight
-
-```{r}
-hg.form.logWeight = LogTotHg ~ weight
-
-hg.lm.logWeight = lm(hg.form.logWeight, data=dataset)
-hg.lmFi.logWeight = lm(hg.form.logWeight, data=dataset.fisherman)
-hg.lmNF.logWeight = lm(hg.form.logWeight, data=dataset.non_fisherman)
-
-par(mfrow=c(2,2))
-plot(hg.lm.logWeight)
-mtext("LogTotHg as a function of weight - Whole population", side = 3, line = -2, outer = TRUE, cex = 1.5)
-
-par(mfrow=c(2,2))
-plot(hg.lmFi.logWeight)
-mtext("LogTotHg as a function of weight - Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
-
-
-par(mfrow=c(2,2))
-plot(hg.lmNF.logWeight)
-mtext("LogTotHg as a function of weight - Non-Fishermen population", side = 3, line = -2, outer = TRUE, cex = 1.5)
-```
 
 #### Weight
 
@@ -377,7 +358,7 @@ summary(hg.aov.fishpart)
 
 ```{r}
 hg.form.full = TotHg~ age + restime + height + weight + fishmlwk + fishpart 
-hg.form.full2 = TotHg~ (age + restime + height + weight + fishmlwk + fishpart)^2
+hg.form.full2 = TotHg~ (age + restime + height + weight + fishpart)^2
 
 vif(lm(hg.form.full2,data=dataset))
 ```
@@ -556,3 +537,46 @@ For the non-fishermen population only, with the same method of stewise selection
 TotHg ~ weight + fishmlwk
 The Multiple R-squared is now very good, and the p-values is good only for the fishmlwk parameter.
 Moreover the fishmlwk coefficient is higher than it was in the whole population model. Therefore it seems fishmlwk is the dominant explanatory variable by a very large margin among non-fishermen.
+
+
+
+#### Whole population, degree 1
+
+```{r}
+hg.form.test <- LogTotHg ~ fisherman:(age + restime + weight + logFishmlwk)
+vif(lm(hg.form.test,data=dataset))
+fit <- lm(hg.form.test,data=dataset)
+step <- stepAIC(fit, direction="both")
+step$anova # display results
+summary(step)
+plot(step)
+
+# hg.rlm.test <- rlm(step$call$formula, data = dataset)
+# summary(hg.rlm.test)
+# plot(hg.rlm.test)
+
+library(robust)
+hg.roblm.test <- lmRob(step$call$formula, data = dataset)
+summary(hg.roblm.test)
+# plot(hg.roblm.test)
+```
+
+I tried three things here:
+
+- I set a log scale on _TotHg_ since it is a value ranging from zero to infinity possibly taking arbitrarily low values, but bottom-bounded by zero: thus it couldn't possibly have a normal distribution for any valuation of the observables.
+
+- I set a (approximate) log scale on _fishmlwk_ since it is a count value ranging from 0 to 21. I followed the idea from the course 5, even if _fishmlwk_ is not a response (*y*) but an observation (*x*).
+
+- I used the robust regression from the _robust_ package in order to obtain the *p-values* for the coefficients of the robust regression, and set a reduced weight to observations classified as outliers by the Cook distance.
+
+I obtained several interesting results:
+
+- The VIFs suggest that no colinearity is to be observed between the observables.
+
+- The right tail of residuals is very reduced and almost fits the normal distribution.
+
+- The left tail of residuals is somewhat expanded, but less than the right tail with non-log scale.
+
+- The residuals **do not appear to be homoscedactically distributed**... Namely, there is an island with small fitted values with a very small variance of residuals...
+
+The final model got by the regression is *`r deparse(step$call$formula)`*.
