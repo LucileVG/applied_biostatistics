@@ -1,0 +1,61 @@
+---
+title: 'Project 1: regression 1'
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué"
+date: "March 20, 2019"
+output:
+  pdf_document:
+    df_print: paged
+geometry: margin=2.5cm
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
+fontsize: 12pt
+df_print: paged
+bibliography: bibliography.bib
+---
+
+```{r, echo=FALSE, message=FALSE}
+# Load here the libraries and packages you need for the rest of the analysis.
+library(tidyverse)
+library("MASS")
+library(GGally)
+library(car) # contains the vif() and leveneTest() functions
+```
+
+```{r, echo=FALSE, message=FALSE}
+# Loading data
+DATA_FILE = "fishermen_mercury.csv" # Location of the data csv file
+dataset = read.csv(DATA_FILE) # Loading the data
+dataset$MeHg <- NULL # We are asked not to use the variable MeHg
+dataset$LogTotHg <- log(dataset$TotHg)
+dataset$logFishmlwk <- log(dataset$fishmlwk + 1)
+
+#Converting categorical variables into factors
+dataset$fisherman <- factor(dataset$fisherman)
+dataset$fishpart <- factor(dataset$fishpart)
+```
+
+
+
+
+# Introduction
+
+Mercury is a metal present in the environment whose harmful effects on human health are well assessed [@park2012human]. In a study led in 2000 [@al2000factors], scientists collected data on total mercury and methyl mercury levels in the hair of 100 fishermen of Kuwait, aged 16 to 58 years, comparing them to those of a control population of 35 non-fishermen, aged 26 to 35 years. The aim of this report is to analyse the factors influencing the levels of mercury in both populations. For the sake of simplicity, we will only focus on total Hg, leaving out methyl mercury, as both variables are strongly correlated.
+
+The dataset gathers information about six numerical variables (age, height, weight, number of fish meals per week and residence time in Kuwait) and two categorical ones (being a fisherman or not, fish consumption habits). There is no additional information about gender as all the participants in the study are males.
+
+A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a _Welch Two Sample t-test_ with the alternative hypothesis that the fishermen population has a average greater level of mercury than the control population (p-value = 7.473e-05).
+
+```{r, echo=FALSE, message=FALSE, fig.width=4, fig.height=2.5}
+ggplot(dataset, aes(group=fisherman, y=TotHg, fill=fisherman)) + geom_boxplot() + labs(y = "Total Hg levels in the hair") + scale_x_discrete() + scale_fill_discrete(name = "Population", labels = c("Control group", "Fishermen")) + theme_bw()
+```
+```{r, include=FALSE}
+t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fisherman==0),]$TotHg, alternative = "greater", var.equal=FALSE)
+```
+
+
+
+
+
+# References
