@@ -12,14 +12,13 @@ header-includes:
 - \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
 fontsize: 12pt
 df_print: paged
+bibliography: bibliography.bib
 ---
 
 
 # Data description
 
-Source: N.B. Al-Majed and M.R. Preston (2000). "Factors Influencing the Total
-Mercury and Methyl Mercury in the Hair of Fishermen in Kuwait," 
-Environmental Pollution, Vol. 109, pp. 239-250
+Source: [@al2000factors]
 
 Description: Factors related to mercury levels among fishermen and a control
 group of non-fishermen.
@@ -580,3 +579,5 @@ I obtained several interesting results:
 - The residuals **do not appear to be homoscedactically distributed**... Namely, there is an island with small fitted values with a very small variance of residuals...
 
 The final model got by the regression is *`r deparse(step$call$formula)`*.
+
+# References
