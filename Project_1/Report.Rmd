@@ -47,15 +47,46 @@ The dataset gathers information about six numerical variables (age, height, weig
 
 A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a _Welch Two Sample t-test_ with the alternative hypothesis that the fishermen population has a average greater level of mercury than the control population (p-value = 7.473e-05).
 
-```{r, echo=FALSE, message=FALSE, fig.width=4, fig.height=2.5}
-ggplot(dataset, aes(group=fisherman, y=TotHg, fill=fisherman)) + geom_boxplot() + labs(y = "Total Hg levels in the hair") + scale_x_discrete() + scale_fill_discrete(name = "Population", labels = c("Control group", "Fishermen")) + theme_bw()
+```{r, echo=FALSE, message=FALSE, fig.width=4, fig.height=2.5, fig.margin=TRUE}
+ggplot(dataset, aes(group=fisherman, y=TotHg, fill=fisherman)) + geom_boxplot() + labs(y = "Total Hg concentration in the hair (mg/g)") + scale_x_discrete() + scale_fill_discrete(name = "Population", labels = c("Control group", "Fishermen")) + theme_bw()
 ```
 ```{r, include=FALSE}
 t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fisherman==0),]$TotHg, alternative = "greater", var.equal=FALSE)
 ```
 
 
+# Exploratory analysis (Amandine)
+
+```{r}
+table(dataset$fisherman, dataset$fishmlwk)
+```
+Unbalanced (les non-fishermen sont <= 2, les fishermen sont >= 3), catégories avec pas du tout le même nombre d'individus (la catégorie 3 n'a que 2 personnes)
+
+L'étude est déséquilibrée entre les deux groupes sur à peu près toutes les explanatory variables (restime, age,...).
+
+VIF du model linéaire et squared, dire pourquoi on ne prend pas le squared.
 
 
+# Model selection (Joseph)
+
+Stepwise selection (inclure * fishermen). (Dire qu'on a vérifié avec forward et backward et qu'on a trouvé la même chose => à coder quand même !)
+
+
+# Results and discussion (Urvan)
+
+Fit model (* fishermen)
+
+Commenter les résultats, valeurs des coefficients, font-elles du sens, p-values
+
+Les diagnostic plots pour weight + dire que c'est pareil pour tout le monde
+
+# Conclusion (Lucile)
+
+3 lignes
+
+Les principales variables explicatives sont:
+
+- La consommation de poisson => logique
+- Le poids => plus étonnant mais on sait que les cellules graisseuses stockent les toxiques
 
 # References
