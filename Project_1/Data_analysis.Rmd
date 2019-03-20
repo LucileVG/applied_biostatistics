@@ -1,15 +1,15 @@
 ---
 title: 'Project 1: regression 1 (fishermen - do not use the variable MeHg)'
-author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu�f©"
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué"
 date: "March 17, 2019"
 output:
-  html_document:
+  pdf_document:
     df_print: paged
 geometry: margin=2.5cm
 header-includes:
 - \usepackage{fancyhdr}
 - \pagestyle{fancy}
-- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu�f©}
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
 fontsize: 12pt
 df_print: paged
 ---
@@ -40,7 +40,7 @@ Variables/names
 
 # Imports and loading data
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 # Load here the libraries and packages you need for the rest of the analysis.
 library(tidyverse)
 library("MASS")
@@ -49,7 +49,7 @@ library(car) # contains the vif() and leveneTest() functions
 ```
 
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 DATA_FILE = "fishermen_mercury.csv" # Location of the data csv file
 dataset = read.csv(DATA_FILE) # Loading the data
 dataset$MeHg <- NULL # We are asked not to use the variable MeHg
@@ -71,7 +71,7 @@ We have the following categorical or boolean variables:
 
 NB: pour _restime_ et _fishmlwk_ je ne sais pas trop si on les compte comme catégoriques ou pas.
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 dataset$fisherman <- factor(dataset$fisherman)
 #dataset$fishmlwk <- factor(dataset$fishmlwk)
 dataset$fishpart <- factor(dataset$fishpart)
@@ -79,7 +79,7 @@ dataset$fishpart <- factor(dataset$fishpart)
 
 
 Let's separate the table into the table of interest (the fisherman) vs the control table (the non fisherman).
-```{r}
+```{r, echo=FALSE, message=FALSE}
 dataset.fisherman=dataset[which(dataset$fisherman==1),]
 dataset.non_fisherman=dataset[which(dataset$fisherman==0),]
 ```
@@ -89,21 +89,21 @@ We can now do some regression on both datasets and compare the results with some
 
 ## Summarize the dataset
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 summary(dataset)
 ```
 
 ## Plots
 ### Pairwise behaviour of explnatory variables
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 ggpairs(dataset[, c("fisherman", "age", "weight", "restime", "fishmlwk", "fishpart")])
 ggpairs(dataset.fisherman[, c("fisherman", "age", "weight", "restime", "fishmlwk", "fishpart")])
 ggpairs(dataset.non_fisherman[, c("fisherman", "age", "weight", "restime", "fishmlwk", "fishpart")])
 ```
 
 ### Plots of factored data
-```{r}
+```{r, echo=FALSE, message=FALSE}
 ggplot(dataset, aes(fisherman, TotHg)) + geom_boxplot()
 ggplot(dataset, aes(age, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() ##Uncomment for log scales
 ggplot(dataset, aes(restime, TotHg, colour = fisherman)) + geom_point()
@@ -121,7 +121,7 @@ ggplot(dataset, aes(fishpart, TotHg, colour = fisherman)) + geom_boxplot()
 
 ##### Code
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.age = TotHg ~ age # 1-D regression
 
 hg.lm.age = lm(hg.form.age, data=dataset) # Whole population
@@ -151,7 +151,7 @@ mtext("TotHg as a function of age - Non-Fishermen population", side = 3, line = 
 
 #####Test of homoskedasticity with a Breusch-Pagan test (Joseph)
 - This is a test for homoskedasticity of the data. The null hypothesis is homoskedasticity, and ncvTest calculates a p-value.
-```{r}
+```{r, echo=FALSE, message=FALSE}
 ncvTest(hg.lm.age) # Output: Chisquare = 10.93327, Df = 1, p = 0.00094453
 ncvTest(hg.lmFi.age) # Output: Chisquare = 4.561776, Df = 1, p = 0.032693
 ncvTest(hg.lmNF.age) # Output: Chisquare = 0.2004155, Df = 1, p = 0.65439
@@ -162,7 +162,7 @@ These results suggest that only the non-Fisherman pop has homoskedastic HgTot vs
 
 ##### Code
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.restime = TotHg ~ restime
 
 hg.lm.restime = lm(hg.form.restime, data=dataset)
@@ -195,7 +195,7 @@ mtext("TotHg as a function of restime - Non-Fishermen population", side = 3, lin
 
 #####Test of homoskedasticity with a Breusch-Pagan test (Joseph)
 - This is a test for homoskedasticity of the data. The null hypothesis is homoskedasticity, and ncvTest calculates a p-value.
-```{r}
+```{r, echo=FALSE, message=FALSE}
 ncvTest(hg.lm.restime ) # Output: Chisquare = 0.2252327, Df = 1, p = 0.63508
 ncvTest(hg.lmFi.restime ) # Output: Chisquare = 0.9487475, Df = 1, p = 0.33004
 ncvTest(hg.lmNF.restime ) # Output: Chisquare = 0.2388775, Df = 1, p = 0.62502
@@ -207,7 +207,7 @@ This time those results suggest that all 3 pop have homoskedastic HgTot vs. rest
 
 ##### Code
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.weight = TotHg ~ weight
 
 hg.lm.weight = lm(hg.form.weight, data=dataset)
@@ -233,7 +233,7 @@ mtext("TotHg as a function of weight - Non-Fishermen population", side = 3, line
 
 ##### Code
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.height = TotHg ~ height
 
 hg.lm.height = lm(hg.form.height, data=dataset)
@@ -260,7 +260,7 @@ mtext("TotHg as a function of height - Non-Fishermen population", side = 3, line
 
 ##### Code
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.fishmlwk = TotHg ~ fishmlwk
 
 hg.lm.fishmlwk = lm(hg.form.fishmlwk, data=dataset)
@@ -289,7 +289,7 @@ mtext("TotHg as a function of fishmlwk - Non-Fishermen population", side = 3, li
 The fishermen have higher levels of mercury in their hair.
 
 Test of the difference between fishermen and non-fishermen 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.fisherman = TotHg ~ fisherman
 hg.aov.fisherman = aov(hg.form.fisherman, data= dataset)
 summary(hg.aov.fisherman)
@@ -312,7 +312,7 @@ Comments:
 
 - Unbalanced design (more fishermen than controls)
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.fishpart = TotHg ~ fishpart
 hg.aov.fishpart = aov(hg.form.fishpart, data= dataset)
 summary(hg.aov.fishpart)
@@ -356,7 +356,7 @@ summary(hg.aov.fishpart)
   
 ### Selection of the model 
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.full = TotHg~ age + restime + height + weight + fishmlwk + fishpart 
 hg.form.full2 = TotHg~ (age + restime + height + weight + fishpart)^2
 
@@ -366,7 +366,7 @@ vif(lm(hg.form.full2,data=dataset))
 
 #### Whole population, non-squared model
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 fit <- lm(hg.form.full,data=dataset)
 step <- stepAIC(fit, direction="both")
 step$anova # display results
@@ -380,7 +380,7 @@ However as the p-values for those two parameters are excellents, their influence
 
 #### Attempt of backward selection
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.custom = TotHg ~ age + restime + height + weight + fishmlwk + fishpart
 drop1(lm(hg.form.custom, data = dataset), test="F")
 # > delete age
@@ -406,7 +406,7 @@ summary(lm(hg.form.custom, data = dataset))
 
 #### Whole population, squared model
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 fit <- lm(hg.form.full2,data=dataset)
 step <- stepAIC(fit, direction="both")
 step$anova # display results
@@ -416,7 +416,7 @@ summary(step)
 ### Fit of the selected model
 #### Code
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 selected.model = TotHg ~ age + restime + height + weight + fishmlwk + fishpart + age:height + age:weight + age:fishpart + restime:weight + restime:fishmlwk + restime:fishpart + height:fishmlwk + height:fishpart + weight:fishpart
 
 hg.lm.selected.model=lm(selected.model, data=dataset)
@@ -433,7 +433,7 @@ summary(hg.lmNF.selected.model)
 ### Diagnostic plots 
 #### Code 
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 plot(hg.lm.selected.model, which=1)
 plot(hg.lm.selected.model, which=2)
 plot(hg.lm.selected.model, which=3)
@@ -447,7 +447,7 @@ It seems that there are some influencial points and we sould maybe remove them t
 
 ### Removing the influencial points 
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 dataset.without.inf=dataset[c(-6,-56,-70,-85),]
 dataset.fisherman.without.inf=dataset.fisherman[c(-6,-56,-70,-85),]
 dataset.non_fisherman.without.inf=dataset.non_fisherman[c(-6,-56,-70,-85),]
@@ -456,7 +456,7 @@ dataset.non_fisherman.without.inf=dataset.non_fisherman[c(-6,-56,-70,-85),]
 
 ### New fit
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.lm.new.selected.model=lm(selected.model, data=dataset.without.inf)
 hg.lmFi.new.selected.model=lm(selected.model, data=dataset.fisherman.without.inf)
 hg.lmNF.new.selected.model=lm(selected.model, data=dataset.non_fisherman.without.inf)
@@ -466,7 +466,7 @@ summary(hg.lmFi.new.selected.model)
 summary(hg.lmNF.new.selected.model)
 ```
 ### New diagnostic plots
-```{r}
+```{r, echo=FALSE, message=FALSE}
 plot(hg.lm.new.selected.model, which=1)
 plot(hg.lm.new.selected.model, which=2)
 plot(hg.lm.new.selected.model, which=3)
@@ -478,7 +478,7 @@ plot(hg.lm.new.selected.model, which=6)
 We should maybe use the robust regression because we have now other influencial points.
 
 ### Robust regression 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.rlm.selected.model <- rlm(selected.model, data=dataset)  # robust reg model
 #hg.rlmFi.selected.model <- rlm(selected.model, data=dataset.fisherman)
 #hg.rlmNF.selected.model <- rlm(selected.model, data=dataset.non_fisherman)
@@ -496,7 +496,7 @@ Now we have no significant result anymore. Do we remove by hand some more influe
 ## What I think we should do to answer the "scientific question" (Joseph)
 ### Model selection
 #### Whole population
-```{r}
+```{r, echo=FALSE, message=FALSE}
 fit <- lm(hg.form.full,data=dataset)
 step <- stepAIC(fit, direction="both")
 step$anova # display results
@@ -510,7 +510,7 @@ However as the p-values for those two parameters are excellents, their influence
 
 #### Fishermen only
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 fit <- lm(hg.form.full,data=dataset.fisherman)
 step <- stepAIC(fit, direction="both")
 step$anova # display results
@@ -525,7 +525,7 @@ Also we have among fishermen a non-negligible amount of very high values for Tot
 
 #### Non-Fishermen only
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 fit <- lm(TotHg~ age + restime + height + weight + fishmlwk, data=dataset.non_fisherman) # hg.form.full
 step <- stepAIC(fit, direction="both")
 step$anova # display results
@@ -542,7 +542,7 @@ Moreover the fishmlwk coefficient is higher than it was in the whole population 
 
 #### Whole population, degree 1
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 hg.form.test <- LogTotHg ~ fisherman:(age + restime + weight + logFishmlwk)
 vif(lm(hg.form.test,data=dataset))
 fit <- lm(hg.form.test,data=dataset)
