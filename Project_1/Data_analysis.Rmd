@@ -25,15 +25,15 @@ group of non-fishermen.
 
 Variables/names
 
-- Fisherman indicator  (_fisherman_)
-- Age in years  (_age_)
-- Residence Time in years   (_restime_)
-- Height in cm    (_height_)
-- Weight in kg    (_weight_)
-- Fish meals per week    (_fishmlwk_)
-- Parts of fish consumed: 0=none, 1=muscle tissue only, 2=mt and sometimes whole fish, 3=whole fish  (_fishpart_)
-- Methyl Mercury in mg/g    (_MeHg_)
-- Total Mercury in mg/g     (_TotHg_)
+- _fisherman_: Fisherman indicator  
+- _age_: Age in years  
+- _restime_: Residence Time in years   
+- _height_: Height in cm   
+- _weight_: Weight in kg    
+- _fishmlwk_: Fish meals per week    
+- _fishpart_: Parts of fish consumed: 0=none, 1=muscle tissue only, 2=mt and sometimes whole fish, 3=whole fish  
+- _MeHg_: Methyl Mercury in mg/g    (Not used in our study)
+- _TotHg_: Total Mercury in mg/g     
 
 
 
