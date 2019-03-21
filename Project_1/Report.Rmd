@@ -62,23 +62,117 @@ table(dataset$fisherman, dataset$fishmlwk)
 ```
 Unbalanced (les non-fishermen sont <= 2, les fishermen sont >= 3), catégories avec pas du tout le même nombre d'individus (la catégorie 3 n'a que 2 personnes)
 
-L'étude est déséquilibrée entre les deux groupes sur à peu près toutes les explanatory variables (restime, age,...).
+L'étude est déséquilibrée entre les deux groupes sur à peu près toutes les explanatory variables (restime, age,...). 
+
+```{r, echo=FALSE, message=FALSE}
+ggplot(dataset, aes(age, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() ##Uncomment for log scales
+ggplot(dataset, aes(restime, TotHg, colour = fisherman)) + geom_point()
+ggplot(dataset, aes(fishmlwk, TotHg, colour = fisherman)) + geom_boxplot()
+```
+
 
 VIF du model linéaire et squared, dire pourquoi on ne prend pas le squared.
+
+```{r ,echo=FALSE, message=FALSE}
+hg.form.full = TotHg~ fisherman + age + restime + height + weight + fishmlwk + fishpart #+ fisherman:(age + restime + height + weight + fishmlwk + fishpart) : we would like to pu these interactions also but the VIF doesn't work because of the aliased coefficients
+hg.form.full2 = TotHg~ (age + restime + height + weight + fishpart)^2
+
+vif(lm(hg.form.full,data=dataset))
+vif(lm(hg.form.full2,data=dataset))
+```
 
 
 # Model selection (Joseph)
 
-Stepwise selection (inclure * fishermen). (Dire qu'on a vérifié avec forward et backward et qu'on a trouvé la même chose => à coder quand même !)
+Stepwise selection (inclure * fishermen). (Dire qu'on a vérifié avec forward et backward et qu'on a trouvé la même chose => à coder quand même !)........Finally maybe not so true!...
 
+```{r, echo=FALSE, message=FALSE}
+hg.form.pre_selection=TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart + fisherman:(age + restime + height + weight + fishmlwk + fishpart)
+fit <- lm(hg.form.pre_selection,data=dataset)
+selection <- stepAIC(fit, direction="both")
+selection$anova # display results
+```
+
+With stepwise selection, the selected model is : 
+TotHg ~ fisherman + weight + fishmlwk + fisherman:weight + fisherman:fishmlwk
+
+Backward selection:
+
+```{r}
+hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + restime + height + weight + fishmlwk + fishpart)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete restime:fisherman
+
+hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + height + weight + fishmlwk + fishpart)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete fishpart:fisherman
+
+hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + height + weight + fishmlwk)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete height:fisherman
+
+hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + weight + fishmlwk)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete age:fisherman
+
+hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(weight + fishmlwk)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete fishpart
+
+hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fisherman:(weight + fishmlwk)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete height
+
+hg.form.custom = TotHg ~ fisherman + age + restime + weight + fishmlwk + fisherman:(weight + fishmlwk)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete age
+
+hg.form.custom = TotHg ~ fisherman + restime + weight + fishmlwk + fisherman:(weight + fishmlwk)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete restime
+
+hg.form.custom = TotHg ~ fisherman + weight + fishmlwk + fisherman:(weight + fishmlwk)
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete fisherman:weight 
+
+hg.form.custom = TotHg ~ fisherman + weight + fishmlwk + fisherman:fishmlwk
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete fisherman:fishmlwk 
+
+hg.form.custom = TotHg ~ fisherman + weight + fishmlwk
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete fisherman 
+
+hg.form.custom = TotHg ~ weight + fishmlwk
+drop1(lm(hg.form.custom, data = dataset), test="F")
+#>delete fisherman 
+```
+With the backward selection we loose all the interaction terms ...
 
 # Results and discussion (Urvan)
 
-Fit model (* fishermen)
+Fit model (* fishermen) (I picked the model given by stepwise selection)
+
+```{r, echo=FALSE, message=FALSE}
+hg.form.selected=TotHg ~ fisherman + weight + fishmlwk + fisherman:weight + fisherman:fishmlwk
+hg.lm.selected.model=lm(hg.form.selected, data=dataset)
+summary(hg.lm.selected.model)
+```
+
 
 Commenter les résultats, valeurs des coefficients, font-elles du sens, p-values
 
 Les diagnostic plots pour weight + dire que c'est pareil pour tout le monde
+
+```{r, echo=FALSE, message=FALSE}
+plot(hg.lm.selected.model, which=1) #residuals vs fitted
+plot(hg.lm.selected.model, which=2) #QQ plot
+plot(hg.lm.selected.model, which=3) #scale location
+plot(hg.lm.selected.model, which=4) #cook's distance
+plot(hg.lm.selected.model, which=5) #residuals vs leverage 
+plot(hg.lm.selected.model, which=6) #cook's distance vs leverage
+```
+
 
 # Conclusion (Lucile)
 
