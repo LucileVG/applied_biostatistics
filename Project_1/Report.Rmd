@@ -1,16 +1,18 @@
 ---
 title: 'Project 1: regression 1'
-author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué"
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu�f©"
 date: "March 20, 2019"
 output:
+  html_document:
+    df_print: paged
   pdf_document:
     df_print: paged
+fontsize: 12pt
 geometry: margin=2.5cm
 header-includes:
 - \usepackage{fancyhdr}
 - \pagestyle{fancy}
-- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
-fontsize: 12pt
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu�f©}
 df_print: paged
 bibliography: bibliography.bib
 ---
@@ -21,6 +23,8 @@ library(tidyverse)
 library("MASS")
 library(GGally)
 library(car) # contains the vif() and leveneTest() functions
+library(gridExtra)
+library(cowplot)
 ```
 
 ```{r, echo=FALSE, message=FALSE}
@@ -57,30 +61,36 @@ t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fi
 
 # Exploratory analysis (Amandine)
 
-```{r}
+#### Overview of the data 
+Before fitting a model, let's have a look at the data. The following table shows the 8 conditions of fishmlwk according to the 2 possible conditions of fisherman.
+```{r, echo=FALSE, message=FALSE}
 table(dataset$fisherman, dataset$fishmlwk)
 ```
-Unbalanced (les non-fishermen sont <= 2, les fishermen sont >= 3), catégories avec pas du tout le même nombre d'individus (la catégorie 3 n'a que 2 personnes)
-
-L'étude est déséquilibrée entre les deux groupes sur à peu près toutes les explanatory variables (restime, age,...). 
+First, let's notice that for some variables, we have a very few people : only 2 people eat fish 3 times a week. We see also that the data are really unbalanced, because the fishermen and non fishermen are separated on the variable "fishmlwk" : the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
+Besides, we face the same unbalanced pattern for the variables "age"" and "restime".
 
 ```{r, echo=FALSE, message=FALSE}
+par(mfrow=c(1,3))
 ggplot(dataset, aes(age, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() ##Uncomment for log scales
 ggplot(dataset, aes(restime, TotHg, colour = fisherman)) + geom_point()
 ggplot(dataset, aes(fishmlwk, TotHg, colour = fisherman)) + geom_boxplot()
+#grid.arrange(plot1, plot2, plot3, ncol=3, nrow = 1)
 ```
 
+#### Multicolinearity 
 
-VIF du model linéaire et squared, dire pourquoi on ne prend pas le squared.
+To check whether we have multicolinear variables, we use the VIF function. If all the variables have a result below 5, we keep them. 
 
 ```{r ,echo=FALSE, message=FALSE}
-hg.form.full = TotHg~ fisherman + age + restime + height + weight + fishmlwk + fishpart #+ fisherman:(age + restime + height + weight + fishmlwk + fishpart) : we would like to pu these interactions also but the VIF doesn't work because of the aliased coefficients
-hg.form.full2 = TotHg~ (age + restime + height + weight + fishpart)^2
+hg.form.full = TotHg~ fisherman + age + restime + height + weight + fishmlwk + fishpart 
+#hg.form.full2 = TotHg~ (fisherman + age + restime + height + weight + fishpart)^2
+#hg.form.full3 = TotHg~ (fisherman + age + restime + height + weight + fishpart)^3
 
 vif(lm(hg.form.full,data=dataset))
-vif(lm(hg.form.full2,data=dataset))
+#vif(lm(hg.form.full2,data=dataset))
+#vif(lm(hg.form.full3,data=dataset))
 ```
-
+Indeed, we observe that all the variables have a VIF below 2, so we don't eliminate any variable, yet.
 
 # Model selection (Joseph)
 
