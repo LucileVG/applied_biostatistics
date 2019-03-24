@@ -219,7 +219,7 @@ However, the most significant coefficient is for _weight_ for fisherman populati
 
 The fact that the weight has a positive influence on this concentration was unexpected, since a concentration and not an absolute quantity was measured. 
 
-However, even though it was unexpected it has many possible explanations such as the fact that weight is much likely correlated with adiposity more susceptible to catch toxins than other tissues. Another explanation could be that the fatter, the more one eats and possibly ingests mercury that could fix in the hair; since hair weight isn't likely to be correlated with body weight, it could explain the hight mercury concentration in hair. 
+However, even though it was unexpected it has many possible explanations such as the fact that weight is much likely correlated with adiposity more susceptible to catch toxins than other tissues. Another explanation could be that the fatter, the more one eats and possibly ingests mercury that could fix in the hair; since hair weight isn't likely to be correlated with body weight, it could explain the high mercury concentration in hair. 
 
 Here again, further experiments are needed in order to support or reject those hypotheses.
 
@@ -236,7 +236,7 @@ The model does not seem to be really homoscedastic. Variance is much higher for 
 plot(hg.lm.selected.model, which=2) #QQ plot
 ```
 
-We have a heavy tails distribution of residuals, with a very heavy right tail. The fact that we have two submodels merged in one might explain the heavy tails. However it cannot explain the difference between right and left tails. This could be caused by an insufficient sample size. Or it could be explained by a non-linear relation between the observables and the concntration of mercury, thus possibly unbalancing the residuals distribution. 
+We have a heavy tails distribution of residuals, with a very heavy right tail. The fact that we have two submodels merged in one might explain the heavy tails. However it cannot explain the difference between right and left tails. This could be caused by an insufficient sample size. Or it could be explained by a non-linear relation between the observables and the concentration of mercury, thus possibly unbalancing the residuals distribution. 
 
 ```{r, echo=FALSE, message=FALSE}
 plot(hg.lm.selected.model, which=3) #scale location
@@ -253,13 +253,8 @@ plot(hg.lm.selected.model, which=6) #cook's distance vs leverage
 ```
 
 
-# Conclusion (Lucile)
+# Conclusion
 
-3 lignes
-
-Les principales variables explicatives sont:
-
-- La consommation de poisson => logique
-- Le poids => plus étonnant mais on sait que les cellules graisseuses stockent les toxiques
+We have achieved to build a simple model that can help explaining the levels of mercury observed in a fishermen population compared to a control group. It appears that the variables that have the most significant influence over the measured levels of mercury are the weight of the individual and the frequency at which they eat fish. The former can seem surprising even if some hypotheses can be formed to account for the influence of weight on mercury levels. The latter may be the main explanation for the differences observed between our two groups: fishermen use to eat fish much more often than non-fishermen, as fish is a well-known source of mercury it seems logical to see a positive correlation between fish meal frequency and mercury levels and thus to observe higher mercury levels in fishermen populations compared to non-fishermen.
 
 # References
