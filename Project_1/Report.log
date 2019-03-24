@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.10)  20 MAR 2019 16:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.10)  24 MAR 2019 20:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -752,34 +752,7 @@ Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
 Package hyperref Info: Option `breaklinks' set `true' on input line 30.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/color.sty
-Package: color 2016/05/09 v1.1c Standard LaTeX Color (DPC)
-(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics-cfg/color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
-)
-Package color Info: Driver file: pdftex.def on input line 144.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
-\Gread@gobject=\count114
-)) (/usr/local/texlive/2016/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
-Package: fancyvrb 2008/02/07
-
-Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
-<2008/02/07> (tvz)
-\FV@CodeLineNo=\count115
-\FV@InFile=\read1
-\FV@TabBox=\box28
-\c@FancyVerbLine=\count116
-\FV@StepNumber=\count117
-\FV@OutFile=\write3
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/framed/framed.sty
-Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
-\OuterFrameSep=\skip48
-\fb@frw=\dimen125
-\fb@frh=\dimen126
-\FrameRule=\dimen127
-\FrameSep=\dimen128
-) (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2016/05/09 v1.0r Standard LaTeX Graphics (DPC,SPQR)
@@ -789,9 +762,12 @@ Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 File: graphics.cfg 2016/01/02 v1.10 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 96.
-)
-\Gin@req@height=\dimen129
-\Gin@req@width=\dimen130
+(/usr/local/texlive/2016/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+\Gread@gobject=\count114
+))
+\Gin@req@height=\dimen125
+\Gin@req@width=\dimen126
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/grffile.sty
 Package: grffile 2016/05/16 v1.17 Extended file name support for graphics (HO)
 Package grffile Info: Option `multidot' is set to `true'.
@@ -802,55 +778,54 @@ Package grffile Info: \Gin@ii of package `graphicx' fixed on input line 486.
 Package: parskip 2001/04/09 non-zero parskip adjustments
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/titling/titling.sty
 Package: titling 2009/09/04 v2.1d maketitle typesetting
-\thanksmarkwidth=\skip49
-\thanksmargin=\skip50
-\droptitle=\skip51
+\thanksmarkwidth=\skip48
+\thanksmargin=\skip49
+\droptitle=\skip50
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-\fancy@headwidth=\skip52
-\f@ncyO@elh=\skip53
-\f@ncyO@erh=\skip54
-\f@ncyO@olh=\skip55
-\f@ncyO@orh=\skip56
-\f@ncyO@elf=\skip57
-\f@ncyO@erf=\skip58
-\f@ncyO@olf=\skip59
-\f@ncyO@orf=\skip60
+\fancy@headwidth=\skip51
+\f@ncyO@elh=\skip52
+\f@ncyO@erh=\skip53
+\f@ncyO@olh=\skip54
+\f@ncyO@orh=\skip55
+\f@ncyO@elf=\skip56
+\f@ncyO@erf=\skip57
+\f@ncyO@olf=\skip58
+\f@ncyO@orf=\skip59
 )
 
 Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 129.
+less on input line 89.
 
 (./Report.aux)
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 131.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 131.
-
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 91.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 91.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 131.
-LaTeX Font Info:    ... okay on input line 131.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 131.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 91.
+LaTeX Font Info:    ... okay on input line 91.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 91.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 131.
+LaTeX Info: Redefining \microtypecontext on input line 91.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
@@ -898,34 +873,34 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box29
-Package hyperref Info: Link coloring OFF on input line 131.
+\AtBeginShipoutBox=\box28
+Package hyperref Info: Link coloring OFF on input line 91.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count118
+\c@section@level=\count115
 )
-LaTeX Info: Redefining \ref on input line 131.
-LaTeX Info: Redefining \pageref on input line 131.
-LaTeX Info: Redefining \nameref on input line 131.
+LaTeX Info: Redefining \ref on input line 91.
+LaTeX Info: Redefining \pageref on input line 91.
+LaTeX Info: Redefining \nameref on input line 91.
 (./Report.out) (./Report.out)
-\@outlinefile=\write4
-\openout4 = `Report.out'.
+\@outlinefile=\write3
+\openout3 = `Report.out'.
 
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count119
-\scratchdimen=\dimen131
-\scratchbox=\box30
-\nofMPsegments=\count120
-\nofMParguments=\count121
+\scratchcounter=\count116
+\scratchdimen=\dimen127
+\scratchbox=\box29
+\nofMPsegments=\count117
+\nofMParguments=\count118
 \everyMPshowfont=\toks25
-\MPscratchCnt=\count122
-\MPscratchDim=\dimen132
-\MPnumerator=\count123
-\makeMPintoPDFobject=\count124
+\MPscratchCnt=\count119
+\MPscratchDim=\dimen128
+\MPnumerator=\count120
+\makeMPintoPDFobject=\count121
 \everyMPtoPDFconversion=\toks26
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -940,64 +915,182 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-<Report_files/figure-latex/unnamed-chunk-3-1.pdf, id=28, 277.035pt x 180.675pt>
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 92.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+<Report_files/figure-latex/unnamed-chunk-3-1.pdf, id=32, 277.035pt x 180.675pt>
 File: Report_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-3-1.pdf used o
-n input line 160.
+n input line 120.
 (pdftex.def)             Requested size: 277.03432pt x 180.67455pt.
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Repor
 t_files/figure-latex/unnamed-chunk-3-1.pdf>]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 166.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 131.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 167.
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 214.
+<Report_files/figure-latex/unnamed-chunk-6-1.pdf, id=50, 444.66125pt x 311.1625
+pt>
+File: Report_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-6-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-6-1.pdf used o
+n input line 146.
+(pdftex.def)             Requested size: 444.66016pt x 311.16174pt.
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
+<Report_files/figure-latex/unnamed-chunk-6-2.pdf, id=51, 444.66125pt x 309.155p
+t>
+File: Report_files/figure-latex/unnamed-chunk-6-2.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-6-2.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-6-2.pdf used o
+n input line 147.
+(pdftex.def)             Requested size: 444.66016pt x 309.15424pt.
+
+<Report_files/figure-latex/unnamed-chunk-6-3.pdf, id=52, 444.66125pt x 309.155p
+t>
+File: Report_files/figure-latex/unnamed-chunk-6-3.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-6-3.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-6-3.pdf used o
+n input line 148.
+(pdftex.def)             Requested size: 444.66016pt x 309.15424pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--149
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 146--149
+[]
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 236.
-[3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 236.
+[2 <./Report_files/figure-latex/unnamed-chunk-6-1.pdf>] [3 <./Report_files/figu
+re-latex/unnamed-chunk-6-2.pdf> <./Report_files/figure-latex/unnamed-chunk-6-3.
+pdf>] [4] [5]
+LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 266
+.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [6] [7]
+Overfull \hbox (9.619pt too wide) in paragraph at lines 368--368
+[]\T1/lmtt/m/n/12 ## lm(formula = TotHg ~ fisherman:weight + fisherman:fishmlwk
+, data = dataset)[] 
+ []
+
+[8]
+<Report_files/figure-latex/unnamed-chunk-13-1.pdf, id=109, 438.63875pt x 281.05
+pt>
+File: Report_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-13-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-1.pdf used 
+on input line 424.
+(pdftex.def)             Requested size: 438.64435pt x 281.05359pt.
+
+<Report_files/figure-latex/unnamed-chunk-13-2.pdf, id=110, 440.64626pt x 281.05
+pt>
+File: Report_files/figure-latex/unnamed-chunk-13-2.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-13-2.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-2.pdf used 
+on input line 425.
+(pdftex.def)             Requested size: 440.66533pt x 281.06216pt.
+
+<Report_files/figure-latex/unnamed-chunk-13-3.pdf, id=111, 441.65pt x 281.05pt>
+File: Report_files/figure-latex/unnamed-chunk-13-3.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-13-3.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-3.pdf used 
+on input line 426.
+(pdftex.def)             Requested size: 441.66911pt x 281.06216pt.
+
+<Report_files/figure-latex/unnamed-chunk-13-4.pdf, id=112, 448.67625pt x 281.05
+pt>
+File: Report_files/figure-latex/unnamed-chunk-13-4.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-13-4.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-4.pdf used 
+on input line 427.
+(pdftex.def)             Requested size: 448.68884pt x 281.05788pt.
+
+<Report_files/figure-latex/unnamed-chunk-13-5.pdf, id=113, 455.7025pt x 281.05p
+t>
+File: Report_files/figure-latex/unnamed-chunk-13-5.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-13-5.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-5.pdf used 
+on input line 428.
+(pdftex.def)             Requested size: 455.70831pt x 281.05359pt.
+
+<Report_files/figure-latex/unnamed-chunk-13-6.pdf, id=114, 447.6725pt x 285.065
+pt>
+File: Report_files/figure-latex/unnamed-chunk-13-6.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-13-6.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-13-6.pdf used 
+on input line 429.
+(pdftex.def)             Requested size: 447.6714pt x 285.0643pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 424--430
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 424--430
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 424--430
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 424--430
+[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 424--430
+[]
+ []
+
+[9 <./Report_files/figure-latex/unnamed-chunk-13-1.pdf>] [10 <./Report_files/fi
+gure-latex/unnamed-chunk-13-2.pdf> <./Report_files/figure-latex/unnamed-chunk-1
+3-3.pdf>] [11 <./Report_files/figure-latex/unnamed-chunk-13-4.pdf> <./Report_fi
+les/figure-latex/unnamed-chunk-13-5.pdf>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 462.
+[12 <./Report_files/figure-latex/unnamed-chunk-13-6.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 462.
 (./Report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 236.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 236.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 462.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 462.
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 5CD934244A48EEDABDC24047A24FDA46;942.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 236.
+(rerunfilecheck)             Checksum: E75D1FD94DFD3BA223125288F716913B;1089.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 462.
  ) 
 Here is how much of TeX's memory you used:
- 12839 strings out of 493014
- 185351 string characters out of 6133351
- 291129 words of memory out of 5000000
- 16191 multiletter control sequences out of 15000+600000
- 34494 words of font info for 48 fonts, out of 8000000 for 9000
+ 12446 strings out of 493014
+ 180702 string characters out of 6133351
+ 284470 words of memory out of 5000000
+ 15782 multiletter control sequences out of 15000+600000
+ 41439 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,11n,43p,253b,366s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,11n,43p,253b,458s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local
 /texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2016/
 texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2016/texmf-dist
 /fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
 1/public/lm/lmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm
-/lmri12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmtk10.pf
+/lmri12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmro12.pf
 b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on Report.pdf (3 pages, 158605 bytes).
+Output written on Report.pdf (12 pages, 274826 bytes).
 PDF statistics:
- 88 PDF objects out of 1000 (max. 8388607)
- 73 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
- 10294 words of extra memory for PDF output out of 12000 (max. 10000000)
+ 212 PDF objects out of 1000 (max. 8388607)
+ 160 compressed objects within 2 object streams
+ 25 named destinations out of 1000 (max. 500000)
+ 10347 words of extra memory for PDF output out of 12000 (max. 10000000)
 

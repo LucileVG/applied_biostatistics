@@ -1,6 +1,6 @@
 ---
 title: 'Project 1: regression 1'
-author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu�f©"
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu?f©"
 date: "March 20, 2019"
 output:
   html_document:
@@ -12,7 +12,7 @@ geometry: margin=2.5cm
 header-includes:
 - \usepackage{fancyhdr}
 - \pagestyle{fancy}
-- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu�f©}
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu?f©}
 df_print: paged
 bibliography: bibliography.bib
 ---
@@ -62,12 +62,12 @@ t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fi
 # Exploratory analysis (Amandine)
 
 #### Overview of the data 
-Before fitting a model, let's have a look at the data. The following table shows the 8 conditions of fishmlwk according to the 2 possible conditions of fisherman.
+Before fitting a model, let's have a look at the data. The following table shows the 8 possible values of fishmlwk according to the 2 possible values of fisherman.
 ```{r, echo=FALSE, message=FALSE}
 table(dataset$fisherman, dataset$fishmlwk)
 ```
-First, let's notice that for some variables, we have a very few people : only 2 people eat fish 3 times a week. We see also that the data are really unbalanced, because the fishermen and non fishermen are separated on the variable "fishmlwk" : the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
-Besides, we face the same unbalanced pattern for the variables "age"" and "restime".
+First, let's notice that for some values, we have a very few people, for instance only 2 people eat fish 3 times a week. We see also that the data is really unbalanced, because the fishermen and non fishermen are separated on the variable "fishmlwk": the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
+Besides, we face the same unbalanced pattern for the variables _age_ and _restime_.
 
 ```{r, echo=FALSE, message=FALSE}
 par(mfrow=c(1,3))
@@ -116,15 +116,13 @@ model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
 summary(model2)
 ```
 
-The best model is now : TotHg ~ fisherman:weight + fisherman:fishmlwk, ie the interactions between fisherman and the variables of the previous model. While the coefficients for fisherman0:weight and fisherman1:weight stays very significant, fisherman0:fishmlwk and fisherman1:fishmlwk are barely significant (but their p-value is very close to 0.05) ; this comes from the fact that within each of the subpopulation {fishermen} and {non-fishermen} the range in which fishmlwk varies is very reduced compared to the whole population (see the Exploratory analysis). Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant effect, while among fishermen, the contribution of weight of weight and fish meal per week are almost even.
+The best model is now : TotHg ~ fisherman:weight + fisherman:fishmlwk, ie the interactions between fisherman and the variables of the previous model. While the coefficients for fisherman0:weight and fisherman1:weight stays very significant, fisherman0:fishmlwk and fisherman1:fishmlwk are barely significant (but their p-value is very close to 0.05) ; this comes from the fact that within each of the subpopulation {fishermen} and {non-fishermen} the range in which fishmlwk varies is very reduced compared to the whole population (see the Exploratory analysis). Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant effect, while among fishermen, the contribution of weight and fish meal per week are almost even.
 
-## Other techniques of model selection
+In order to check the dependency of the selected model to the selection technique, we have tried backward and forward selection and obtained similar models.
 
-Now in order to check the dependency of the selected model to the selection technique, we are going to try backward and forward selection to check if similar models are obtained.
 
-### Backward selection
 
-```{r}
+```{r include=FALSE}
 hg.form.bwd = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart)
 drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:fishpart
@@ -146,11 +144,8 @@ drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> All parameters are significant (p-value < 0.05)
 ```
 
-Backward selection gives the same model than stepwise selection.
 
-### Forward selection
-
-```{r}
+```{r include=FALSE}
 hg.form.fwd = TotHg ~ 1
 add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart))
 #> Add fisherman:weight
@@ -164,7 +159,6 @@ add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime
 #> No more significant (p-value < 0.05) parameter to add
 ```
 
-Forward selection also gives the same model than stepwise selection.
 
 # Results and discussion (Urvan)
 
