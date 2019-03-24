@@ -117,7 +117,7 @@ hg.form.step1 = TotHg ~ age + restime + height + weight + fishmlwk + fishpart
 model1 <- stepAIC(lm(hg.form.step1,data=dataset), direction="both")
 ```
 ```{r, echo=FALSE, message=FALSE}
-summary(model1)
+summary(model1)$coefficients
 ```
 
 
@@ -130,7 +130,7 @@ hg.form.step2 = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + 
 model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
 ```
 ```{r, echo=FALSE, message=FALSE}
-summary(model2)
+summary(model2)$coefficients
 ```
 
 The best model is now : TotHg ~ fisherman:weight + fisherman:fishmlwk, ie the interactions between fisherman and the variables of the previous model. While the coefficients for fisherman0:weight and fisherman1:weight stays very significant, fisherman0:fishmlwk and fisherman1:fishmlwk are barely significant (but their p-value is very close to 0.05) ; this comes from the fact that within each of the subpopulation {fishermen} and {non-fishermen} the range in which fishmlwk varies is very reduced compared to the whole population (see the Exploratory analysis). Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant effect, while among fishermen, the contribution of weight and fish meal per week are almost even.
@@ -185,10 +185,10 @@ Fit model (* fishermen) (I picked the model given by stepwise selection)
 hg.form.selected=TotHg ~  - 1 + fisherman + fisherman:(weight + fishmlwk)
 hg.lm.selected.model=lm(hg.form.selected, data=dataset)
 hg.lm.selected.summary <- summary(hg.lm.selected.model)
-hg.lm.selected.summary
+hg.lm.selected.summary$coefficients
 ```
 
-This regression shows several intersting results:
+This regression shows several interesting results:
 
 ## Difference between fisherman and control populations
 

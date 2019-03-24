@@ -185,25 +185,10 @@ groups, it seems natural to start with a model without the
 \emph{fisherman} variable.
 
 \begin{verbatim}
-## 
-## Call:
-## lm(formula = TotHg ~ weight + fishmlwk, data = dataset)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.8344 -1.3096 -0.2953  0.6279 11.8572 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) -10.07682    2.44481  -4.122 6.60e-05 ***
-## weight        0.17518    0.03322   5.273 5.34e-07 ***
-## fishmlwk      0.15884    0.04175   3.805 0.000216 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 2.564 on 132 degrees of freedom
-## Multiple R-squared:  0.2498, Adjusted R-squared:  0.2384 
-## F-statistic: 21.97 on 2 and 132 DF,  p-value: 5.787e-09
+##                Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept) -10.0768196 2.44480942 -4.121720 6.603741e-05
+## weight        0.1751823 0.03322237  5.273023 5.336914e-07
+## fishmlwk      0.1588378 0.04174543  3.804915 2.161017e-04
 \end{verbatim}
 
 With stepwise selection, the selected model is : TotHg \textasciitilde{}
@@ -220,27 +205,12 @@ show if a certain variable is very relevant concerning fishermen but
 less when it comes to non-fishermen, for instance.
 
 \begin{verbatim}
-## 
-## Call:
-## lm(formula = TotHg ~ fisherman:weight + fisherman:fishmlwk, data = dataset)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -5.0705 -1.1391 -0.2026  0.6525 11.4266 
-## 
-## Coefficients:
-##                     Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)         -9.26610    2.48392  -3.730 0.000284 ***
-## fisherman0:weight    0.14464    0.03671   3.939 0.000133 ***
-## fisherman1:weight    0.17361    0.03419   5.078 1.29e-06 ***
-## fisherman0:fishmlwk  1.09393    0.60324   1.813 0.072076 .  
-## fisherman1:fishmlwk  0.09691    0.05274   1.837 0.068420 .  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 2.532 on 130 degrees of freedom
-## Multiple R-squared:  0.2797, Adjusted R-squared:  0.2575 
-## F-statistic: 12.62 on 4 and 130 DF,  p-value: 1.053e-08
+##                        Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept)         -9.26610287 2.48391579 -3.730442 2.844286e-04
+## fisherman0:weight    0.14463543 0.03671463  3.939449 1.325715e-04
+## fisherman1:weight    0.17360535 0.03419027  5.077625 1.294541e-06
+## fisherman0:fishmlwk  1.09392501 0.60324223  1.813409 7.207551e-02
+## fisherman1:fishmlwk  0.09690894 0.05273971  1.837495 6.842027e-02
 \end{verbatim}
 
 The best model is now : TotHg \textasciitilde{} fisherman:weight +
@@ -267,31 +237,16 @@ similar models.
 Fit model (* fishermen) (I picked the model given by stepwise selection)
 
 \begin{verbatim}
-## 
-## Call:
-## lm(formula = hg.form.selected, data = dataset)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -5.2935 -1.1455 -0.1474  0.5763 11.2698 
-## 
-## Coefficients:
-##                      Estimate Std. Error t value Pr(>|t|)    
-## fisherman0           -1.41565    6.93854  -0.204 0.838654    
-## fisherman1          -10.41533    2.65475  -3.923 0.000141 ***
-## fisherman0:weight     0.03313    0.09907   0.334 0.738597    
-## fisherman1:weight     0.18909    0.03644   5.189    8e-07 ***
-## fisherman0:fishmlwk   1.53107    0.70201   2.181 0.030997 *  
-## fisherman1:fishmlwk   0.09829    0.05266   1.867 0.064235 .  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 2.528 on 129 degrees of freedom
-## Multiple R-squared:  0.7325, Adjusted R-squared:  0.7201 
-## F-statistic: 58.89 on 6 and 129 DF,  p-value: < 2.2e-16
+##                         Estimate Std. Error    t value     Pr(>|t|)
+## fisherman0           -1.41565206 6.93853651 -0.2040275 8.386536e-01
+## fisherman1          -10.41533001 2.65474931 -3.9232819 1.412643e-04
+## fisherman0:weight     0.03313256 0.09907139  0.3344312 7.385973e-01
+## fisherman1:weight     0.18908832 0.03644361  5.1885177 8.003708e-07
+## fisherman0:fishmlwk   1.53107486 0.70200877  2.1809911 3.099742e-02
+## fisherman1:fishmlwk   0.09828757 0.05265742  1.8665473 6.423521e-02
 \end{verbatim}
 
-This regression shows several intersting results:
+This regression shows several interesting results:
 
 \subsection{Difference between fisherman and control
 populations}\label{difference-between-fisherman-and-control-populations}
@@ -361,34 +316,52 @@ such as the fact that weight is much likely correlated with adiposity
 more susceptible to catch toxins than other tissues. Another explanation
 could be that the fatter, the more one eats and possibly ingests mercury
 that could fix in the hair; since hair weight isn't likely to be
-correlated with body weight, it could explain the hight mercury
+correlated with body weight, it could explain the high mercury
 concentration in hair.
 
 Here again, further experiments are needed in order to support or reject
 those hypotheses.
 
-\includegraphics{Report_files/figure-latex/unnamed-chunk-16-1.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-16-2.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-16-3.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-16-4.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-16-5.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-16-6.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-16-7.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-1.pdf} The
+model does not seem to be really homoscedastic. Variance is much higher
+for fishermen than for non-fishermen. However, within each class, the
+variance is overall well distributed, even if it tends to be a little
+more spread for high fitted values. But, since our model is split into
+two submodels corresponding to fisherman population and non-fisherman
+population, the difference of variances between both classes doesn't
+matter.
 
-\section{Conclusion (Lucile)}\label{conclusion-lucile}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-17-1.pdf}
 
-3 lignes
+We have a heavy tails distribution of residuals, with a very heavy right
+tail. The fact that we have two submodels merged in one might explain
+the heavy tails. However it cannot explain the difference between right
+and left tails. This could be caused by an insufficient sample size. Or
+it could be explained by a non-linear relation between the observables
+and the concentration of mercury, thus possibly unbalancing the
+residuals distribution.
 
-Les principales variables explicatives sont:
+\includegraphics{Report_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-19-1.pdf}
 
-\begin{itemize}
-\tightlist
-\item
-  La consommation de poisson =\textgreater{} logique
-\item
-  Le poids =\textgreater{} plus étonnant mais on sait que les cellules
-  graisseuses stockent les toxiques
-\end{itemize}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\section{Conclusion}\label{conclusion}
+
+We have achieved to build a simple model that can help explaining the
+levels of mercury observed in a fishermen population compared to a
+control group. It appears that the variables that have the most
+significant influence over the measured levels of mercury are the weight
+of the individual and the frequency at which they eat fish. The former
+can seem surprising even if some hypotheses can be formed to account for
+the influence of weight on mercury levels. The latter may be the main
+explanation for the differences observed between our two groups:
+fishermen use to eat fish much more often than non-fishermen, as fish is
+a well-known source of mercury it seems logical to see a positive
+correlation between fish meal frequency and mercury levels and thus to
+observe higher mercury levels in fishermen populations compared to
+non-fishermen.
 
 \section*{References}\label{references}
 \addcontentsline{toc}{section}{References}

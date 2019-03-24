@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.10)  24 MAR 2019 20:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.10)  24 MAR 2019 21:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -942,130 +942,89 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[2]
-LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 207
-.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ts1lmtt.fd
-File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-Overfull \hbox (9.619pt too wide) in paragraph at lines 244--244
-[]\T1/lmtt/m/n/12 ## lm(formula = TotHg ~ fisherman:weight + fisherman:fishmlwk
-, data = dataset)[] 
- []
-
-[3]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 307.
+[2] [3]
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 262.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [4]
-<Report_files/figure-latex/unnamed-chunk-16-1.pdf, id=79, 438.63875pt x 281.05p
-t>
+<Report_files/figure-latex/unnamed-chunk-16-1.pdf, id=79, 444.66125pt x 309.155
+pt>
 File: Report_files/figure-latex/unnamed-chunk-16-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-16-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-16-1.pdf used 
-on input line 370.
-(pdftex.def)             Requested size: 438.64435pt x 281.05359pt.
-
-<Report_files/figure-latex/unnamed-chunk-16-2.pdf, id=80, 444.66125pt x 309.155
-pt>
-File: Report_files/figure-latex/unnamed-chunk-16-2.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-16-2.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-16-2.pdf used 
-on input line 371.
+on input line 325.
 (pdftex.def)             Requested size: 444.66016pt x 309.15424pt.
 
-<Report_files/figure-latex/unnamed-chunk-16-3.pdf, id=81, 440.64626pt x 281.05p
+<Report_files/figure-latex/unnamed-chunk-17-1.pdf, id=80, 440.64626pt x 281.05p
 t>
-File: Report_files/figure-latex/unnamed-chunk-16-3.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-16-3.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-16-3.pdf used 
-on input line 372.
+File: Report_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-17-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-17-1.pdf used 
+on input line 334.
 (pdftex.def)             Requested size: 440.66533pt x 281.06216pt.
-
-<Report_files/figure-latex/unnamed-chunk-16-4.pdf, id=82, 441.65pt x 281.05pt>
-File: Report_files/figure-latex/unnamed-chunk-16-4.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-16-4.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-16-4.pdf used 
-on input line 373.
+[5 <./Report_files/figure-latex/unnamed-chunk-16-1.pdf>]
+<Report_files/figure-latex/unnamed-chunk-18-1.pdf, id=92, 441.65pt x 281.05pt>
+File: Report_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-18-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-18-1.pdf used 
+on input line 344.
 (pdftex.def)             Requested size: 441.66911pt x 281.06216pt.
 
-<Report_files/figure-latex/unnamed-chunk-16-5.pdf, id=83, 448.67625pt x 281.05p
+<Report_files/figure-latex/unnamed-chunk-19-1.pdf, id=93, 448.67625pt x 281.05p
 t>
-File: Report_files/figure-latex/unnamed-chunk-16-5.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-16-5.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-16-5.pdf used 
-on input line 374.
+File: Report_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-19-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-19-1.pdf used 
+on input line 345.
 (pdftex.def)             Requested size: 448.68884pt x 281.05788pt.
 
-<Report_files/figure-latex/unnamed-chunk-16-6.pdf, id=84, 455.7025pt x 281.05pt
->
-File: Report_files/figure-latex/unnamed-chunk-16-6.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-16-6.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-16-6.pdf used 
-on input line 375.
-(pdftex.def)             Requested size: 455.70831pt x 281.05359pt.
-
-<Report_files/figure-latex/unnamed-chunk-16-7.pdf, id=85, 447.6725pt x 285.065p
-t>
-File: Report_files/figure-latex/unnamed-chunk-16-7.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-16-7.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-16-7.pdf used 
-on input line 376.
-(pdftex.def)             Requested size: 447.6714pt x 285.0643pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--377
+Underfull \hbox (badness 10000) in paragraph at lines 344--346
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 370--377
-[]
+<Report_files/figure-latex/unnamed-chunk-20-1.pdf, id=94, 455.7025pt x 281.05pt
+> [6 <./Report_files/figure-latex/unnamed-chunk-17-1.pdf> <./Report_files/figur
+e-latex/unnamed-chunk-18-1.pdf>]
+File: Report_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-20-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-20-1.pdf used 
+on input line 347.
+(pdftex.def)             Requested size: 455.70831pt x 281.05359pt.
+
+<Report_files/figure-latex/unnamed-chunk-21-1.pdf, id=113, 447.6725pt x 285.065
+pt>
+File: Report_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-21-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-21-1.pdf used 
+on input line 348.
+(pdftex.def)             Requested size: 447.6714pt x 285.0643pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 347--349
+[][]
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--377
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--377
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--377
-[]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 370--377
-[]
- []
-
-[5] [6 <./Report_files/figure-latex/unnamed-chunk-16-1.pdf> <./Report_files/fig
-ure-latex/unnamed-chunk-16-2.pdf>] [7 <./Report_files/figure-latex/unnamed-chun
-k-16-3.pdf> <./Report_files/figure-latex/unnamed-chunk-16-4.pdf>] [8 <./Report_
-files/figure-latex/unnamed-chunk-16-5.pdf> <./Report_files/figure-latex/unnamed
--chunk-16-6.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 409.
-[9 <./Report_files/figure-latex/unnamed-chunk-16-7.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 409.
+[7 <./Report_files/figure-latex/unnamed-chunk-19-1.pdf> <./Report_files/figure-
+latex/unnamed-chunk-20-1.pdf>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 382.
+[8 <./Report_files/figure-latex/unnamed-chunk-21-1.pdf>] [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 382.
 (./Report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 409.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 409.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 382.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 382.
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 4BBC9C883094890C9A1AF1A5728D11EE;1720.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 409.
+(rerunfilecheck)             Checksum: E640376A9FF07E32CD58B54D7176F5D6;1666.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 382.
  ) 
 Here is how much of TeX's memory you used:
- 12527 strings out of 493014
- 181429 string characters out of 6133351
- 284864 words of memory out of 5000000
- 15841 multiletter control sequences out of 15000+600000
- 41957 words of font info for 65 fonts, out of 8000000 for 9000
+ 12490 strings out of 493014
+ 180606 string characters out of 6133351
+ 283855 words of memory out of 5000000
+ 15804 multiletter control sequences out of 15000+600000
+ 41833 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,10n,43p,371b,458s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,11n,43p,371b,427s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local
 /texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2016/
 texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2016/texmf-dist
@@ -1073,10 +1032,10 @@ texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2016/texmf-dist
 1/public/lm/lmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm
 /lmri12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmro12.pf
 b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/lm/lmtt12.pfb>
-Output written on Report.pdf (9 pages, 263179 bytes).
+Output written on Report.pdf (9 pages, 247997 bytes).
 PDF statistics:
- 195 PDF objects out of 1000 (max. 8388607)
- 152 compressed objects within 2 object streams
+ 185 PDF objects out of 1000 (max. 8388607)
+ 145 compressed objects within 2 object streams
  26 named destinations out of 1000 (max. 500000)
- 10361 words of extra memory for PDF output out of 12000 (max. 10000000)
+ 10356 words of extra memory for PDF output out of 12000 (max. 10000000)
 
