@@ -126,23 +126,23 @@ Now in order to check the dependency of the selected model to the selection tech
 
 ```{r}
 hg.form.bwd = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart)
-drop1(lm(hg.form.custom, data = dataset), test="F")
+drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:fishpart
 
 hg.form.bwd = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
+drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:age
 
 hg.form.bwd = TotHg ~ fisherman:(restime + height + weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
+drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:restime
 
 hg.form.bwd = TotHg ~ fisherman:(height + weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
+drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:height
 
 hg.form.bwd = TotHg ~ fisherman:(weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
+drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> All parameters are significant (p-value < 0.05)
 ```
 
@@ -180,17 +180,39 @@ summary(hg.lm.selected.model)
 
 This regression shows several intersting results:
 
+## Difference between fisherman and control populations
+
 First, we get two coefficients very significantly different from 0 (_p_ < 0.001), both concerning fisherman population. The fact that there are less significant coefficients for non-fisherman population could be explained by several causes:
 
 - The non-fisherman population could be too small to properly show the size effect of those observables.
  
 - The non-fisherman population may not have settled long enough in the place to have repercussion on the mercury levels.
 
-However, those are only suppositions in order to explain the distribution of the _p_-values, but none of them have been proven.
+However, those are only suppositions in order to explain the distribution of the _p_-values, but none of them have been proven. Further experiments are needed in order to show whether or not those observables have a really different effect on both populations.
 
-On the other side, the number of meal composed of fish (_fishmlwk_) seems to be contributing to the mercury levels of both populations (_p_-values of `r format(hg.lm.selected.summary[["coefficients"]][5,4], digits=1)` for non-fisherman and `r format(hg.lm.selected.summary[["coefficients"]][6,4], digits=1)` for fisherman). However, we can see that there is a huge difference between the two contributions of a factor `r format(hg.lm.selected.summary[["coefficients"]][5,1]/hg.lm.selected.summary[["coefficients"]][6,1], digits=1)`.
+## Number of fish meals per week
 
-However, the most significant coefficient is for _weight_ for fisherman populatio, with a _p_-value of `r format(hg.lm.selected.summary[["coefficients"]][4,4], digits=1, scientific=TRUE)`. 
+On the other side, the number of meal composed of fish (_fishmlwk_) seems to be contributing to the mercury levels of both populations (_p_-values of `r format(hg.lm.selected.summary[["coefficients"]][5,4], digits=1)` for non-fisherman and `r format(hg.lm.selected.summary[["coefficients"]][6,4], digits=1)` for fisherman). However, we can see that there is a huge difference between the two contributions of a factor `r format(hg.lm.selected.summary[["coefficients"]][5,1]/hg.lm.selected.summary[["coefficients"]][6,1], digits=1)`. 
+
+Here again, we can come up with some possible explanations, needing further inquiries:
+
+- The distribution of _fishmlwk_ is very different between both populations and thus may lead to different coefficients if the effect of this observables is not truly linear (*e.g.* a logarithmic effect that could take some ceiling effects into account, *i.e.* the fact that past a certain dose, the hair cannot absorb more mercury).
+
+- The observables does not reflect entirely the quantity of fish eaten, since one can eat more or less fish per meal. The weight of fish eaten per week, might be a more accurate observable to study.
+
+
+Here again, more expriements are required to confirm or reject those hypotheses.
+
+
+## Weight
+
+However, the most significant coefficient is for _weight_ for fisherman population, with a _p_-value of `r format(hg.lm.selected.summary[["coefficients"]][4,4], digits=1, scientific=TRUE)`. This coefficient suggest a high positive correlation between the weight of the fisherman and the concentration of mercury in its hair. 
+
+The fact that the weight has a positive influence on this concentration was unexpected, since a concentration and not an absolute quantity was measured. 
+
+However, even though it was unexpected it has many possible explanations such as the fact that weight is much likely correlated with adiposity more susceptible to catch toxins than other tissues. Another explanation could be that the fatter, the more one eats and possibly ingests mercury that could fix in the hair; since hair weight isn't likely to be correlated with body weight, it could explain the hight mercury concentration in hair. 
+
+Here again, further experiments are needed in order to support or reject those hypotheses.
 
 ```{r, echo=FALSE, message=FALSE}
 library(ggplot2)
