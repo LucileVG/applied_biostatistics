@@ -1,0 +1,409 @@
+\documentclass[12pt,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Project 1: regression 1},
+            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Project 1: regression 1}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{March 20, 2019}
+
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\pagestyle{fancy}
+\fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}\label{introduction}
+
+Mercury is a metal present in the environment whose harmful effects on
+human health are well assessed (Park and Zheng 2012). In a study led in
+2000 (Al-Majed and Preston 2000), scientists collected data on total
+mercury and methyl mercury levels in the hair of 100 fishermen of
+Kuwait, aged 16 to 58 years, comparing them to those of a control
+population of 35 non-fishermen, aged 26 to 35 years. The aim of this
+report is to analyse the factors influencing the levels of mercury in
+both populations. For the sake of simplicity, we will only focus on
+total Hg, leaving out methyl mercury, as both variables are strongly
+correlated.
+
+\begin{wrapfigure}{R}{0.35\textwidth}
+
+\hfill{}\includegraphics{Report_files/figure-latex/unnamed-chunk-4-1} 
+
+\caption{Boxplots of Hg levels}\label{fig:unnamed-chunk-4}
+\end{wrapfigure}
+
+The dataset gathers information about six numerical variables (age,
+height, weight, number of fish meals per week and residence time in
+Kuwait) and two categorical ones (being a fisherman or not, fish
+consumption habits). There is no additional information about gender as
+all the participants in the study are males.
+
+A first insight at the data shows that the fishermen population exhibits
+higher levels of mercury in their hair. The significance of the
+difference between the means of both distributions is assessed by a
+\emph{Welch Two Sample t-test} with the alternative hypothesis that the
+fishermen population has a average greater level of mercury than the
+control population (\emph{p}-value = 7.473e-05).
+
+\section{Exploratory analysis
+(Amandine)}\label{exploratory-analysis-amandine}
+
+\paragraph{Overview of the data}\label{overview-of-the-data}
+
+Before fitting a model, let's have a look at the data. The following
+table shows the 8 possible values of fishmlwk according to the 2
+possible values of fisherman.
+
+\begin{verbatim}
+##    
+##      0  1  2  3  4  7 14 21
+##   0 10 14 11  0  0  0  0  0
+##   1  0  0  0  2 12 70  5 11
+\end{verbatim}
+
+First, let's notice that for some values, we have a very few people, for
+instance only 2 people eat fish 3 times a week. We see also that the
+data is really unbalanced, because the fishermen and non fishermen are
+separated on the variable ``fishmlwk'': the non fishermen don't eat fish
+more than 2 times a week, whereas the fishermen don't eat fish less than
+3 times a week. Besides, we face the same unbalanced pattern for the
+variables \emph{age} and \emph{restime}.
+
+\paragraph{Multicolinearity}\label{multicolinearity}
+
+To check whether we have multicolinear variables, we use the VIF
+function. If all the variables have a result below 5, we keep them.
+
+\begin{verbatim}
+##               GVIF Df GVIF^(1/(2*Df))
+## fisherman 2.176756  1        1.475383
+## age       1.609314  1        1.268587
+## restime   1.609630  1        1.268712
+## height    1.138614  1        1.067059
+## weight    1.220641  1        1.104826
+## fishmlwk  1.754183  1        1.324456
+## fishpart  1.745741  3        1.097312
+\end{verbatim}
+
+Indeed, we observe that all the variables have a VIF below 2, so we
+don't eliminate any variable, yet.
+
+\section{Model selection (Joseph)}\label{model-selection-joseph}
+
+Now we are going to use and compare the different methods of model
+selection to select the more relevant parameters to explain the TotHg
+variations within the population.
+
+\subsection{Stepwise selection}\label{stepwise-selection}
+
+The first attempt is a stepwise selection based on a formula with all
+the parameters except for \emph{fisherman}. Indeed, the preliminary
+exploration has shown that the \emph{fisherman} variable have
+considerable impact on many of the other variables. Therefore to
+understand what is the reason behind the TotHg difference between the 2
+groups, it seems natural to start with a model without the
+\emph{fisherman} variable.
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = TotHg ~ weight + fishmlwk, data = dataset)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.8344 -1.3096 -0.2953  0.6279 11.8572 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -10.07682    2.44481  -4.122 6.60e-05 ***
+## weight        0.17518    0.03322   5.273 5.34e-07 ***
+## fishmlwk      0.15884    0.04175   3.805 0.000216 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.564 on 132 degrees of freedom
+## Multiple R-squared:  0.2498, Adjusted R-squared:  0.2384 
+## F-statistic: 21.97 on 2 and 132 DF,  p-value: 5.787e-09
+\end{verbatim}
+
+With stepwise selection, the selected model is : TotHg \textasciitilde{}
+weight + fishmlwk. The intercept and the two coefficients are very
+significant. Moreover the signs of the coefficients are not absurd:
+while it is not really intuitive that the weight coefficient should be
+positive or negative, the coefficient of \emph{fishmlwk} had to be
+positive, and it's the case here.
+
+Now to determine possible differences between the fishermen and
+non-fishermen, a model based on the interactions between the
+\emph{fisherman} variable and all the others is proposed. This could
+show if a certain variable is very relevant concerning fishermen but
+less when it comes to non-fishermen, for instance.
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = TotHg ~ fisherman:weight + fisherman:fishmlwk, data = dataset)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.0705 -1.1391 -0.2026  0.6525 11.4266 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)         -9.26610    2.48392  -3.730 0.000284 ***
+## fisherman0:weight    0.14464    0.03671   3.939 0.000133 ***
+## fisherman1:weight    0.17361    0.03419   5.078 1.29e-06 ***
+## fisherman0:fishmlwk  1.09393    0.60324   1.813 0.072076 .  
+## fisherman1:fishmlwk  0.09691    0.05274   1.837 0.068420 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.532 on 130 degrees of freedom
+## Multiple R-squared:  0.2797, Adjusted R-squared:  0.2575 
+## F-statistic: 12.62 on 4 and 130 DF,  p-value: 1.053e-08
+\end{verbatim}
+
+The best model is now : TotHg \textasciitilde{} fisherman:weight +
+fisherman:fishmlwk, ie the interactions between fisherman and the
+variables of the previous model. While the coefficients for
+fisherman0:weight and fisherman1:weight stays very significant,
+fisherman0:fishmlwk and fisherman1:fishmlwk are barely significant (but
+their p-value is very close to 0.05) ; this comes from the fact that
+within each of the subpopulation \{fishermen\} and \{non-fishermen\} the
+range in which fishmlwk varies is very reduced compared to the whole
+population (see the Exploratory analysis). Moreover, when looking at the
+values of the coefficients, it appears that for the non-fishermen, the
+number of fish meal per week has a very preponderant effect, while among
+fishermen, the contribution of weight and fish meal per week are almost
+even.
+
+In order to check the dependency of the selected model to the selection
+technique, we have tried backward and forward selection and obtained
+similar models.
+
+\section{Results and discussion
+(Urvan)}\label{results-and-discussion-urvan}
+
+Fit model (* fishermen) (I picked the model given by stepwise selection)
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = hg.form.selected, data = dataset)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.2935 -1.1455 -0.1474  0.5763 11.2698 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(>|t|)    
+## fisherman0           -1.41565    6.93854  -0.204 0.838654    
+## fisherman1          -10.41533    2.65475  -3.923 0.000141 ***
+## fisherman0:weight     0.03313    0.09907   0.334 0.738597    
+## fisherman1:weight     0.18909    0.03644   5.189    8e-07 ***
+## fisherman0:fishmlwk   1.53107    0.70201   2.181 0.030997 *  
+## fisherman1:fishmlwk   0.09829    0.05266   1.867 0.064235 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.528 on 129 degrees of freedom
+## Multiple R-squared:  0.7325, Adjusted R-squared:  0.7201 
+## F-statistic: 58.89 on 6 and 129 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+This regression shows several intersting results:
+
+\subsection{Difference between fisherman and control
+populations}\label{difference-between-fisherman-and-control-populations}
+
+First, we get two coefficients very significantly different from 0
+(\emph{p} \textless{} 0.001), both concerning fisherman population. The
+fact that there are less significant coefficients for non-fisherman
+population could be explained by several causes:
+
+\begin{itemize}
+\tightlist
+\item
+  The non-fisherman population could be too small to properly show the
+  size effect of those observables.
+\item
+  The non-fisherman population may not have settled long enough in the
+  place to have repercussion on the mercury levels.
+\end{itemize}
+
+However, those are only suppositions in order to explain the
+distribution of the \emph{p}-values, but none of them have been proven.
+Further experiments are needed in order to show whether or not those
+observables have a really different effect on both populations.
+
+\subsection{Number of fish meals per
+week}\label{number-of-fish-meals-per-week}
+
+On the other side, the number of meal composed of fish (\emph{fishmlwk})
+seems to be contributing to the mercury levels of both populations
+(\emph{p}-values of 0.03 for non-fisherman and 0.06 for fisherman).
+However, we can see that there is a huge difference between the two
+contributions of a factor 16.
+
+Here again, we can come up with some possible explanations, needing
+further inquiries:
+
+\begin{itemize}
+\item
+  The distribution of \emph{fishmlwk} is very different between both
+  populations and thus may lead to different coefficients if the effect
+  of this observables is not truly linear (\emph{e.g.} a logarithmic
+  effect that could take some ceiling effects into account, \emph{i.e.}
+  the fact that past a certain dose, the hair cannot absorb more
+  mercury).
+\item
+  The observables does not reflect entirely the quantity of fish eaten,
+  since one can eat more or less fish per meal. The weight of fish eaten
+  per week, might be a more accurate observable to study.
+\end{itemize}
+
+Here again, more expriements are required to confirm or reject those
+hypotheses.
+
+\subsection{Weight}\label{weight}
+
+However, the most significant coefficient is for \emph{weight} for
+fisherman population, with a \emph{p}-value of 8e-07. This coefficient
+suggest a high positive correlation between the weight of the fisherman
+and the concentration of mercury in its hair.
+
+The fact that the weight has a positive influence on this concentration
+was unexpected, since a concentration and not an absolute quantity was
+measured.
+
+However, even though it was unexpected it has many possible explanations
+such as the fact that weight is much likely correlated with adiposity
+more susceptible to catch toxins than other tissues. Another explanation
+could be that the fatter, the more one eats and possibly ingests mercury
+that could fix in the hair; since hair weight isn't likely to be
+correlated with body weight, it could explain the hight mercury
+concentration in hair.
+
+Here again, further experiments are needed in order to support or reject
+those hypotheses.
+
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-1.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-2.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-3.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-4.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-5.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-6.pdf}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-16-7.pdf}
+
+\section{Conclusion (Lucile)}\label{conclusion-lucile}
+
+3 lignes
+
+Les principales variables explicatives sont:
+
+\begin{itemize}
+\tightlist
+\item
+  La consommation de poisson =\textgreater{} logique
+\item
+  Le poids =\textgreater{} plus étonnant mais on sait que les cellules
+  graisseuses stockent les toxiques
+\end{itemize}
+
+\section*{References}\label{references}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\hypertarget{ref-al2000factors}{}
+Al-Majed, NB, and MR Preston. 2000. ``Factors Influencing the Total
+Mercury and Methyl Mercury in the Hair of the Fishermen of Kuwait.''
+\emph{Environmental Pollution} 109 (2). Elsevier: 239--50.
+
+\hypertarget{ref-park2012human}{}
+Park, Jung-Duck, and Wei Zheng. 2012. ``Human Exposure and Health
+Effects of Inorganic and Elemental Mercury.'' \emph{Journal of
+Preventive Medicine and Public Health} 45 (6). Korean Society for
+Preventive Medicine: 344.
+
+
+\end{document}

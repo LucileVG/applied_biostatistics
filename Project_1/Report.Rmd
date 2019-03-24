@@ -1,19 +1,18 @@
 ---
 title: 'Project 1: regression 1'
-author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu?f©"
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué"
 date: "March 20, 2019"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     df_print: paged
+    keep_tex: true
 fontsize: 12pt
 geometry: margin=2.5cm
 header-includes:
 - \usepackage{fancyhdr}
+- \usepackage{wrapfig}
 - \pagestyle{fancy}
-- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu?f©}
-df_print: paged
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
 bibliography: bibliography.bib
 ---
 
@@ -40,24 +39,37 @@ dataset$fisherman <- factor(dataset$fisherman)
 dataset$fishpart <- factor(dataset$fishpart)
 ```
 
-
+```{r, include = F}
+defOut <- knitr::knit_hooks$get("plot")  # save the default plot hook 
+knitr::knit_hooks$set(plot = function(x, options) {  # set new plot hook ...
+  x <- defOut(x, options)  # first apply the default hook
+  if(!is.null(options$wrapfigure)) {  # then, if option wrapfigure is given ...
+    # create the new opening string for the wrapfigure environment ...
+    wf <- sprintf("\\begin{wrapfigure}{%s}{%g\\textwidth}", options$wrapfigure[[1]], options$wrapfigure[[2]])
+    x  <- gsub("\\begin{figure}", wf, x, fixed = T)  # and replace the default one with it.
+    x  <- gsub("{figure}", "{wrapfigure}", x, fixed = T)  # also replace the environment ending
+  }
+  return(x)
+})
+```
 
 
 # Introduction
 
 Mercury is a metal present in the environment whose harmful effects on human health are well assessed [@park2012human]. In a study led in 2000 [@al2000factors], scientists collected data on total mercury and methyl mercury levels in the hair of 100 fishermen of Kuwait, aged 16 to 58 years, comparing them to those of a control population of 35 non-fishermen, aged 26 to 35 years. The aim of this report is to analyse the factors influencing the levels of mercury in both populations. For the sake of simplicity, we will only focus on total Hg, leaving out methyl mercury, as both variables are strongly correlated.
 
-The dataset gathers information about six numerical variables (age, height, weight, number of fish meals per week and residence time in Kuwait) and two categorical ones (being a fisherman or not, fish consumption habits). There is no additional information about gender as all the participants in the study are males.
-
-A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a _Welch Two Sample t-test_ with the alternative hypothesis that the fishermen population has a average greater level of mercury than the control population (p-value = 7.473e-05).
-
-```{r, echo=FALSE, message=FALSE, fig.width=4, fig.height=2.5, fig.margin=TRUE}
+```{r echo = F, warning = F, message = F, fig.width=3.5, fig.height = 3, fig.cap = "Boxplots of Hg levels", fig.align="right", wrapfigure = list("R", .35)}
+#, out.width = ".7\\textwidth"
 ggplot(dataset, aes(group=fisherman, y=TotHg, fill=fisherman)) + geom_boxplot() + labs(y = "Total Hg concentration in the hair (mg/g)") + scale_x_discrete() + scale_fill_discrete(name = "Population", labels = c("Control group", "Fishermen")) + theme_bw()
 ```
+
+The dataset gathers information about six numerical variables (age, height, weight, number of fish meals per week and residence time in Kuwait) and two categorical ones (being a fisherman or not, fish consumption habits). There is no additional information about gender as all the participants in the study are males.
+
+
 ```{r, include=FALSE}
 t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fisherman==0),]$TotHg, alternative = "greater", var.equal=FALSE)
 ```
-
+A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a _Welch Two Sample t-test_ with the alternative hypothesis that the fishermen population has a average greater level of mercury than the control population (_p_-value = 7.473e-05).
 
 # Exploratory analysis (Amandine)
 
@@ -69,7 +81,7 @@ table(dataset$fisherman, dataset$fishmlwk)
 First, let's notice that for some values, we have a very few people, for instance only 2 people eat fish 3 times a week. We see also that the data is really unbalanced, because the fishermen and non fishermen are separated on the variable "fishmlwk": the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
 Besides, we face the same unbalanced pattern for the variables _age_ and _restime_.
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, include=FALSE}
 par(mfrow=c(1,3))
 ggplot(dataset, aes(age, TotHg, colour = fisherman)) + geom_point() #+ scale_y_log10() + scale_x_log10() ##Uncomment for log scales
 ggplot(dataset, aes(restime, TotHg, colour = fisherman)) + geom_point()
@@ -98,21 +110,26 @@ Now we are going to use and compare the different methods of model selection to 
 
 ## Stepwise selection
 
-The first attempt is a stepwise selection based on a formula with all the parameters except for "fisherman". Indeed, the preliminary exploration has shown that the "fisherman" variable have considerable impact on many of the other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the "fisherman" variable.
+The first attempt is a stepwise selection based on a formula with all the parameters except for _fisherman_. Indeed, the preliminary exploration has shown that the _fisherman_ variable have considerable impact on many of the other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the _fisherman_ variable.
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, include=FALSE}
 hg.form.step1 = TotHg ~ age + restime + height + weight + fishmlwk + fishpart
 model1 <- stepAIC(lm(hg.form.step1,data=dataset), direction="both")
+```
+```{r, echo=FALSE, message=FALSE}
 summary(model1)
 ```
 
-With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The intercept and the two coefficients are very significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of fishmlwk had to be positive, and it's the case here.
 
-Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the "fisherman" variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance.
+With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The intercept and the two coefficients are very significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ had to be positive, and it's the case here.
 
-```{r, echo=FALSE, message=FALSE}
+Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance.
+
+```{r, echo=FALSE, message=FALSE, include=FALSE}
 hg.form.step2 = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart)
 model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
+```
+```{r, echo=FALSE, message=FALSE}
 summary(model2)
 ```
 
@@ -168,9 +185,8 @@ Fit model (* fishermen) (I picked the model given by stepwise selection)
 hg.form.selected=TotHg ~  - 1 + fisherman + fisherman:(weight + fishmlwk)
 hg.lm.selected.model=lm(hg.form.selected, data=dataset)
 hg.lm.selected.summary <- summary(hg.lm.selected.model)
-summary(hg.lm.selected.model)
+hg.lm.selected.summary
 ```
-
 
 This regression shows several intersting results:
 
@@ -179,7 +195,6 @@ This regression shows several intersting results:
 First, we get two coefficients very significantly different from 0 (_p_ < 0.001), both concerning fisherman population. The fact that there are less significant coefficients for non-fisherman population could be explained by several causes:
 
 - The non-fisherman population could be too small to properly show the size effect of those observables.
- 
 - The non-fisherman population may not have settled long enough in the place to have repercussion on the mercury levels.
 
 However, those are only suppositions in order to explain the distribution of the _p_-values, but none of them have been proven. Further experiments are needed in order to show whether or not those observables have a really different effect on both populations.
@@ -207,6 +222,7 @@ The fact that the weight has a positive influence on this concentration was unex
 However, even though it was unexpected it has many possible explanations such as the fact that weight is much likely correlated with adiposity more susceptible to catch toxins than other tissues. Another explanation could be that the fatter, the more one eats and possibly ingests mercury that could fix in the hair; since hair weight isn't likely to be correlated with body weight, it could explain the hight mercury concentration in hair. 
 
 Here again, further experiments are needed in order to support or reject those hypotheses.
+
 
 ```{r, echo=FALSE, message=FALSE}
 library(ggplot2)
