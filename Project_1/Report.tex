@@ -293,6 +293,9 @@ Fit model (* fishermen) (I picked the model given by stepwise selection)
 
 This regression shows several intersting results:
 
+\subsection{Difference between fisherman and control
+populations}\label{difference-between-fisherman-and-control-populations}
+
 First, we get two coefficients very significantly different from 0
 (\emph{p} \textless{} 0.001), both concerning fisherman population. The
 fact that there are less significant coefficients for non-fisherman
@@ -310,15 +313,59 @@ population could be explained by several causes:
 
 However, those are only suppositions in order to explain the
 distribution of the \emph{p}-values, but none of them have been proven.
+Further experiments are needed in order to show whether or not those
+observables have a really different effect on both populations.
 
-On the other side, the number of meals composed of fish
-(\emph{fishmlwk}) seems to be contributing to the mercury levels of both
-populations (\emph{p}-values of 0.03 for non-fisherman and 0.06 for
-fisherman). However, we can see that there is a huge difference between
-the two contributions of a factor 16.
+\subsection{Number of fish meals per
+week}\label{number-of-fish-meals-per-week}
+
+On the other side, the number of meal composed of fish (\emph{fishmlwk})
+seems to be contributing to the mercury levels of both populations
+(\emph{p}-values of 0.03 for non-fisherman and 0.06 for fisherman).
+However, we can see that there is a huge difference between the two
+contributions of a factor 16.
+
+Here again, we can come up with some possible explanations, needing
+further inquiries:
+
+\begin{itemize}
+\item
+  The distribution of \emph{fishmlwk} is very different between both
+  populations and thus may lead to different coefficients if the effect
+  of this observables is not truly linear (\emph{e.g.} a logarithmic
+  effect that could take some ceiling effects into account, \emph{i.e.}
+  the fact that past a certain dose, the hair cannot absorb more
+  mercury).
+\item
+  The observables does not reflect entirely the quantity of fish eaten,
+  since one can eat more or less fish per meal. The weight of fish eaten
+  per week, might be a more accurate observable to study.
+\end{itemize}
+
+Here again, more expriements are required to confirm or reject those
+hypotheses.
+
+\subsection{Weight}\label{weight}
 
 However, the most significant coefficient is for \emph{weight} for
-fisherman population, with a \emph{p}-value of 8e-07.
+fisherman population, with a \emph{p}-value of 8e-07. This coefficient
+suggest a high positive correlation between the weight of the fisherman
+and the concentration of mercury in its hair.
+
+The fact that the weight has a positive influence on this concentration
+was unexpected, since a concentration and not an absolute quantity was
+measured.
+
+However, even though it was unexpected it has many possible explanations
+such as the fact that weight is much likely correlated with adiposity
+more susceptible to catch toxins than other tissues. Another explanation
+could be that the fatter, the more one eats and possibly ingests mercury
+that could fix in the hair; since hair weight isn't likely to be
+correlated with body weight, it could explain the hight mercury
+concentration in hair.
+
+Here again, further experiments are needed in order to support or reject
+those hypotheses.
 
 \includegraphics{Report_files/figure-latex/unnamed-chunk-16-1.pdf}
 \includegraphics{Report_files/figure-latex/unnamed-chunk-16-2.pdf}
