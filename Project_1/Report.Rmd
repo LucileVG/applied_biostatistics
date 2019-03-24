@@ -17,7 +17,7 @@ df_print: paged
 bibliography: bibliography.bib
 ---
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # Load here the libraries and packages you need for the rest of the analysis.
 library(tidyverse)
 library("MASS")
@@ -165,18 +165,31 @@ add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime
 Fit model (* fishermen) (I picked the model given by stepwise selection)
 
 ```{r, echo=FALSE, message=FALSE}
-hg.form.selected=TotHg ~ fisherman + weight + fishmlwk + fisherman:weight + fisherman:fishmlwk
+hg.form.selected=TotHg ~  - 1 + fisherman + fisherman:(weight + fishmlwk)
 hg.lm.selected.model=lm(hg.form.selected, data=dataset)
+hg.lm.selected.summary <- summary(hg.lm.selected.model)
 summary(hg.lm.selected.model)
 ```
 
 
-Commenter les résultats, valeurs des coefficients, font-elles du sens, p-values
+This regression shows several intersting results:
 
-Les diagnostic plots pour weight + dire que c'est pareil pour tout le monde
+First, we get two coefficients very significantly different from 0 (_p_ < 0.001), both concerning fisherman population. The fact that there are less significant coefficients for non-fisherman population could be explained by several causes:
+
+- The non-fisherman population could be too small to properly show the size effect of those observables.
+ 
+- The non-fisherman population may not have settled long enough in the place to have repercussion on the mercury levels.
+
+However, those are only suppositions in order to explain the distribution of the _p_-values, but none of them have been proven.
+
+On the other side, the number of meal composed of fish (_fishmlwk_) seems to be contributing to the mercury levels of both populations (_p_-values of `r format(hg.lm.selected.summary[["coefficients"]][5,4], digits=1)` for non-fisherman and `r format(hg.lm.selected.summary[["coefficients"]][6,4], digits=1)` for fisherman). However, we can see that there is a huge difference between the two contributions of a factor `r format(hg.lm.selected.summary[["coefficients"]][5,1]/hg.lm.selected.summary[["coefficients"]][6,1], digits=1)`.
+
+However, the most significant coefficient is for _weight_ for fisherman populatio, with a _p_-value of `r format(hg.lm.selected.summary[["coefficients"]][4,4], digits=1, scientific=TRUE)`. 
 
 ```{r, echo=FALSE, message=FALSE}
+library(ggplot2)
 plot(hg.lm.selected.model, which=1) #residuals vs fitted
+qplot(hg.lm.selected.model$fitted.values, hg.lm.selected.model$residuals, colour=dataset$fisherman, xlab = "fitted values", ylab = "residuals") + labs(colour = 'fisherman')
 plot(hg.lm.selected.model, which=2) #QQ plot
 plot(hg.lm.selected.model, which=3) #scale location
 plot(hg.lm.selected.model, which=4) #cook's distance
