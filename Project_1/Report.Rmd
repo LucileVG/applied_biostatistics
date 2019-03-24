@@ -94,70 +94,77 @@ Indeed, we observe that all the variables have a VIF below 2, so we don't elimin
 
 # Model selection (Joseph)
 
-Stepwise selection (inclure * fishermen). (Dire qu'on a vérifié avec forward et backward et qu'on a trouvé la même chose => à coder quand même !)........Finally maybe not so true!...
+Now we are going to use and compare the different methods of model selection to select the more relevant parameters to explain the TotHg variations within the population.
+
+## Stepwise selection
+
+The first attempt is a stepwise selection based on a formula with all the parameters except for "fisherman". Indeed, the preliminary exploration has shown that the "fisherman" variable have considerable impact on many of the other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the "fisherman" variable.
 
 ```{r, echo=FALSE, message=FALSE}
-hg.form.pre_selection=TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart + fisherman:(age + restime + height + weight + fishmlwk + fishpart)
-fit <- lm(hg.form.pre_selection,data=dataset)
-selection <- stepAIC(fit, direction="both")
-selection$anova # display results
+hg.form.step1 = TotHg ~ age + restime + height + weight + fishmlwk + fishpart
+model1 <- stepAIC(lm(hg.form.step1,data=dataset), direction="both")
+summary(model1)
 ```
 
-With stepwise selection, the selected model is : 
-TotHg ~ fisherman + weight + fishmlwk + fisherman:weight + fisherman:fishmlwk
+With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The intercept and the two coefficients are very significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of fishmlwk had to be positive, and it's the case here.
 
-Backward selection:
+Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the "fisherman" variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance.
+
+```{r, echo=FALSE, message=FALSE}
+hg.form.step2 = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart)
+model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
+summary(model2)
+```
+
+The best model is now : TotHg ~ fisherman:weight + fisherman:fishmlwk, ie the interactions between fisherman and the variables of the previous model. While the coefficients for fisherman0:weight and fisherman1:weight stays very significant, fisherman0:fishmlwk and fisherman1:fishmlwk are barely significant (but their p-value is very close to 0.05) ; this comes from the fact that within each of the subpopulation {fishermen} and {non-fishermen} the range in which fishmlwk varies is very reduced compared to the whole population (see the Exploratory analysis). Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant effect, while among fishermen, the contribution of weight of weight and fish meal per week are almost even.
+
+## Other techniques of model selection
+
+Now in order to check the dependency of the selected model to the selection technique, we are going to try backward and forward selection to check if similar models are obtained.
+
+### Backward selection
 
 ```{r}
-hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + restime + height + weight + fishmlwk + fishpart)
+hg.form.bwd = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart)
 drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete restime:fisherman
+#> Delete fisherman:fishpart
 
-hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + height + weight + fishmlwk + fishpart)
+hg.form.bwd = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk)
 drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete fishpart:fisherman
+#> Delete fisherman:age
 
-hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + height + weight + fishmlwk)
+hg.form.bwd = TotHg ~ fisherman:(restime + height + weight + fishmlwk)
 drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete height:fisherman
+#> Delete fisherman:restime
 
-hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(age + weight + fishmlwk)
+hg.form.bwd = TotHg ~ fisherman:(height + weight + fishmlwk)
 drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete age:fisherman
+#> Delete fisherman:height
 
-hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart +  fisherman:(weight + fishmlwk)
+hg.form.bwd = TotHg ~ fisherman:(weight + fishmlwk)
 drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete fishpart
-
-hg.form.custom = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fisherman:(weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete height
-
-hg.form.custom = TotHg ~ fisherman + age + restime + weight + fishmlwk + fisherman:(weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete age
-
-hg.form.custom = TotHg ~ fisherman + restime + weight + fishmlwk + fisherman:(weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete restime
-
-hg.form.custom = TotHg ~ fisherman + weight + fishmlwk + fisherman:(weight + fishmlwk)
-drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete fisherman:weight 
-
-hg.form.custom = TotHg ~ fisherman + weight + fishmlwk + fisherman:fishmlwk
-drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete fisherman:fishmlwk 
-
-hg.form.custom = TotHg ~ fisherman + weight + fishmlwk
-drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete fisherman 
-
-hg.form.custom = TotHg ~ weight + fishmlwk
-drop1(lm(hg.form.custom, data = dataset), test="F")
-#>delete fisherman 
+#> All parameters are significant (p-value < 0.05)
 ```
-With the backward selection we loose all the interaction terms ...
+
+Backward selection gives the same model than stepwise selection.
+
+### Forward selection
+
+```{r}
+hg.form.fwd = TotHg ~ 1
+add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart))
+#> Add fisherman:weight
+
+hg.form.fwd = TotHg ~ fisherman:weight
+add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart))
+#> Add fisherman:fishmlwk
+
+hg.form.fwd = TotHg ~ fisherman:weight + fisherman:fishmlwk
+add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart))
+#> No more significant (p-value < 0.05) parameter to add
+```
+
+Forward selection also gives the same model than stepwise selection.
 
 # Results and discussion (Urvan)
 
