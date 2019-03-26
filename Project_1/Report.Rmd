@@ -69,12 +69,12 @@ The dataset gathers information about six numerical variables (age, height, weig
 ```{r, include=FALSE}
 t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fisherman==0),]$TotHg, alternative = "greater", var.equal=FALSE)
 ```
-A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a _Welch Two Sample t-test_ with the alternative hypothesis that the fishermen population has a average greater level of mercury than the control population (_p_-value = 7.473e-05).
+A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a Welch Two Sample t-test with the alternative hypothesis that the fishermen population has a greater average level of mercury than the control population (_p_-value = 7.473e-05).
 
 # Exploratory analysis
 
 ### Overview of the data 
-Before fitting a model, let's have a look at the data. The following table shows the 8 possible values of _fishmlwk_ according to the 2 possible values of _fisherman_
+Before fitting a model, let's have a look at the data. The following table shows the distribution of individuals according to the 8 possible values of _fishmlwk_ and the 2 possible values of _fisherman_
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
 table(dataset$fisherman, dataset$fishmlwk)
 ```
@@ -86,7 +86,7 @@ table(dataset$fisherman, dataset$fishmlwk)
 |**Fishermen**|0|0|0|2|12|70|5|11|
 |**Non-fishermen**|10|14|11|0|0|0|0|0|
 </div>
-First, let's notice that for some values, we have a very few people, for instance only 2 people eat fish 3 times a week. We see also that the data is really unbalanced, because the _fisherman_ and the _fishmlwk_ variable are very highly correlated: the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
+First, let's notice that for some values, we have a very few people, for instance only 2 people eat fish 3 times a week. We see also that the data is really unbalanced because the _fisherman_ and the _fishmlwk_ variable are very highly correlated: the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
 Besides, we face the same unbalanced pattern for the variables _age_ and _restime_.
 
 
@@ -119,9 +119,7 @@ vif(lm(hg.form.full,data=dataset))
 
 Now we are going to use and compare the different methods of model selection to select the more relevant parameters to explain the TotHg variations within the population.
 
-### Stepwise selection
-
-The first attempt is a stepwise selection based on a formula with all the parameters except for _fisherman_. Indeed, the preliminary exploration has shown that the _fisherman_ variable have considerable impact on many of the other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the _fisherman_ variable.
+The first attempt is a stepwise selection based on a formula with all the parameters except for _fisherman_. Indeed, the preliminary exploration has shown that the _fisherman_ variable has considerable impact on many other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the _fisherman_ variable.
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
 hg.form.step1 = TotHg ~ age + restime + height + weight + fishmlwk + fishpart
@@ -131,7 +129,7 @@ model1 <- stepAIC(lm(hg.form.step1,data=dataset), direction="both")
 summary(model1)$coefficients
 ```
 
-With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The intercept and the two coefficients are very significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ had to be positive, and it's the case here.
+With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The intercept and the two coefficients are very significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ has to be positive, and it's the case here.
 
 Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance. We also include the _fisherman_ variable itself, that will allow to include an adjustment term between the values of the intercepts of the two groups if it is relevant.
 
@@ -143,8 +141,8 @@ model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
 summary(model2)$coefficients
 ```
 
-The best model is now : TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk.
-While the coefficients for fisherman1:weight and fisherman0:fishmlwk stays very significant, fisherman1:fishmlwk is barely significant and fisherman0:weight, fisherman1 and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant (and reliable) effect compared to the weight influence, while among fishermen, the contribution of weight is twice the one of fish meal per week. Eventually the value of the fisherman1 parameter is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
+The best model is now : TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk - 1.
+While the coefficients for fisherman1:weight and fisherman0:fishmlwk stays very significant, fisherman1:fishmlwk is barely significant and fisherman0:weight, fisherman1 and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant (and reliable) effect compared to the weight influence, while among fishermen, the contribution of weight is twice the one of _fishmlwk_. Eventually the value of the fisherman1 parameter is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
 
 In order to check the dependency of the selected model to the selection technique, we have tried backward and forward selection and obtained similar models.
 
@@ -189,17 +187,15 @@ add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman + fisherman:(a
 
 ## Results and discussion
 
-
-Fit model (* fishermen) (I picked the model given by stepwise selection)
-
-```{r, echo=FALSE, message=FALSE}
+```{r, echo=FALSE, message=FALSE, include=FALSE}
 hg.form.selected=TotHg ~  - 1 + fisherman + fisherman:(weight + fishmlwk)
 hg.lm.selected.model=lm(hg.form.selected, data=dataset)
 hg.lm.selected.summary <- summary(hg.lm.selected.model)
 hg.lm.selected.summary$coefficients
 ```
 
-This regression shows several interesting results:
+
+We are now discussing the results of the model: TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk - 1.
 
 ### Difference between fisherman and control populations
 
@@ -218,15 +214,15 @@ Here again, we can come up with some possible explanations, needing further inqu
 
 - The distribution of _fishmlwk_ is very different between both populations and thus may lead to different coefficients if the effect of this observables is not truly linear (*e.g.* a logarithmic effect that could take some ceiling effects into account, *i.e.* the fact that past a certain dose, the hair cannot absorb more mercury).
 
-- The observables does not reflect entirely the quantity of fish eaten, since one can eat more or less fish per meal. The weight of fish eaten per week, might be a more accurate observable to study.
+- The observable does not reflect entirely the quantity of fish eaten, since one can eat more or less fish per meal. The weight of fish eaten per week, might be a more accurate observable to study.
 
 
-Here again, more expriements are required to confirm or reject those hypotheses.
+Here again, more experiments are required to confirm or reject those hypotheses.
 
 
 ### Weight
 
-However, the most significant coefficient is for _weight_ for fisherman population, with a _p_-value of `r format(hg.lm.selected.summary[["coefficients"]][4,4], digits=1, scientific=TRUE)`. This coefficient suggest a high positive correlation between the weight of the fisherman and the concentration of mercury in its hair. 
+However, the most significant coefficient is for _weight_ for fisherman population, with a _p_-value of `r format(hg.lm.selected.summary[["coefficients"]][4,4], digits=1, scientific=TRUE)`. This coefficient suggests a high positive correlation between the weight of the fisherman and the concentration of mercury in its hair. 
 
 The fact that the weight has a positive influence on this concentration was unexpected, since a concentration and not an absolute quantity was measured. 
 
@@ -234,6 +230,7 @@ However, even though it was unexpected it has many possible explanations such as
 
 Here again, further experiments are needed in order to support or reject those hypotheses.
 
+### Subtitle...
 
 ```{r, echo=FALSE, message=FALSE}
 library(ggplot2)

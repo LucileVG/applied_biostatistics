@@ -122,8 +122,8 @@ all the participants in the study are males.
 A first insight at the data shows that the fishermen population exhibits
 higher levels of mercury in their hair. The significance of the
 difference between the means of both distributions is assessed by a
-\emph{Welch Two Sample t-test} with the alternative hypothesis that the
-fishermen population has a average greater level of mercury than the
+Welch Two Sample t-test with the alternative hypothesis that the
+fishermen population has a greater average level of mercury than the
 control population (\emph{p}-value = 7.473e-05).
 
 \section{Exploratory analysis}\label{exploratory-analysis}
@@ -131,8 +131,8 @@ control population (\emph{p}-value = 7.473e-05).
 \subsubsection{Overview of the data}\label{overview-of-the-data}
 
 Before fitting a model, let's have a look at the data. The following
-table shows the 8 possible values of \emph{fishmlwk} according to the 2
-possible values of \emph{fisherman}
+table shows the distribution of individuals according to the 8 possible
+values of \emph{fishmlwk} and the 2 possible values of \emph{fisherman}
 
 \begin{longtable}[]{@{}lllllllll@{}}
 \toprule
@@ -146,7 +146,7 @@ possible values of \emph{fisherman}
 
 First, let's notice that for some values, we have a very few people, for
 instance only 2 people eat fish 3 times a week. We see also that the
-data is really unbalanced, because the \emph{fisherman} and the
+data is really unbalanced because the \emph{fisherman} and the
 \emph{fishmlwk} variable are very highly correlated: the non fishermen
 don't eat fish more than 2 times a week, whereas the fishermen don't eat
 fish less than 3 times a week. Besides, we face the same unbalanced
@@ -166,15 +166,13 @@ Now we are going to use and compare the different methods of model
 selection to select the more relevant parameters to explain the TotHg
 variations within the population.
 
-\subsubsection{Stepwise selection}\label{stepwise-selection}
-
 The first attempt is a stepwise selection based on a formula with all
 the parameters except for \emph{fisherman}. Indeed, the preliminary
-exploration has shown that the \emph{fisherman} variable have
-considerable impact on many of the other variables. Therefore to
-understand what is the reason behind the TotHg difference between the 2
-groups, it seems natural to start with a model without the
-\emph{fisherman} variable.
+exploration has shown that the \emph{fisherman} variable has
+considerable impact on many other variables. Therefore to understand
+what is the reason behind the TotHg difference between the 2 groups, it
+seems natural to start with a model without the \emph{fisherman}
+variable.
 
 \begin{verbatim}
 ##                Estimate Std. Error   t value     Pr(>|t|)
@@ -187,7 +185,7 @@ With stepwise selection, the selected model is : TotHg \textasciitilde{}
 weight + fishmlwk. The intercept and the two coefficients are very
 significant. Moreover the signs of the coefficients are not absurd:
 while it is not really intuitive that the weight coefficient should be
-positive or negative, the coefficient of \emph{fishmlwk} had to be
+positive or negative, the coefficient of \emph{fishmlwk} has to be
 positive, and it's the case here.
 
 Now to determine possible differences between the fishermen and
@@ -200,39 +198,6 @@ adjustment term between the values of the intercepts of the two groups
 if it is relevant.
 
 \begin{verbatim}
-##                        Estimate Std. Error    t value     Pr(>|t|)
-## (Intercept)         -1.41565206 6.93853651 -0.2040275 8.386536e-01
-## fisherman1          -8.99967794 7.42906339 -1.2114149 2.279509e-01
-## fisherman0:weight    0.03313256 0.09907139  0.3344312 7.385973e-01
-## fisherman1:weight    0.18908832 0.03644361  5.1885177 8.003708e-07
-## fisherman0:fishmlwk  1.53107486 0.70200877  2.1809911 3.099742e-02
-## fisherman1:fishmlwk  0.09828757 0.05265742  1.8665473 6.423521e-02
-\end{verbatim}
-
-The best model is now : TotHg \textasciitilde{} fisherman +
-fisherman:weight + fisherman:fishmlwk. While the coefficients for
-fisherman1:weight and fisherman0:fishmlwk stays very significant,
-fisherman1:fishmlwk is barely significant and fisherman0:weight,
-fisherman1 and the intercept are far from being significant. Moreover,
-when looking at the values of the coefficients, it appears that for the
-non-fishermen, the number of fish meal per week has a very preponderant
-(and reliable) effect compared to the weight influence, while among
-fishermen, the contribution of weight is twice the one of fish meal per
-week. Eventually the value of the fisherman1 parameter is surprising: it
-implies that the fact of being a fisherman gives you -8.99 mg/g Hg. Yet
-this comes from the increased value of fisherman1:weight, which will
-make the overall Hg concentration more important among fishermen, as
-expected.
-
-In order to check the dependency of the selected model to the selection
-technique, we have tried backward and forward selection and obtained
-similar models.
-
-\subsection{Results and discussion}\label{results-and-discussion}
-
-Fit model (* fishermen) (I picked the model given by stepwise selection)
-
-\begin{verbatim}
 ##                         Estimate Std. Error    t value     Pr(>|t|)
 ## fisherman0           -1.41565206 6.93853651 -0.2040275 8.386536e-01
 ## fisherman1          -10.41533001 2.65474931 -3.9232819 1.412643e-04
@@ -242,7 +207,29 @@ Fit model (* fishermen) (I picked the model given by stepwise selection)
 ## fisherman1:fishmlwk   0.09828757 0.05265742  1.8665473 6.423521e-02
 \end{verbatim}
 
-This regression shows several interesting results:
+The best model is now : TotHg \textasciitilde{} fisherman +
+fisherman:weight + fisherman:fishmlwk - 1. While the coefficients for
+fisherman1:weight and fisherman0:fishmlwk stays very significant,
+fisherman1:fishmlwk is barely significant and fisherman0:weight,
+fisherman1 and the intercept are far from being significant. Moreover,
+when looking at the values of the coefficients, it appears that for the
+non-fishermen, the number of fish meal per week has a very preponderant
+(and reliable) effect compared to the weight influence, while among
+fishermen, the contribution of weight is twice the one of
+\emph{fishmlwk}. Eventually the value of the fisherman1 parameter is
+surprising: it implies that the fact of being a fisherman gives you
+-8.99 mg/g Hg compared to non-fishermen. Yet this comes from the
+increased value of fisherman1:weight, which will make the overall Hg
+concentration more important among fishermen, as expected.
+
+In order to check the dependency of the selected model to the selection
+technique, we have tried backward and forward selection and obtained
+similar models.
+
+\subsection{Results and discussion}\label{results-and-discussion}
+
+We are now discussing the results of the model: TotHg \textasciitilde{}
+fisherman + fisherman:weight + fisherman:fishmlwk - 1.
 
 \subsubsection{Difference between fisherman and control
 populations}\label{difference-between-fisherman-and-control-populations}
@@ -288,19 +275,19 @@ further inquiries:
   the fact that past a certain dose, the hair cannot absorb more
   mercury).
 \item
-  The observables does not reflect entirely the quantity of fish eaten,
+  The observable does not reflect entirely the quantity of fish eaten,
   since one can eat more or less fish per meal. The weight of fish eaten
   per week, might be a more accurate observable to study.
 \end{itemize}
 
-Here again, more expriements are required to confirm or reject those
+Here again, more experiments are required to confirm or reject those
 hypotheses.
 
 \subsubsection{Weight}\label{weight}
 
 However, the most significant coefficient is for \emph{weight} for
 fisherman population, with a \emph{p}-value of 8e-07. This coefficient
-suggest a high positive correlation between the weight of the fisherman
+suggests a high positive correlation between the weight of the fisherman
 and the concentration of mercury in its hair.
 
 The fact that the weight has a positive influence on this concentration
@@ -317,6 +304,8 @@ concentration in hair.
 
 Here again, further experiments are needed in order to support or reject
 those hypotheses.
+
+\subsubsection{Subtitle\ldots{}}\label{subtitle}
 
 \includegraphics{Report_files/figure-latex/unnamed-chunk-16-1.pdf} The
 model does not seem to be really homoscedastic. Variance is much higher
