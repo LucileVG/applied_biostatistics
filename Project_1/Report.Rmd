@@ -120,23 +120,22 @@ model1 <- stepAIC(lm(hg.form.step1,data=dataset), direction="both")
 summary(model1)$coefficients
 ```
 
-
 With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The intercept and the two coefficients are very significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ had to be positive, and it's the case here.
 
-Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance.
+Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance. We also include the _fisherman_ variable itself, that will allow to include an adjustment term between the values of the intercepts of the two groups if it is relevant.
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
-hg.form.step2 = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart)
+hg.form.step2 = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart)
 model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
 ```
 ```{r, echo=FALSE, message=FALSE}
 summary(model2)$coefficients
 ```
 
-The best model is now : TotHg ~ fisherman:weight + fisherman:fishmlwk, ie the interactions between fisherman and the variables of the previous model. While the coefficients for fisherman0:weight and fisherman1:weight stays very significant, fisherman0:fishmlwk and fisherman1:fishmlwk are barely significant (but their p-value is very close to 0.05) ; this comes from the fact that within each of the subpopulation {fishermen} and {non-fishermen} the range in which fishmlwk varies is very reduced compared to the whole population (see the Exploratory analysis). Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant effect, while among fishermen, the contribution of weight and fish meal per week are almost even.
+The best model is now : TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk.
+While the coefficients for fisherman1:weight and fisherman0:fishmlwk stays very significant, fisherman1:fishmlwk is barely significant and fisherman0:weight, fisherman1 and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant (and reliable) effect compared to the weight influence, while among fishermen, the contribution of weight is twice the one of fish meal per week. Eventually the value of the fisherman1 parameter is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
 
 In order to check the dependency of the selected model to the selection technique, we have tried backward and forward selection and obtained similar models.
-
 
 
 ```{r include=FALSE}
