@@ -230,25 +230,19 @@ However, even though it was unexpected it has many possible explanations such as
 
 Here again, further experiments are needed in order to support or reject those hypotheses.
 
-### Subtitle...
+### Diagnostic plots
 
-```{r, echo=FALSE, message=FALSE}
+```{r echo = F, warning = F, message = F, fig.width=3.5, fig.height = 3, fig.cap = "Diagnostic plots", wrapfigure = list("R", .4)}
 library(ggplot2)
 # plot(hg.lm.selected.model, which=1) #residuals vs fitted
 qplot(hg.lm.selected.model$fitted.values, hg.lm.selected.model$residuals, colour=dataset$fisherman, xlab = "fitted values", ylab = "residuals") + labs(colour = 'fisherman')
-```
-The model does not seem to be really homoscedastic. Variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall well distributed, even if it tends to be a little more spread for high fitted values. But, since our model is split into two submodels corresponding to fisherman population and non-fisherman population, the difference of variances between both classes doesn't matter.
-
-
-```{r, echo=FALSE, message=FALSE}
 plot(hg.lm.selected.model, which=2) #QQ plot
 ```
 
-We have a heavy tails distribution of residuals, with a very heavy right tail. The fact that we have two submodels merged in one might explain the heavy tails. However it cannot explain the difference between right and left tails. This could be caused by an insufficient sample size. Or it could be explained by a non-linear relation between the observables and the concentration of mercury, thus possibly unbalancing the residuals distribution. 
+The model does not seem to be really homoscedastic. Variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall well distributed, even if it tends to be a little more spread for high fitted values. But, since our model is split into two submodels corresponding to fisherman population and non-fisherman population, the difference of variances between both classes doesn't matter.
 
-```{r, echo=FALSE, message=FALSE}
-#plot(hg.lm.selected.model, which=3) #scale location
-```
+
+We have a heavy tails distribution of residuals, with a very heavy right tail. The fact that we have two submodels merged in one might explain the heavy tails. However it cannot explain the difference between right and left tails. This could be caused by an insufficient sample size. Or it could be explained by a non-linear relation between the observables and the concentration of mercury, thus possibly unbalancing the residuals distribution. 
 
 
 ## Conclusion
