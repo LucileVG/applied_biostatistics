@@ -1,7 +1,7 @@
 ---
 title: 'Project 1: regression 1'
-author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu�f©"
-date: "March 20, 2019"
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué"
+date: "March 27, 2019"
 output:
   pdf_document:
     df_print: paged
@@ -13,7 +13,7 @@ header-includes:
 - \usepackage{fancyhdr}
 - \usepackage{wrapfig}
 - \pagestyle{fancy}
-- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu?f�,©}
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
 fontsize: 12pt
 bibliography: bibliography.bib
 ---
