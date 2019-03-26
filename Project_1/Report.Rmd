@@ -136,7 +136,7 @@ With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The 
 Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance. We also include the _fisherman_ variable itself, that will allow to include an adjustment term between the values of the intercepts of the two groups if it is relevant.
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
-hg.form.step2 = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart)
+hg.form.step2 = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart) - 1
 model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
 ```
 ```{r, echo=FALSE, message=FALSE}
@@ -144,45 +144,45 @@ summary(model2)$coefficients
 ```
 
 The best model is now : TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk.
-While the coefficients for fisherman1:weight and fisherman0:fishmlwk stays very significant, fisherman1:fishmlwk is barely significant and fisherman0:weight, fisherman1 and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant (and reliable) effect compared to the weight influence, while among fishermen, the contribution of weight is twice the one of fish meal per week. Eventually the value of the fisherman1 parameter is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
+While the coefficients for fisherman1:weight and fisherman0:fishmlwk stays very significant, fisherman1:fishmlwk is barely significant and fisherman0:weight, fisherman1 and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant (and reliable) effect compared to the weight influence, while among fishermen, the contribution of weight is twice the one of fish meal per week. Eventually the value of the fisherman1 parameter is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
 
 In order to check the dependency of the selected model to the selection technique, we have tried backward and forward selection and obtained similar models.
 
 
 ```{r include=FALSE}
-hg.form.bwd = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart)
+hg.form.bwd = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart) - 1
 drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:fishpart
 
-hg.form.bwd = TotHg ~ fisherman:(age + restime + height + weight + fishmlwk)
+hg.form.bwd = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk) - 1
 drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:age
 
-hg.form.bwd = TotHg ~ fisherman:(restime + height + weight + fishmlwk)
+hg.form.bwd = TotHg ~ fisherman + fisherman:(restime + height + weight + fishmlwk) - 1
 drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:restime
 
-hg.form.bwd = TotHg ~ fisherman:(height + weight + fishmlwk)
+hg.form.bwd = TotHg ~ fisherman + fisherman:(height + weight + fishmlwk) - 1
 drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> Delete fisherman:height
 
-hg.form.bwd = TotHg ~ fisherman:(weight + fishmlwk)
+hg.form.bwd = TotHg ~ fisherman + fisherman:(weight + fishmlwk) - 1 
 drop1(lm(hg.form.bwd, data = dataset), test="F")
 #> All parameters are significant (p-value < 0.05)
 ```
 
 
 ```{r include=FALSE}
-hg.form.fwd = TotHg ~ 1
-add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart))
+hg.form.fwd = TotHg ~ fisherman - 1
+add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart) - 1)
 #> Add fisherman:weight
 
-hg.form.fwd = TotHg ~ fisherman:weight
-add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart))
+hg.form.fwd = TotHg ~ fisherman + fisherman:weight - 1
+add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart) - 1)
 #> Add fisherman:fishmlwk
 
-hg.form.fwd = TotHg ~ fisherman:weight + fisherman:fishmlwk
-add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime + height + weight + fishmlwk + fishpart))
+hg.form.fwd = TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk - 1
+add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart) - 1)
 #> No more significant (p-value < 0.05) parameter to add
 ```
 
