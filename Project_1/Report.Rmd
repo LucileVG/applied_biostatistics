@@ -54,7 +54,7 @@ knitr::knit_hooks$set(plot = function(x, options) {  # set new plot hook ...
 ```
 
 
-# Introduction
+## Introduction
 
 Mercury is a metal present in the environment whose harmful effects on human health are well assessed [@park2012human]. In a study led in 2000 [@al2000factors], scientists collected data on total mercury and methyl mercury levels in the hair of 100 fishermen of Kuwait, aged 16 to 58 years, comparing them to those of a control population of 35 non-fishermen, aged 26 to 35 years. The aim of this report is to analyse the factors influencing the levels of mercury in both populations. For the sake of simplicity, we will only focus on total Hg, leaving out methyl mercury, as both variables are strongly correlated.
 
@@ -71,15 +71,25 @@ t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fi
 ```
 A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a _Welch Two Sample t-test_ with the alternative hypothesis that the fishermen population has a average greater level of mercury than the control population (_p_-value = 7.473e-05).
 
-# Exploratory analysis (Amandine)
+## Exploratory analysis
 
-#### Overview of the data 
-Before fitting a model, let's have a look at the data. The following table shows the 8 possible values of fishmlwk according to the 2 possible values of fisherman.
-```{r, echo=FALSE, message=FALSE}
-table(dataset$fisherman, dataset$fishmlwk)
+### Overview of the data 
+Before fitting a model, let's have a look at the data. The following table shows the 8 possible values of _fishmlwk_ according to the 2 possible values of _fisherman_.
+```{r, echo=FALSE, message=FALSE, include=FALSE}
+ftable(table(dataset$fisherman, dataset$fishmlwk)) #, col.vars = c("1", "2", "3","4","5","6","7","8")
 ```
-First, let's notice that for some values, we have a very few people, for instance only 2 people eat fish 3 times a week. We see also that the data is really unbalanced, because the fishermen and non fishermen are separated on the variable "fishmlwk": the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
+
+<div style= "float:right;position: relative; top: -80px;">
+| | | | | | | | | |
+|-|-|-|-|-|-|-|-|-|
+|**Number of fish meal per week**| **0** | **1**|**2**|**3**|**4**|**7**|**14**|**21**|
+|**Fishermen**|0|0|0|2|12|70|5|11|
+|**Non-fishermen**|10|14|11|0|0|0|0|0|
+</div>
+First, let's notice that for some values, we have a very few people, for instance only 2 people eat fish 3 times a week. We see also that the data is really unbalanced, because the _fisherman_ and the _fishmlwk_ variable are very highly correlated: the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
 Besides, we face the same unbalanced pattern for the variables _age_ and _restime_.
+
+
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
 par(mfrow=c(1,3))
@@ -89,11 +99,11 @@ ggplot(dataset, aes(fishmlwk, TotHg, colour = fisherman)) + geom_boxplot()
 #grid.arrange(plot1, plot2, plot3, ncol=3, nrow = 1)
 ```
 
-#### Multicolinearity 
+### Multicolinearity 
 
-To check whether we have multicolinear variables, we use the VIF function. If all the variables have a result below 5, we keep them. 
+To check whether we have multicolinear variables, we use the variance inflation factor (VIF). We set the following criteria: we keep only the variables that have a result below 5. We observe that all the variables have a variance inflation factor below 2, so we don't eliminate any variable, yet.
 
-```{r ,echo=FALSE, message=FALSE}
+```{r ,echo=FALSE, message=FALSE, include=FALSE}
 hg.form.full = TotHg~ fisherman + age + restime + height + weight + fishmlwk + fishpart 
 #hg.form.full2 = TotHg~ (fisherman + age + restime + height + weight + fishpart)^2
 #hg.form.full3 = TotHg~ (fisherman + age + restime + height + weight + fishpart)^3
@@ -102,13 +112,13 @@ vif(lm(hg.form.full,data=dataset))
 #vif(lm(hg.form.full2,data=dataset))
 #vif(lm(hg.form.full3,data=dataset))
 ```
-Indeed, we observe that all the variables have a VIF below 2, so we don't eliminate any variable, yet.
 
-# Model selection (Joseph)
+
+## Model selection
 
 Now we are going to use and compare the different methods of model selection to select the more relevant parameters to explain the TotHg variations within the population.
 
-## Stepwise selection
+### Stepwise selection
 
 The first attempt is a stepwise selection based on a formula with all the parameters except for _fisherman_. Indeed, the preliminary exploration has shown that the _fisherman_ variable have considerable impact on many of the other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the _fisherman_ variable.
 
@@ -176,7 +186,7 @@ add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime
 ```
 
 
-# Results and discussion (Urvan)
+## Results and discussion
 
 Fit model (* fishermen) (I picked the model given by stepwise selection)
 
@@ -189,7 +199,7 @@ hg.lm.selected.summary$coefficients
 
 This regression shows several interesting results:
 
-## Difference between fisherman and control populations
+### Difference between fisherman and control populations
 
 First, we get two coefficients very significantly different from 0 (_p_ < 0.001), both concerning fisherman population. The fact that there are less significant coefficients for non-fisherman population could be explained by several causes:
 
@@ -198,7 +208,7 @@ First, we get two coefficients very significantly different from 0 (_p_ < 0.001)
 
 However, those are only suppositions in order to explain the distribution of the _p_-values, but none of them have been proven. Further experiments are needed in order to show whether or not those observables have a really different effect on both populations.
 
-## Number of fish meals per week
+### Number of fish meals per week
 
 On the other side, the number of meal composed of fish (_fishmlwk_) seems to be contributing to the mercury levels of both populations (_p_-values of `r format(hg.lm.selected.summary[["coefficients"]][5,4], digits=1)` for non-fisherman and `r format(hg.lm.selected.summary[["coefficients"]][6,4], digits=1)` for fisherman). However, we can see that there is a huge difference between the two contributions of a factor `r format(hg.lm.selected.summary[["coefficients"]][5,1]/hg.lm.selected.summary[["coefficients"]][6,1], digits=1)`. 
 
@@ -212,7 +222,7 @@ Here again, we can come up with some possible explanations, needing further inqu
 Here again, more expriements are required to confirm or reject those hypotheses.
 
 
-## Weight
+### Weight
 
 However, the most significant coefficient is for _weight_ for fisherman population, with a _p_-value of `r format(hg.lm.selected.summary[["coefficients"]][4,4], digits=1, scientific=TRUE)`. This coefficient suggest a high positive correlation between the weight of the fisherman and the concentration of mercury in its hair. 
 
@@ -238,22 +248,12 @@ plot(hg.lm.selected.model, which=2) #QQ plot
 We have a heavy tails distribution of residuals, with a very heavy right tail. The fact that we have two submodels merged in one might explain the heavy tails. However it cannot explain the difference between right and left tails. This could be caused by an insufficient sample size. Or it could be explained by a non-linear relation between the observables and the concentration of mercury, thus possibly unbalancing the residuals distribution. 
 
 ```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=3) #scale location
-```
-```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=4) #cook's distance
-```
-
-```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=5) #residuals vs leverage 
-```
-```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=6) #cook's distance vs leverage
+#plot(hg.lm.selected.model, which=3) #scale location
 ```
 
 
-# Conclusion
+## Conclusion
 
 We have achieved to build a simple model that can help explaining the levels of mercury observed in a fishermen population compared to a control group. It appears that the variables that have the most significant influence over the measured levels of mercury are the weight of the individual and the frequency at which they eat fish. The former can seem surprising even if some hypotheses can be formed to account for the influence of weight on mercury levels. The latter may be the main explanation for the differences observed between our two groups: fishermen use to eat fish much more often than non-fishermen, as fish is a well-known source of mercury it seems logical to see a positive correlation between fish meal frequency and mercury levels and thus to observe higher mercury levels in fishermen populations compared to non-fishermen.
 
-# References
+## References
