@@ -1,18 +1,20 @@
 ---
 title: 'Project 1: regression 1'
-author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué"
+author: "Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigu�f©"
 date: "March 20, 2019"
 output:
+  html_document:
+    df_print: paged
   pdf_document:
     df_print: paged
-    keep_tex: true
-fontsize: 12pt
+    keep_tex: yes
 geometry: margin=2.5cm
 header-includes:
 - \usepackage{fancyhdr}
 - \usepackage{wrapfig}
 - \pagestyle{fancy}
-- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
+- \fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu�f©}
+fontsize: 12pt
 bibliography: bibliography.bib
 ---
 
@@ -71,9 +73,9 @@ t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fi
 ```
 A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a _Welch Two Sample t-test_ with the alternative hypothesis that the fishermen population has a average greater level of mercury than the control population (_p_-value = 7.473e-05).
 
-# Exploratory analysis (Amandine)
+# Exploratory analysis
 
-#### Overview of the data 
+### Overview of the data 
 Before fitting a model, let's have a look at the data. The following table shows the 8 possible values of fishmlwk according to the 2 possible values of fisherman.
 ```{r, echo=FALSE, message=FALSE}
 table(dataset$fisherman, dataset$fishmlwk)
@@ -89,7 +91,7 @@ ggplot(dataset, aes(fishmlwk, TotHg, colour = fisherman)) + geom_boxplot()
 #grid.arrange(plot1, plot2, plot3, ncol=3, nrow = 1)
 ```
 
-#### Multicolinearity 
+### Multicolinearity 
 
 To check whether we have multicolinear variables, we use the VIF function. If all the variables have a result below 5, we keep them. 
 
@@ -104,11 +106,11 @@ vif(lm(hg.form.full,data=dataset))
 ```
 Indeed, we observe that all the variables have a VIF below 2, so we don't eliminate any variable, yet.
 
-# Model selection (Joseph)
+# Model selection
 
 Now we are going to use and compare the different methods of model selection to select the more relevant parameters to explain the TotHg variations within the population.
 
-## Stepwise selection
+### Stepwise selection
 
 The first attempt is a stepwise selection based on a formula with all the parameters except for _fisherman_. Indeed, the preliminary exploration has shown that the _fisherman_ variable have considerable impact on many of the other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the _fisherman_ variable.
 
@@ -177,7 +179,7 @@ add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman:(age + restime
 ```
 
 
-# Results and discussion (Urvan)
+# Results and discussion
 
 Fit model (* fishermen) (I picked the model given by stepwise selection)
 
@@ -190,7 +192,7 @@ hg.lm.selected.summary$coefficients
 
 This regression shows several interesting results:
 
-## Difference between fisherman and control populations
+### Difference between fisherman and control populations
 
 First, we get two coefficients very significantly different from 0 (_p_ < 0.001), both concerning fisherman population. The fact that there are less significant coefficients for non-fisherman population could be explained by several causes:
 
@@ -199,7 +201,7 @@ First, we get two coefficients very significantly different from 0 (_p_ < 0.001)
 
 However, those are only suppositions in order to explain the distribution of the _p_-values, but none of them have been proven. Further experiments are needed in order to show whether or not those observables have a really different effect on both populations.
 
-## Number of fish meals per week
+### Number of fish meals per week
 
 On the other side, the number of meal composed of fish (_fishmlwk_) seems to be contributing to the mercury levels of both populations (_p_-values of `r format(hg.lm.selected.summary[["coefficients"]][5,4], digits=1)` for non-fisherman and `r format(hg.lm.selected.summary[["coefficients"]][6,4], digits=1)` for fisherman). However, we can see that there is a huge difference between the two contributions of a factor `r format(hg.lm.selected.summary[["coefficients"]][5,1]/hg.lm.selected.summary[["coefficients"]][6,1], digits=1)`. 
 
@@ -213,7 +215,7 @@ Here again, we can come up with some possible explanations, needing further inqu
 Here again, more expriements are required to confirm or reject those hypotheses.
 
 
-## Weight
+### Weight
 
 However, the most significant coefficient is for _weight_ for fisherman population, with a _p_-value of `r format(hg.lm.selected.summary[["coefficients"]][4,4], digits=1, scientific=TRUE)`. This coefficient suggest a high positive correlation between the weight of the fisherman and the concentration of mercury in its hair. 
 
