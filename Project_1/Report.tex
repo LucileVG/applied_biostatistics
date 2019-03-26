@@ -29,6 +29,7 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -92,7 +93,7 @@
 \begin{document}
 \maketitle
 
-\section{Introduction}\label{introduction}
+\subsection{Introduction}\label{introduction}
 
 Mercury is a metal present in the environment whose harmful effects on
 human health are well assessed (Park and Zheng 2012). In a study led in
@@ -125,56 +126,47 @@ difference between the means of both distributions is assessed by a
 fishermen population has a average greater level of mercury than the
 control population (\emph{p}-value = 7.473e-05).
 
-\section{Exploratory analysis
-(Amandine)}\label{exploratory-analysis-amandine}
+\subsection{Exploratory analysis}\label{exploratory-analysis}
 
-\paragraph{Overview of the data}\label{overview-of-the-data}
+\subsubsection{Overview of the data}\label{overview-of-the-data}
 
 Before fitting a model, let's have a look at the data. The following
-table shows the 8 possible values of fishmlwk according to the 2
-possible values of fisherman.
+table shows the 8 possible values of \emph{fishmlwk} according to the 2
+possible values of \emph{fisherman}.
 
-\begin{verbatim}
-##    
-##      0  1  2  3  4  7 14 21
-##   0 10 14 11  0  0  0  0  0
-##   1  0  0  0  2 12 70  5 11
-\end{verbatim}
+\begin{longtable}[]{@{}lllllllll@{}}
+\toprule
+\textbf{Number of fish meal per week} & \textbf{0} & \textbf{1} &
+\textbf{2} & \textbf{3} & \textbf{4} & \textbf{7} & \textbf{14} &
+\textbf{21}\tabularnewline
+\textbf{Fishermen} & 0 & 0 & 0 & 2 & 12 & 70 & 5 & 11\tabularnewline
+\textbf{Non-fishermen} & 10 & 14 & 11 & 0 & 0 & 0 & 0 & 0\tabularnewline
+\bottomrule
+\end{longtable}
 
 First, let's notice that for some values, we have a very few people, for
 instance only 2 people eat fish 3 times a week. We see also that the
-data is really unbalanced, because the fishermen and non fishermen are
-separated on the variable ``fishmlwk'': the non fishermen don't eat fish
-more than 2 times a week, whereas the fishermen don't eat fish less than
-3 times a week. Besides, we face the same unbalanced pattern for the
-variables \emph{age} and \emph{restime}.
+data is really unbalanced, because the \emph{fisherman} and the
+\emph{fishmlwk} variable are very highly correlated: the non fishermen
+don't eat fish more than 2 times a week, whereas the fishermen don't eat
+fish less than 3 times a week. Besides, we face the same unbalanced
+pattern for the variables \emph{age} and \emph{restime}.
 
-\paragraph{Multicolinearity}\label{multicolinearity}
+\subsubsection{Multicolinearity}\label{multicolinearity}
 
-To check whether we have multicolinear variables, we use the VIF
-function. If all the variables have a result below 5, we keep them.
+To check whether we have multicolinear variables, we use the variance
+inflation factor (VIF). We set the following criteria: we keep only the
+variables that have a result below 5. We observe that all the variables
+have a variance inflation factor below 2, so we don't eliminate any
+variable, yet.
 
-\begin{verbatim}
-##               GVIF Df GVIF^(1/(2*Df))
-## fisherman 2.176756  1        1.475383
-## age       1.609314  1        1.268587
-## restime   1.609630  1        1.268712
-## height    1.138614  1        1.067059
-## weight    1.220641  1        1.104826
-## fishmlwk  1.754183  1        1.324456
-## fishpart  1.745741  3        1.097312
-\end{verbatim}
-
-Indeed, we observe that all the variables have a VIF below 2, so we
-don't eliminate any variable, yet.
-
-\section{Model selection (Joseph)}\label{model-selection-joseph}
+\subsection{Model selection}\label{model-selection}
 
 Now we are going to use and compare the different methods of model
 selection to select the more relevant parameters to explain the TotHg
 variations within the population.
 
-\subsection{Stepwise selection}\label{stepwise-selection}
+\subsubsection{Stepwise selection}\label{stepwise-selection}
 
 The first attempt is a stepwise selection based on a formula with all
 the parameters except for \emph{fisherman}. Indeed, the preliminary
@@ -231,8 +223,7 @@ In order to check the dependency of the selected model to the selection
 technique, we have tried backward and forward selection and obtained
 similar models.
 
-\section{Results and discussion
-(Urvan)}\label{results-and-discussion-urvan}
+\subsection{Results and discussion}\label{results-and-discussion}
 
 Fit model (* fishermen) (I picked the model given by stepwise selection)
 
@@ -248,7 +239,7 @@ Fit model (* fishermen) (I picked the model given by stepwise selection)
 
 This regression shows several interesting results:
 
-\subsection{Difference between fisherman and control
+\subsubsection{Difference between fisherman and control
 populations}\label{difference-between-fisherman-and-control-populations}
 
 First, we get two coefficients very significantly different from 0
@@ -271,7 +262,7 @@ distribution of the \emph{p}-values, but none of them have been proven.
 Further experiments are needed in order to show whether or not those
 observables have a really different effect on both populations.
 
-\subsection{Number of fish meals per
+\subsubsection{Number of fish meals per
 week}\label{number-of-fish-meals-per-week}
 
 On the other side, the number of meal composed of fish (\emph{fishmlwk})
@@ -300,7 +291,7 @@ further inquiries:
 Here again, more expriements are required to confirm or reject those
 hypotheses.
 
-\subsection{Weight}\label{weight}
+\subsubsection{Weight}\label{weight}
 
 However, the most significant coefficient is for \emph{weight} for
 fisherman population, with a \emph{p}-value of 8e-07. This coefficient
@@ -347,7 +338,7 @@ residuals distribution.
 \includegraphics{Report_files/figure-latex/unnamed-chunk-20-1.pdf}
 \includegraphics{Report_files/figure-latex/unnamed-chunk-21-1.pdf}
 
-\section{Conclusion}\label{conclusion}
+\subsection{Conclusion}\label{conclusion}
 
 We have achieved to build a simple model that can help explaining the
 levels of mercury observed in a fishermen population compared to a
@@ -363,8 +354,8 @@ correlation between fish meal frequency and mercury levels and thus to
 observe higher mercury levels in fishermen populations compared to
 non-fishermen.
 
-\section*{References}\label{references}
-\addcontentsline{toc}{section}{References}
+\subsection*{References}\label{references}
+\addcontentsline{toc}{subsection}{References}
 
 \hypertarget{refs}{}
 \hypertarget{ref-al2000factors}{}
