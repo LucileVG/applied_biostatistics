@@ -88,7 +88,7 @@
 \usepackage{fancyhdr}
 \usepackage{wrapfig}
 \pagestyle{fancy}
-\fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
+\fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigu?f©}
 
 \begin{document}
 \maketitle
@@ -126,13 +126,13 @@ difference between the means of both distributions is assessed by a
 fishermen population has a average greater level of mercury than the
 control population (\emph{p}-value = 7.473e-05).
 
-\subsection{Exploratory analysis}\label{exploratory-analysis}
+\section{Exploratory analysis}\label{exploratory-analysis}
 
 \subsubsection{Overview of the data}\label{overview-of-the-data}
 
 Before fitting a model, let's have a look at the data. The following
 table shows the 8 possible values of \emph{fishmlwk} according to the 2
-possible values of \emph{fisherman}.
+possible values of \emph{fisherman}
 
 \begin{longtable}[]{@{}lllllllll@{}}
 \toprule
@@ -194,30 +194,35 @@ Now to determine possible differences between the fishermen and
 non-fishermen, a model based on the interactions between the
 \emph{fisherman} variable and all the others is proposed. This could
 show if a certain variable is very relevant concerning fishermen but
-less when it comes to non-fishermen, for instance.
+less when it comes to non-fishermen, for instance. We also include the
+\emph{fisherman} variable itself, that will allow to include an
+adjustment term between the values of the intercepts of the two groups
+if it is relevant.
 
 \begin{verbatim}
-##                        Estimate Std. Error   t value     Pr(>|t|)
-## (Intercept)         -9.26610287 2.48391579 -3.730442 2.844286e-04
-## fisherman0:weight    0.14463543 0.03671463  3.939449 1.325715e-04
-## fisherman1:weight    0.17360535 0.03419027  5.077625 1.294541e-06
-## fisherman0:fishmlwk  1.09392501 0.60324223  1.813409 7.207551e-02
-## fisherman1:fishmlwk  0.09690894 0.05273971  1.837495 6.842027e-02
+##                        Estimate Std. Error    t value     Pr(>|t|)
+## (Intercept)         -1.41565206 6.93853651 -0.2040275 8.386536e-01
+## fisherman1          -8.99967794 7.42906339 -1.2114149 2.279509e-01
+## fisherman0:weight    0.03313256 0.09907139  0.3344312 7.385973e-01
+## fisherman1:weight    0.18908832 0.03644361  5.1885177 8.003708e-07
+## fisherman0:fishmlwk  1.53107486 0.70200877  2.1809911 3.099742e-02
+## fisherman1:fishmlwk  0.09828757 0.05265742  1.8665473 6.423521e-02
 \end{verbatim}
 
-The best model is now : TotHg \textasciitilde{} fisherman:weight +
-fisherman:fishmlwk, ie the interactions between fisherman and the
-variables of the previous model. While the coefficients for
-fisherman0:weight and fisherman1:weight stays very significant,
-fisherman0:fishmlwk and fisherman1:fishmlwk are barely significant (but
-their p-value is very close to 0.05) ; this comes from the fact that
-within each of the subpopulation \{fishermen\} and \{non-fishermen\} the
-range in which fishmlwk varies is very reduced compared to the whole
-population (see the Exploratory analysis). Moreover, when looking at the
-values of the coefficients, it appears that for the non-fishermen, the
-number of fish meal per week has a very preponderant effect, while among
-fishermen, the contribution of weight and fish meal per week are almost
-even.
+The best model is now : TotHg \textasciitilde{} fisherman +
+fisherman:weight + fisherman:fishmlwk. While the coefficients for
+fisherman1:weight and fisherman0:fishmlwk stays very significant,
+fisherman1:fishmlwk is barely significant and fisherman0:weight,
+fisherman1 and the intercept are far from being significant. Moreover,
+when looking at the values of the coefficients, it appears that for the
+non-fishermen, the number of fish meal per week has a very preponderant
+(and reliable) effect compared to the weight influence, while among
+fishermen, the contribution of weight is twice the one of fish meal per
+week. Eventually the value of the fisherman1 parameter is surprising: it
+implies that the fact of being a fisherman gives you -8.99 mg/g Hg. Yet
+this comes from the increased value of fisherman1:weight, which will
+make the overall Hg concentration more important among fishermen, as
+expected.
 
 In order to check the dependency of the selected model to the selection
 technique, we have tried backward and forward selection and obtained
@@ -331,12 +336,6 @@ and left tails. This could be caused by an insufficient sample size. Or
 it could be explained by a non-linear relation between the observables
 and the concentration of mercury, thus possibly unbalancing the
 residuals distribution.
-
-\includegraphics{Report_files/figure-latex/unnamed-chunk-18-1.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-19-1.pdf}
-
-\includegraphics{Report_files/figure-latex/unnamed-chunk-20-1.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 \subsection{Conclusion}\label{conclusion}
 
