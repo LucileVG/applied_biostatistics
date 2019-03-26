@@ -249,17 +249,7 @@ plot(hg.lm.selected.model, which=2) #QQ plot
 We have a heavy tails distribution of residuals, with a very heavy right tail. The fact that we have two submodels merged in one might explain the heavy tails. However it cannot explain the difference between right and left tails. This could be caused by an insufficient sample size. Or it could be explained by a non-linear relation between the observables and the concentration of mercury, thus possibly unbalancing the residuals distribution. 
 
 ```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=3) #scale location
-```
-```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=4) #cook's distance
-```
-
-```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=5) #residuals vs leverage 
-```
-```{r, echo=FALSE, message=FALSE}
-plot(hg.lm.selected.model, which=6) #cook's distance vs leverage
+#plot(hg.lm.selected.model, which=3) #scale location
 ```
 
 
