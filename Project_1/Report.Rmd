@@ -26,6 +26,9 @@ library(GGally)
 library(car) # contains the vif() and leveneTest() functions
 library(gridExtra)
 library(cowplot)
+library(knitr)
+library(kableExtra)
+library(plyr)
 ```
 
 ```{r, echo=FALSE, message=FALSE}
@@ -59,48 +62,47 @@ knitr::knit_hooks$set(plot = function(x, options) {  # set new plot hook ...
 
 ## Introduction
 
-Mercury is a metal present in the environment whose harmful effects on human health are well assessed [@park2012human]. In a study led in 2000 [@al2000factors], scientists collected data on total mercury and methyl mercury levels in the hair of 100 fishermen of Kuwait, aged 16 to 58 years, comparing them to those of a control population of 35 non-fishermen, aged 26 to 35 years. The aim of this report is to analyse the factors influencing the levels of mercury in both populations. For the sake of simplicity, we will only focus on total Hg, leaving out methyl mercury, as both variables are strongly correlated (shown in the paper).
+Mercury is a metal present in the environment whose harmful effects on human health are well known [@park2012human]. In [@al2000factors], total mercury and methyl mercury levels in the hair of 100 fishermen of Kuwait, aged 16 to 58 years, were compared to those of a control population of 35 non-fishermen, aged 26 to 35 years. The aim of our study is to analyse the factors influencing the levels of mercury in both populations. For the sake of simplicity, we will only focus on total Hg, leaving out methyl mercury, since both variables are strongly correlated (shown in the paper).
 
-```{r echo = F, warning = F, message = F, fig.width=3.5, fig.height = 3, fig.cap = "Boxplots of Hg levels", fig.align="right", wrapfigure = list("R", .35)}
+```{r echo = F, warning = F, message = F, fig.width=3.5, fig.height = 3, fig.cap = "\\label{fig:boxplots}Boxplots of Hg levels", fig.align="right", wrapfigure = list("R", .35)}
 #, out.width = ".7\\textwidth"
 ggplot(dataset, aes(group=fisherman, y=TotHg, fill=fisherman)) + geom_boxplot() + labs(y = "Total Hg concentration in the hair (mg/g)") + scale_x_discrete() + scale_fill_discrete(name = "Population", labels = c("Control group", "Fishermen")) + theme_bw()
 ```
 
-The dataset gathers information about six numerical variables (age, height, weight, number of fish meals per week and residence time in Kuwait) and two categorical ones (being a fisherman or not, fish consumption habits). There is no additional information about gender as all the participants in the study are males.
+The dataset contains six numerical variables (age, height, weight, number of fish meals per week and residence time in Kuwait) and two categorical variables (being a fisherman or not, fish consumption habits). All study participants are male.
 
 
 ```{r, include=FALSE}
 t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fisherman==0),]$TotHg, alternative = "greater", var.equal=FALSE)
 ```
-A first insight at the data shows that the fishermen population exhibits higher levels of mercury in their hair. The significance of the difference between the means of both distributions is assessed by a Welch Two Sample t-test with the alternative hypothesis that the fishermen population has a greater average level of mercury than the control population (_p_-value = 7.473e-05).
+
 
 # Exploratory analysis
 
 ### Overview of the data 
-Before fitting a model, let's have a look at the data. The following table shows the distribution of individuals according to the 8 possible values of _fishmlwk_ and the 2 possible values of _fisherman_
-```{r, echo=FALSE, results='asis'}
-library(knitr)
-  kable(cor(dataset.unfactored), format = "latex", digits = 2, caption = "Correlation matrix")
+Before fitting a model, we first have a look at the data. Table \ref{tbl:fishmlwk} shows the distribution of individuals according to the number of fish meals per week and the two groups.
+
+
+```{r, echo=FALSE, message=FALSE, result='asis'}
+data.table = table(dataset$fisherman, dataset$fishmlwk)
+row.names(data.table) <- c("non-fisherman", "fisherman")
+kable(data.table, format = "latex", booktabs = T, caption = "\\label{tbl:fishmlwk}Distribution of the number of fish meals accross fishermen and non-fishermen populations") %>% 
+  kable_styling(latex_options = "striped")
 ```
 
-```{r, fig.width=3.5, fig.height = 3, fig.cap = "Pair plots"}
+We note that for some values, there are very few people. For instance only two people eat fish three times per week. We also see that the number of fish meals per week is completely separable by population group.
+\emph{Besides, we face the same unbalanced pattern for the variables age and restime.}
+
+
+```{r, echo=FALSE, results='asis'}
+  kable(cor(dataset.unfactored), format = "latex", digits = 2, caption = "\\label{tbl:correlation}Correlation matrix")%>% 
+  kable_styling(latex_options = "striped")
+```
+
+```{r, fig.width=6.5, fig.height = 5, fig.cap = "\\label{fig:pair_plots}Pair plots", echo=F}
 plot(dataset)
 ```
 
-
-```{r, echo=FALSE, message=FALSE, include=FALSE}
-table(dataset$fisherman, dataset$fishmlwk)
-```
-
-<div style= "float:right;position: relative; top: -80px;">
-| | | | | | | | | |
-|-|-|-|-|-|-|-|-|-|
-|**Number of fish meals per week**| **0** | **1**|**2**|**3**|**4**|**7**|**14**|**21**|
-|**Fishermen**|0|0|0|2|12|70|5|11|
-|**Non-fishermen**|10|14|11|0|0|0|0|0|
-</div>
-First, let's notice that for some values, we have a very few people, for instance only 2 people eat fish 3 times a week. We see also that the data is really unbalanced because the _fisherman_ and the _fishmlwk_ variable are very highly correlated: the non fishermen don't eat fish more than 2 times a week, whereas the fishermen don't eat fish less than 3 times a week. 
-Besides, we face the same unbalanced pattern for the variables _age_ and _restime_.
 
 
 
@@ -114,7 +116,7 @@ ggplot(dataset, aes(fishmlwk, TotHg, colour = fisherman)) + geom_boxplot()
 
 ### Multicolinearity 
 
-To check whether we have multicolinear variables, we use the variance inflation factor (VIF). We set the following criteria: we keep only the variables that have a result below 5. We observe that all the variables have a variance inflation factor below 2, so we don't eliminate any variable, yet.
+To check whether we have multicolinear variables, we use the variance inflation factor (VIF). We set the following criteria: we keep only the variables that have a result below 5. We observe that all the variables have a variance inflation factor below 2, so we do not eliminate any variable, for the moment.
 
 ```{r ,echo=FALSE, message=FALSE, include=FALSE}
 hg.form.full = TotHg~ fisherman + age + restime + height + weight + fishmlwk + fishpart 
@@ -130,34 +132,50 @@ vif(lm(hg.form.full,data=dataset))
 ## Model selection
 
 
-Now we are going to use and compare the different methods of model selection to select the more relevant parameters to explain the TotHg variations within the population.
+We now use the different methods of model selection to select the more relevant variables to explain the _TotHg_ variations within the population.
 
-The first attempt is a stepwise selection based on a formula with all the parameters except for _fisherman_. Indeed, the preliminary exploration has shown that the _fisherman_ variable has considerable impact on many other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the _fisherman_ variable.
+We first apply a stepwise selection based on a formula with all the variables. Indeed, the preliminary exploration has shown that the _fisherman_ variable has considerable impact on many other variables. Therefore to understand what is the reason behind the TotHg difference between the 2 groups, it seems natural to start with a model without the _fisherman_ variable.
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
-hg.form.step1 = TotHg ~ age + restime + height + weight + fishmlwk + fishpart
+hg.form.step1 = TotHg ~ fisherman + age + restime + height + weight + fishmlwk + fishpart
 model1 <- stepAIC(lm(hg.form.step1,data=dataset), direction="both")
 ```
 ```{r, echo=FALSE, message=FALSE}
-summary(model1)$coefficients
+tbl <- summary(model1)$coefficients
+n <- nrow(tbl)
+tbl.formatted <- as.matrix(tbl)
+
+# Formatting each column
+tbl.formatted[1:n, 1:3] <- format(tbl[1:n, 1:3], digits = 1)
+tbl.formatted[1:n, 4] <- format(tbl[1:n, 4], digits = 2, scientific = T)
+kable(tbl.formatted, caption = "Full model regression results") %>%
+  kable_styling(latex_options = "striped")
 ```
 
-With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The intercept and the two coefficients are very significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ has to be positive, and it's the case here.
+With stepwise selection, the selected model is : \(TotHg = \beta_0 + \beta_1 \cdot fisherman_1  + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\). The intercept and the two coefficients are highly significant. Moreover the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ has to be positive, and it's the case here.
 
-Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance. We also include the _fisherman_ variable itself, that will allow to include an adjustment term between the values of the intercepts of the two groups if it is relevant.
+Now we determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance. We also include the _fisherman_ variable itself, that will allow to include an adjustment term between the values of the intercepts of the two groups if it is relevant.
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
 hg.form.step2 = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart)
 model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
 ```
 ```{r, echo=FALSE, message=FALSE}
-summary(model2)$coefficients
+tbl <- summary(model2)$coefficients
+n <- nrow(tbl)
+tbl.formatted <- as.matrix(tbl)
+
+# Formatting each column
+tbl.formatted[1:n, 1:3] <- format(tbl[1:n, 1:3], digits = 1)
+tbl.formatted[1:n, 4] <- format(tbl[1:n, 4], digits = 2, scientific = T)
+kable(tbl.formatted, caption = "Model regression results") %>%
+  kable_styling(latex_options = "striped")
 ```
 
-The best model is now : $TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0:weight + \beta_3 \cdot fisherman_1:weight + \beta_4 \cdot fisherman_0:fishmlwk + \beta_5 \cdot fisherman_1:fishmlwk$.
-While the coefficients for fisherman1:weight and fisherman0:fishmlwk stays very significant, fisherman1:fishmlwk is barely significant and fisherman0:weight, fisherman1 and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant (and reliable) effect compared to the weight influence, while among fishermen, the contribution of weight is twice the one of _fishmlwk_. Eventually the value of the fisherman1 parameter is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
+The best model is now \(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0 \cdot weight + \beta_3 \cdot fisherman_1 \cdot weight + \beta_4 \cdot fisherman_0 \cdot fishmlwk + \beta_5 \cdot fisherman_1 \cdot fishmlwk\).
+While the coefficients for _fisherman1:weight_ and _fisherman0:fishmlwk_ are very significant, _fisherman1:fishmlwk_ is barely significant and _fisherman0:weight_, _fisherman1_ and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant effect compared to the weight influence, while among fishermen, the contribution of _weight_ is twice the one of _fishmlwk_. Eventually the value of \(\beta_1\) (corresponding to _fisherman1_ variable) is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
 
-In order to check the dependency of the selected model to the selection technique, we have tried backward and forward selection and obtained similar models.
+In order to check the dependency of the selected model to the selection technique, we have applied backward and forward selection and obtained similar models.
 
 
 ```{r include=FALSE}
@@ -201,14 +219,14 @@ add1(lm(hg.form.fwd, data=dataset), test="F", scope = ~ fisherman + fisherman:(a
 ## Results and discussion
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
-hg.form.selected=TotHg ~  - 1 + fisherman + fisherman:(weight + fishmlwk)
+hg.form.selected=TotHg ~  fisherman + fisherman:(weight + fishmlwk)
 hg.lm.selected.model=lm(hg.form.selected, data=dataset)
 hg.lm.selected.summary <- summary(hg.lm.selected.model)
 hg.lm.selected.summary$coefficients
 ```
 
 
-We are now discussing the results of the model: TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk - 1.
+We now turn to discussing the results of the model: \(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0 \cdot weight + \beta_3 \cdot fisherman_1 \cdot weight + \beta_4 \cdot fisherman_0 \cdot fishmlwk + \beta_5 \cdot fisherman_1 \cdot fishmlwk\).
 
 ### Difference between fisherman and control populations
 
@@ -248,18 +266,20 @@ Here again, further experiments are needed in order to support or reject those h
 ```{r echo = F, warning = F, message = F, fig.width=3.5, fig.height = 3, fig.cap = "Diagnostic plots", wrapfigure = list("R", .4)}
 library(ggplot2)
 # plot(hg.lm.selected.model, which=1) #residuals vs fitted
-qplot(hg.lm.selected.model$fitted.values, hg.lm.selected.model$residuals, colour=dataset$fisherman, xlab = "fitted values", ylab = "residuals") + labs(colour = 'fisherman')
-plot(hg.lm.selected.model, which=2) #QQ plot
+qplot(hg.lm.selected.model$fitted.values, hg.lm.selected.model$residuals, colour=revalue(dataset$fisherman, c("0"="non-fisherman", "1"="fisherman")), xlab = "fitted values", ylab = "residuals") + 
+  labs(colour = '') +
+  theme(legend.position="bottom")
+plot(hg.lm.selected.model, which=2, xlab = "Theoretical quantiles")#QQ plot
 ```
 
-The model does not seem to be really homoscedastic. Variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall well distributed, even if it tends to be a little more spread for high fitted values. But, since our model is split into two submodels corresponding to fisherman population and non-fisherman population, the difference of variances between both classes doesn't matter.
+The model does not seem to be really homoscedastic. Variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall well distributed, even if it tends to be a little more spread for high fitted values. 
 
 
-We have a heavy tails distribution of residuals, with a very heavy right tail. The fact that we have two submodels merged in one might explain the heavy tails. However it cannot explain the difference between right and left tails. This could be caused by an insufficient sample size. Or it could be explained by a non-linear relation between the observables and the concentration of mercury, thus possibly unbalancing the residuals distribution. 
+We have a heavy tailed distribution of residuals, with a very heavy right tail. It could be explained by a non-linear relation between the variables and the concentration of mercury. 
 
 
 ## Conclusion
 
-We have achieved to build a simple model that can help explaining the levels of mercury observed in a fishermen population compared to a control group. It appears that the variables that have the most significant influence over the measured levels of mercury are the weight of the individual and the frequency at which they eat fish. The former can seem surprising even if some hypotheses can be formed to account for the influence of weight on mercury levels. The latter may be the main explanation for the differences observed between our two groups: fishermen use to eat fish much more often than non-fishermen, as fish is a well-known source of mercury it seems logical to see a positive correlation between fish meal frequency and mercury levels and thus to observe higher mercury levels in fishermen populations compared to non-fishermen.
+We have built a simple model that can help to explain the levels of mercury observed in a fishermen population compared to a control group. It appears that the variables that have the most significant influence over the measured levels of mercury are the weight of the individual and the frequency at which they eat fish. The former can seem surprising even though some hypotheses can be formed to account for the influence of weight on mercury levels. The latter may be the main explanation for the differences observed between our two groups: fishermen eat fish much more often than non-fishermen and since fish is a well-known source of mercury, it seems logical to see a positive correlation between fish meal frequency and mercury levels and thus to observe higher mercury levels in fishermen populations compared to non-fishermen.
 
 ## References

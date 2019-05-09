@@ -29,47 +29,6 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -125,10 +84,25 @@
   \postdate{\par}
     \date{March 27, 2019}
 
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
 \usepackage{fancyhdr}
 \usepackage{wrapfig}
 \pagestyle{fancy}
-\fancyhead[LE,RO]{Christen, Goffeney, Vermeil, ViguÃ©}
+\fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
 
 \begin{document}
 \maketitle
@@ -136,138 +110,141 @@
 \subsection{Introduction}\label{introduction}
 
 Mercury is a metal present in the environment whose harmful effects on
-human health are well assessed (Park and Zheng 2012). In a study led in
-2000 (Al-Majed and Preston 2000), scientists collected data on total
-mercury and methyl mercury levels in the hair of 100 fishermen of
-Kuwait, aged 16 to 58 years, comparing them to those of a control
-population of 35 non-fishermen, aged 26 to 35 years. The aim of this
-report is to analyse the factors influencing the levels of mercury in
-both populations. For the sake of simplicity, we will only focus on
-total Hg, leaving out methyl mercury, as both variables are strongly
+human health are well known (Park and Zheng 2012). In (Al-Majed and
+Preston 2000), total mercury and methyl mercury levels in the hair of
+100 fishermen of Kuwait, aged 16 to 58 years, were compared to those of
+a control population of 35 non-fishermen, aged 26 to 35 years. The aim
+of our study is to analyse the factors influencing the levels of mercury
+in both populations. For the sake of simplicity, we will only focus on
+total Hg, leaving out methyl mercury, since both variables are strongly
 correlated (shown in the paper).
 
 \begin{wrapfigure}{R}{0.35\textwidth}
 
 \hfill{}\includegraphics{Report_files/figure-latex/unnamed-chunk-4-1} 
 
-\caption{Boxplots of Hg levels}\label{fig:unnamed-chunk-4}
+\caption{\label{fig:boxplots}Boxplots of Hg levels}\label{fig:unnamed-chunk-4}
 \end{wrapfigure}
 
-The dataset gathers information about six numerical variables (age,
-height, weight, number of fish meals per week and residence time in
-Kuwait) and two categorical ones (being a fisherman or not, fish
-consumption habits). There is no additional information about gender as
-all the participants in the study are males.
-
-A first insight at the data shows that the fishermen population exhibits
-higher levels of mercury in their hair. The significance of the
-difference between the means of both distributions is assessed by a
-Welch Two Sample t-test with the alternative hypothesis that the
-fishermen population has a greater average level of mercury than the
-control population (\emph{p}-value = 7.473e-05).
+The dataset contains six numerical variables (age, height, weight,
+number of fish meals per week and residence time in Kuwait) and two
+categorical variables (being a fisherman or not, fish consumption
+habits). All study participants are male.
 
 \section{Exploratory analysis}\label{exploratory-analysis}
 
 \subsubsection{Overview of the data}\label{overview-of-the-data}
 
-Before fitting a model, let's have a look at the data. The following
-table shows the distribution of individuals according to the 8 possible
-values of \emph{fishmlwk} and the 2 possible values of \emph{fisherman}
+Before fitting a model, we first have a look at the data. Table
+\ref{tbl:fishmlwk} shows the distribution of individuals according to
+the number of fish meals per week and the two groups.
 
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-6}Correlation matrix}
+\caption{\label{tab:unnamed-chunk-6}\label{tbl:fishmlwk}Distribution of the number of fish meals accross fishermen and non-fishermen populations}
+\centering
+\begin{tabular}{lrrrrrrrr}
+\toprule
+  & 0 & 1 & 2 & 3 & 4 & 7 & 14 & 21\\
+\midrule
+\rowcolor{gray!6}  non-fisherman & 10 & 14 & 11 & 0 & 0 & 0 & 0 & 0\\
+fisherman & 0 & 0 & 0 & 2 & 12 & 70 & 5 & 11\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We note that for some values, there are very few people. For instance
+only two people eat fish three times per week. We also see that the
+number of fish meals per week is completely separable by population
+group.
+\emph{Besides, we face the same unbalanced pattern for the variables age and restime.}
+
+\begin{table}[t]
+
+\caption{\label{tab:unnamed-chunk-7}\label{tbl:correlation}Correlation matrix}
 \centering
 \begin{tabular}{l|r|r|r|r|r|r|r|r}
 \hline
   & fisherman & age & restime & height & weight & fishmlwk & fishpart & TotHg\\
 \hline
-fisherman & 1.00 & 0.25 & 0.25 & -0.06 & -0.09 & 0.61 & 0.46 & 0.23\\
+\rowcolor{gray!6}  fisherman & 1.00 & 0.25 & 0.25 & -0.06 & -0.09 & 0.61 & 0.46 & 0.23\\
 \hline
 age & 0.25 & 1.00 & 0.58 & 0.00 & 0.05 & 0.26 & -0.01 & 0.16\\
 \hline
-restime & 0.25 & 0.58 & 1.00 & -0.05 & 0.11 & 0.19 & 0.00 & 0.06\\
+\rowcolor{gray!6}  restime & 0.25 & 0.58 & 1.00 & -0.05 & 0.11 & 0.19 & 0.00 & 0.06\\
 \hline
 height & -0.06 & 0.00 & -0.05 & 1.00 & 0.30 & -0.04 & -0.03 & 0.19\\
 \hline
-weight & -0.09 & 0.05 & 0.11 & 0.30 & 1.00 & 0.04 & -0.05 & 0.41\\
+\rowcolor{gray!6}  weight & -0.09 & 0.05 & 0.11 & 0.30 & 1.00 & 0.04 & -0.05 & 0.41\\
 \hline
 fishmlwk & 0.61 & 0.26 & 0.19 & -0.04 & 0.04 & 1.00 & 0.19 & 0.30\\
 \hline
-fishpart & 0.46 & -0.01 & 0.00 & -0.03 & -0.05 & 0.19 & 1.00 & 0.11\\
+\rowcolor{gray!6}  fishpart & 0.46 & -0.01 & 0.00 & -0.03 & -0.05 & 0.19 & 1.00 & 0.11\\
 \hline
 TotHg & 0.23 & 0.16 & 0.06 & 0.19 & 0.41 & 0.30 & 0.11 & 1.00\\
 \hline
 \end{tabular}
 \end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{plot}\NormalTok{(dataset)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{figure}
 \centering
-\includegraphics{Report_files/figure-latex/unnamed-chunk-7-1.pdf}
-\caption{Pair plots}
+\includegraphics{Report_files/figure-latex/unnamed-chunk-8-1.pdf}
+\caption{\label{fig:pair_plots}Pair plots}
 \end{figure}
-
-\begin{longtable}[]{@{}lllllllll@{}}
-\toprule
-\textbf{Number of fish meals per week} & \textbf{0} & \textbf{1} &
-\textbf{2} & \textbf{3} & \textbf{4} & \textbf{7} & \textbf{14} &
-\textbf{21}\tabularnewline
-\textbf{Fishermen} & 0 & 0 & 0 & 2 & 12 & 70 & 5 & 11\tabularnewline
-\textbf{Non-fishermen} & 10 & 14 & 11 & 0 & 0 & 0 & 0 & 0\tabularnewline
-\bottomrule
-\end{longtable}
-
-First, let's notice that for some values, we have a very few people, for
-instance only 2 people eat fish 3 times a week. We see also that the
-data is really unbalanced because the \emph{fisherman} and the
-\emph{fishmlwk} variable are very highly correlated: the non fishermen
-don't eat fish more than 2 times a week, whereas the fishermen don't eat
-fish less than 3 times a week. Besides, we face the same unbalanced
-pattern for the variables \emph{age} and \emph{restime}.
 
 \subsubsection{Multicolinearity}\label{multicolinearity}
 
 To check whether we have multicolinear variables, we use the variance
 inflation factor (VIF). We set the following criteria: we keep only the
 variables that have a result below 5. We observe that all the variables
-have a variance inflation factor below 2, so we don't eliminate any
-variable, yet.
+have a variance inflation factor below 2, so we do not eliminate any
+variable, for the moment.
 
 \subsection{Model selection}\label{model-selection}
 
-Now we are going to use and compare the different methods of model
-selection to select the more relevant parameters to explain the TotHg
-variations within the population.
+We now use the different methods of model selection to select the more
+relevant variables to explain the \emph{TotHg} variations within the
+population.
 
-The first attempt is a stepwise selection based on a formula with all
-the parameters except for \emph{fisherman}. Indeed, the preliminary
-exploration has shown that the \emph{fisherman} variable has
-considerable impact on many other variables. Therefore to understand
-what is the reason behind the TotHg difference between the 2 groups, it
-seems natural to start with a model without the \emph{fisherman}
-variable.
+We first apply a stepwise selection based on a formula with all the
+variables. Indeed, the preliminary exploration has shown that the
+\emph{fisherman} variable has considerable impact on many other
+variables. Therefore to understand what is the reason behind the TotHg
+difference between the 2 groups, it seems natural to start with a model
+without the \emph{fisherman} variable.
 
-\begin{verbatim}
-##                Estimate Std. Error   t value     Pr(>|t|)
-## (Intercept) -10.0768196 2.44480942 -4.121720 6.603741e-05
-## weight        0.1751823 0.03322237  5.273023 5.336914e-07
-## fishmlwk      0.1588378 0.04174543  3.804915 2.161017e-04
-\end{verbatim}
+\begin{table}[t]
 
-With stepwise selection, the selected model is : TotHg \textasciitilde{}
-weight + fishmlwk. The intercept and the two coefficients are very
-significant. Moreover the signs of the coefficients are not absurd:
-while it is not really intuitive that the weight coefficient should be
-positive or negative, the coefficient of \emph{fishmlwk} has to be
-positive, and it's the case here.
+\caption{\label{tab:unnamed-chunk-12}Full model regression results}
+\centering
+\begin{tabular}{l|l|l|l|l}
+\hline
+  & Estimate & Std. Error & t value & Pr(>|t|)\\
+\hline
+\rowcolor{gray!6}  (Intercept) & -12.68 & 2.71 & -4.68 & 7.0e-06\\
+\hline
+fisherman1 & 1.11 & 0.65 & 1.70 & 9.1e-02\\
+\hline
+\rowcolor{gray!6}  age & 0.05 & 0.03 & 1.43 & 1.6e-01\\
+\hline
+restime & -0.08 & 0.05 & -1.45 & 1.5e-01\\
+\hline
+\rowcolor{gray!6}  weight & 0.19 & 0.03 & 5.58 & 1.4e-07\\
+\hline
+fishmlwk & 0.10 & 0.05 & 1.82 & 7.2e-02\\
+\hline
+\end{tabular}
+\end{table}
 
-Now to determine possible differences between the fishermen and
+With stepwise selection, the selected model is :
+\(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\).
+The intercept and the two coefficients are highly significant. Moreover
+the signs of the coefficients are not absurd: while it is not really
+intuitive that the weight coefficient should be positive or negative,
+the coefficient of \emph{fishmlwk} has to be positive, and it's the case
+here.
+
+Now we determine possible differences between the fishermen and
 non-fishermen, a model based on the interactions between the
 \emph{fisherman} variable and all the others is proposed. This could
 show if a certain variable is very relevant concerning fishermen but
@@ -276,39 +253,54 @@ less when it comes to non-fishermen, for instance. We also include the
 adjustment term between the values of the intercepts of the two groups
 if it is relevant.
 
-\begin{verbatim}
-##                         Estimate Std. Error    t value     Pr(>|t|)
-## fisherman0           -1.41565206 6.93853651 -0.2040275 8.386536e-01
-## fisherman1          -10.41533001 2.65474931 -3.9232819 1.412643e-04
-## fisherman0:weight     0.03313256 0.09907139  0.3344312 7.385973e-01
-## fisherman1:weight     0.18908832 0.03644361  5.1885177 8.003708e-07
-## fisherman0:fishmlwk   1.53107486 0.70200877  2.1809911 3.099742e-02
-## fisherman1:fishmlwk   0.09828757 0.05265742  1.8665473 6.423521e-02
-\end{verbatim}
+\begin{table}[t]
 
-The best model is now : TotHg \textasciitilde{} fisherman +
-fisherman:weight + fisherman:fishmlwk - 1. While the coefficients for
-fisherman1:weight and fisherman0:fishmlwk stays very significant,
-fisherman1:fishmlwk is barely significant and fisherman0:weight,
-fisherman1 and the intercept are far from being significant. Moreover,
-when looking at the values of the coefficients, it appears that for the
-non-fishermen, the number of fish meal per week has a very preponderant
-(and reliable) effect compared to the weight influence, while among
-fishermen, the contribution of weight is twice the one of
-\emph{fishmlwk}. Eventually the value of the fisherman1 parameter is
-surprising: it implies that the fact of being a fisherman gives you
--8.99 mg/g Hg compared to non-fishermen. Yet this comes from the
-increased value of fisherman1:weight, which will make the overall Hg
-concentration more important among fishermen, as expected.
+\caption{\label{tab:unnamed-chunk-14}Model regression results}
+\centering
+\begin{tabular}{l|l|l|l|l}
+\hline
+  & Estimate & Std. Error & t value & Pr(>|t|)\\
+\hline
+\rowcolor{gray!6}  (Intercept) & -1.42 & 6.94 & -0.20 & 8.4e-01\\
+\hline
+fisherman1 & -9.00 & 7.43 & -1.21 & 2.3e-01\\
+\hline
+\rowcolor{gray!6}  fisherman0:weight & 0.03 & 0.10 & 0.33 & 7.4e-01\\
+\hline
+fisherman1:weight & 0.19 & 0.04 & 5.19 & 8.0e-07\\
+\hline
+\rowcolor{gray!6}  fisherman0:fishmlwk & 1.53 & 0.70 & 2.18 & 3.1e-02\\
+\hline
+fisherman1:fishmlwk & 0.10 & 0.05 & 1.87 & 6.4e-02\\
+\hline
+\end{tabular}
+\end{table}
+
+The best model is now
+\(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0 \cdot weight + \beta_3 \cdot fisherman_1 \cdot weight + \beta_4 \cdot fisherman_0 \cdot fishmlwk + \beta_5 \cdot fisherman_1 \cdot fishmlwk\).
+While the coefficients for \emph{fisherman1:weight} and
+\emph{fisherman0:fishmlwk} are very significant,
+\emph{fisherman1:fishmlwk} is barely significant and
+\emph{fisherman0:weight}, \emph{fisherman1} and the intercept are far
+from being significant. Moreover, when looking at the values of the
+coefficients, it appears that for the non-fishermen, the number of fish
+meal per week has a very preponderant effect compared to the weight
+influence, while among fishermen, the contribution of \emph{weight} is
+twice the one of \emph{fishmlwk}. Eventually the value of \(\beta_1\)
+(corresponding to \emph{fisherman1} variable) is surprising: it implies
+that the fact of being a fisherman gives you -8.99 mg/g Hg compared to
+non-fishermen. Yet this comes from the increased value of
+fisherman1:weight, which will make the overall Hg concentration more
+important among fishermen, as expected.
 
 In order to check the dependency of the selected model to the selection
-technique, we have tried backward and forward selection and obtained
+technique, we have applied backward and forward selection and obtained
 similar models.
 
 \subsection{Results and discussion}\label{results-and-discussion}
 
-We are now discussing the results of the model: TotHg \textasciitilde{}
-fisherman + fisherman:weight + fisherman:fishmlwk - 1.
+We now turn to discussing the results of the model:
+\(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0 \cdot weight + \beta_3 \cdot fisherman_1 \cdot weight + \beta_4 \cdot fisherman_0 \cdot fishmlwk + \beta_5 \cdot fisherman_1 \cdot fishmlwk\).
 
 \subsubsection{Difference between fisherman and control
 populations}\label{difference-between-fisherman-and-control-populations}
@@ -392,34 +384,26 @@ those hypotheses.
 The model does not seem to be really homoscedastic. Variance is much
 higher for fishermen than for non-fishermen. However, within each class,
 the variance is overall well distributed, even if it tends to be a
-little more spread for high fitted values. But, since our model is split
-into two submodels corresponding to fisherman population and
-non-fisherman population, the difference of variances between both
-classes doesn't matter.
+little more spread for high fitted values.
 
-We have a heavy tails distribution of residuals, with a very heavy right
-tail. The fact that we have two submodels merged in one might explain
-the heavy tails. However it cannot explain the difference between right
-and left tails. This could be caused by an insufficient sample size. Or
-it could be explained by a non-linear relation between the observables
-and the concentration of mercury, thus possibly unbalancing the
-residuals distribution.
+We have a heavy tailed distribution of residuals, with a very heavy
+right tail. It could be explained by a non-linear relation between the
+variables and the concentration of mercury.
 
 \subsection{Conclusion}\label{conclusion}
 
-We have achieved to build a simple model that can help explaining the
-levels of mercury observed in a fishermen population compared to a
-control group. It appears that the variables that have the most
-significant influence over the measured levels of mercury are the weight
-of the individual and the frequency at which they eat fish. The former
-can seem surprising even if some hypotheses can be formed to account for
-the influence of weight on mercury levels. The latter may be the main
-explanation for the differences observed between our two groups:
-fishermen use to eat fish much more often than non-fishermen, as fish is
-a well-known source of mercury it seems logical to see a positive
-correlation between fish meal frequency and mercury levels and thus to
-observe higher mercury levels in fishermen populations compared to
-non-fishermen.
+We have built a simple model that can help to explain the levels of
+mercury observed in a fishermen population compared to a control group.
+It appears that the variables that have the most significant influence
+over the measured levels of mercury are the weight of the individual and
+the frequency at which they eat fish. The former can seem surprising
+even though some hypotheses can be formed to account for the influence
+of weight on mercury levels. The latter may be the main explanation for
+the differences observed between our two groups: fishermen eat fish much
+more often than non-fishermen and since fish is a well-known source of
+mercury, it seems logical to see a positive correlation between fish
+meal frequency and mercury levels and thus to observe higher mercury
+levels in fishermen populations compared to non-fishermen.
 
 \subsection*{References}\label{references}
 \addcontentsline{toc}{subsection}{References}
