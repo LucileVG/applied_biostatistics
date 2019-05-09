@@ -33,8 +33,9 @@ library(cowplot)
 DATA_FILE = "fishermen_mercury.csv" # Location of the data csv file
 dataset = read.csv(DATA_FILE) # Loading the data
 dataset$MeHg <- NULL # We are asked not to use the variable MeHg
-dataset$LogTotHg <- log(dataset$TotHg)
-dataset$logFishmlwk <- log(dataset$fishmlwk + 1)
+
+dataset.unfactored = read.csv(DATA_FILE) # Loading the data
+dataset.unfactored$MeHg <- NULL # We are asked not to use the variable MeHg
 
 #Converting categorical variables into factors
 dataset$fisherman <- factor(dataset$fisherman)
@@ -77,6 +78,16 @@ A first insight at the data shows that the fishermen population exhibits higher 
 
 ### Overview of the data 
 Before fitting a model, let's have a look at the data. The following table shows the distribution of individuals according to the 8 possible values of _fishmlwk_ and the 2 possible values of _fisherman_
+```{r, echo=FALSE, results='asis'}
+library(knitr)
+  kable(cor(dataset.unfactored), format = "latex", digits = 2, caption = "Correlation matrix")
+```
+
+```{r, fig.width=3.5, fig.height = 3, fig.cap = "Pair plots"}
+plot(dataset)
+```
+
+
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
 table(dataset$fisherman, dataset$fishmlwk)
 ```
@@ -84,7 +95,7 @@ table(dataset$fisherman, dataset$fishmlwk)
 <div style= "float:right;position: relative; top: -80px;">
 | | | | | | | | | |
 |-|-|-|-|-|-|-|-|-|
-|**Number of fish meal per week**| **0** | **1**|**2**|**3**|**4**|**7**|**14**|**21**|
+|**Number of fish meals per week**| **0** | **1**|**2**|**3**|**4**|**7**|**14**|**21**|
 |**Fishermen**|0|0|0|2|12|70|5|11|
 |**Non-fishermen**|10|14|11|0|0|0|0|0|
 </div>
@@ -136,14 +147,14 @@ With stepwise selection, the selected model is : TotHg ~ weight + fishmlwk. The 
 Now to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. This could show if a certain variable is very relevant concerning fishermen but less when it comes to non-fishermen, for instance. We also include the _fisherman_ variable itself, that will allow to include an adjustment term between the values of the intercepts of the two groups if it is relevant.
 
 ```{r, echo=FALSE, message=FALSE, include=FALSE}
-hg.form.step2 = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart) - 1
+hg.form.step2 = TotHg ~ fisherman + fisherman:(age + restime + height + weight + fishmlwk + fishpart)
 model2 <- stepAIC(lm(hg.form.step2,data=dataset), direction="both")
 ```
 ```{r, echo=FALSE, message=FALSE}
 summary(model2)$coefficients
 ```
 
-The best model is now : TotHg ~ fisherman + fisherman:weight + fisherman:fishmlwk - 1.
+The best model is now : $TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0:weight + \beta_3 \cdot fisherman_1:weight + \beta_4 \cdot fisherman_0:fishmlwk + \beta_5 \cdot fisherman_1:fishmlwk$.
 While the coefficients for fisherman1:weight and fisherman0:fishmlwk stays very significant, fisherman1:fishmlwk is barely significant and fisherman0:weight, fisherman1 and the intercept are far from being significant. Moreover, when looking at the values of the coefficients, it appears that for the non-fishermen, the number of fish meal per week has a very preponderant (and reliable) effect compared to the weight influence, while among fishermen, the contribution of weight is twice the one of _fishmlwk_. Eventually the value of the fisherman1 parameter is surprising: it implies that the fact of being a fisherman gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from the increased value of fisherman1:weight, which will make the overall Hg concentration more important among fishermen, as expected.
 
 In order to check the dependency of the selected model to the selection technique, we have tried backward and forward selection and obtained similar models.
