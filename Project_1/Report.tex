@@ -24,8 +24,8 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={Project 1: regression 1},
-            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©},
+            pdftitle={Factors influencing the levels of mercury in the hair of fishermen and non-fishermen},
+            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -74,16 +74,16 @@
 
 \setlength{\droptitle}{-2em}
 
-  \title{Project 1: regression 1}
+  \title{Factors influencing the levels of mercury in the hair of fishermen and
+non-fishermen}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©}
+    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
-      \predate{\centering\large\emph}
-  \postdate{\par}
-    \date{March 27, 2019}
-
+    \date{}
+    \predate{}\postdate{}
+  
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -117,27 +117,29 @@ a control population of 35 non-fishermen, aged 26 to 35 years. The aim
 of our study is to analyse the factors influencing the levels of mercury
 in both populations. For the sake of simplicity, we will only focus on
 total Hg, leaving out methyl mercury, since both variables are strongly
-correlated (shown in the paper).
-
-\begin{wrapfigure}{R}{0.35\textwidth}
-
-\hfill{}\includegraphics{Report_files/figure-latex/unnamed-chunk-4-1} 
-
-\caption{\label{fig:boxplots}Boxplots of Hg levels}\label{fig:unnamed-chunk-4}
-\end{wrapfigure}
-
-The dataset contains six numerical variables (age, height, weight,
-number of fish meals per week and residence time in Kuwait) and two
-categorical variables (being a fisherman or not, fish consumption
-habits). All study participants are male.
+correlated (shown in the paper). The dataset contains six numerical
+variables (age, height, weight, number of fish meals per week and
+residence time in Kuwait) and two categorical variables (being a
+fisherman or not, fish consumption habits). All study participants are
+male.
 
 \section{Exploratory analysis}\label{exploratory-analysis}
 
-\subsubsection{Overview of the data}\label{overview-of-the-data}
-
-Before fitting a model, we first have a look at the data. Table
+Before fitting a model, we first look at the data. Table
 \ref{tbl:fishmlwk} shows the distribution of individuals according to
-the number of fish meals per week and the two groups.
+the number of fish meals per week and the two groups. We note that for
+some values, there are very few people. For instance only two people eat
+fish three times per week. We also see that the number of fish meals per
+week is completely separable by population group. This explains the
+strong correlation observed between these two variables in the
+correlation matrix (Table \ref{tbl:correlation}). Besides, we also
+observe that the variables age and residence time in Kuwait are quite
+correlated with being a fisherman or not. To check whether we have
+multicolinear variables, we use the variance inflation factor (VIF). We
+set the following criteria: we keep only the variables that have a
+result below 5. We observe that all the variables have a variance
+inflation factor below 2, so we do not eliminate any variable, for the
+moment.
 
 \begin{table}[t]
 
@@ -152,12 +154,6 @@ fisherman & 0 & 0 & 0 & 2 & 12 & 70 & 5 & 11\\
 \bottomrule
 \end{tabular}
 \end{table}
-
-We note that for some values, there are very few people. For instance
-only two people eat fish three times per week. We also see that the
-number of fish meals per week is completely separable by population
-group.
-\emph{Besides, we face the same unbalanced pattern for the variables age and restime.}
 
 \begin{table}[t]
 
@@ -192,26 +188,40 @@ TotHg & 0.23 & 0.16 & 0.06 & 0.19 & 0.41 & 0.30 & 0.11 & 1.00\\
 \caption{\label{fig:pair_plots}Pair plots}
 \end{figure}
 
-\subsubsection{Multicolinearity}\label{multicolinearity}
-
-To check whether we have multicolinear variables, we use the variance
-inflation factor (VIF). We set the following criteria: we keep only the
-variables that have a result below 5. We observe that all the variables
-have a variance inflation factor below 2, so we do not eliminate any
-variable, for the moment.
-
 \subsection{Model selection}\label{model-selection}
 
 We now use the different methods of model selection to select the more
 relevant variables to explain the \emph{TotHg} variations within the
-population.
+population. We first apply a stepwise selection based on a formula with
+all the variables. With stepwise selection, the selected model is :
+\(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\).
+The intercept and the two coefficients are highly significant. Moreover
+the signs of the coefficients are not absurd: while it is not really
+intuitive that the weight coefficient should be positive or negative,
+the coefficient of \emph{fishmlwk} has to be positive, and it is the
+case here. Now, to determine possible differences between the fishermen
+and non-fishermen, a model based on the interactions between the
+\emph{fisherman} variable and all the others is proposed. The best model
+is now
+\(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot fisherman \cdot weight + \beta_3 \cdot fisherman \cdot fishmlwk\).
+The coefficients for \emph{fisherman}, \emph{fisherman:weight} and the
+intercept are very significant. On the contrary,
+\emph{fisherman:fishmlwk} is barely significant, this may be due to the
+fact that both variables are highly correlated as explained before.
 
-We first apply a stepwise selection based on a formula with all the
-variables. Indeed, the preliminary exploration has shown that the
-\emph{fisherman} variable has considerable impact on many other
-variables. Therefore to understand what is the reason behind the TotHg
-difference between the 2 groups, it seems natural to start with a model
-without the \emph{fisherman} variable.
+TOUT LE PARAGRAPHE QUI SUIT NE FAIT PLUS SENS MANTENANT Moreover, when
+looking at the values of the coefficients, it appears that for the
+non-fishermen, the number of fish meal per week has a very preponderant
+effect compared to the weight influence, while among fishermen, the
+contribution of \emph{weight} is twice the one of \emph{fishmlwk}.
+Eventually the value of \(\beta_1\) (corresponding to \emph{fisherman1}
+variable) is surprising: it implies that the fact of being a fisherman
+gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from
+the increased value of fisherman1:weight, which will make the overall Hg
+concentration more important among fishermen, as expected. In order to
+check the dependency of the selected model to the selection technique,
+we have applied backward and forward selection and obtained similar
+models.
 
 \begin{table}[t]
 
@@ -223,7 +233,7 @@ without the \emph{fisherman} variable.
 \hline
 \rowcolor{gray!6}  (Intercept) & -12.68 & 2.71 & -4.68 & 7.0e-06\\
 \hline
-fisherman1 & 1.11 & 0.65 & 1.70 & 9.1e-02\\
+fisherman & 1.11 & 0.65 & 1.70 & 9.1e-02\\
 \hline
 \rowcolor{gray!6}  age & 0.05 & 0.03 & 1.43 & 1.6e-01\\
 \hline
@@ -236,23 +246,6 @@ fishmlwk & 0.10 & 0.05 & 1.82 & 7.2e-02\\
 \end{tabular}
 \end{table}
 
-With stepwise selection, the selected model is :
-\(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\).
-The intercept and the two coefficients are highly significant. Moreover
-the signs of the coefficients are not absurd: while it is not really
-intuitive that the weight coefficient should be positive or negative,
-the coefficient of \emph{fishmlwk} has to be positive, and it's the case
-here.
-
-Now we determine possible differences between the fishermen and
-non-fishermen, a model based on the interactions between the
-\emph{fisherman} variable and all the others is proposed. This could
-show if a certain variable is very relevant concerning fishermen but
-less when it comes to non-fishermen, for instance. We also include the
-\emph{fisherman} variable itself, that will allow to include an
-adjustment term between the values of the intercepts of the two groups
-if it is relevant.
-
 \begin{table}[t]
 
 \caption{\label{tab:unnamed-chunk-14}Model regression results}
@@ -261,46 +254,21 @@ if it is relevant.
 \hline
   & Estimate & Std. Error & t value & Pr(>|t|)\\
 \hline
-\rowcolor{gray!6}  (Intercept) & -1.42 & 6.94 & -0.20 & 8.4e-01\\
+\rowcolor{gray!6}  (Intercept) & 2.62 & 0.44 & 5.96 & 2.2e-08\\
 \hline
-fisherman1 & -9.00 & 7.43 & -1.21 & 2.3e-01\\
+fisherman & -13.03 & 2.76 & -4.72 & 6.1e-06\\
 \hline
-\rowcolor{gray!6}  fisherman0:weight & 0.03 & 0.10 & 0.33 & 7.4e-01\\
+\rowcolor{gray!6}  fisherman:weight & 0.19 & 0.04 & 5.05 & 1.5e-06\\
 \hline
-fisherman1:weight & 0.19 & 0.04 & 5.19 & 8.0e-07\\
-\hline
-\rowcolor{gray!6}  fisherman0:fishmlwk & 1.53 & 0.70 & 2.18 & 3.1e-02\\
-\hline
-fisherman1:fishmlwk & 0.10 & 0.05 & 1.87 & 6.4e-02\\
+fisherman:fishmlwk & 0.10 & 0.05 & 1.82 & 7.2e-02\\
 \hline
 \end{tabular}
 \end{table}
 
-The best model is now
-\(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0 \cdot weight + \beta_3 \cdot fisherman_1 \cdot weight + \beta_4 \cdot fisherman_0 \cdot fishmlwk + \beta_5 \cdot fisherman_1 \cdot fishmlwk\).
-While the coefficients for \emph{fisherman1:weight} and
-\emph{fisherman0:fishmlwk} are very significant,
-\emph{fisherman1:fishmlwk} is barely significant and
-\emph{fisherman0:weight}, \emph{fisherman1} and the intercept are far
-from being significant. Moreover, when looking at the values of the
-coefficients, it appears that for the non-fishermen, the number of fish
-meal per week has a very preponderant effect compared to the weight
-influence, while among fishermen, the contribution of \emph{weight} is
-twice the one of \emph{fishmlwk}. Eventually the value of \(\beta_1\)
-(corresponding to \emph{fisherman1} variable) is surprising: it implies
-that the fact of being a fisherman gives you -8.99 mg/g Hg compared to
-non-fishermen. Yet this comes from the increased value of
-fisherman1:weight, which will make the overall Hg concentration more
-important among fishermen, as expected.
-
-In order to check the dependency of the selected model to the selection
-technique, we have applied backward and forward selection and obtained
-similar models.
-
 \subsection{Results and discussion}\label{results-and-discussion}
 
 We now turn to discussing the results of the model:
-\(TotHg = \beta_0 + \beta_1 \cdot fisherman_1 + \beta_2 \cdot fisherman_0 \cdot weight + \beta_3 \cdot fisherman_1 \cdot weight + \beta_4 \cdot fisherman_0 \cdot fishmlwk + \beta_5 \cdot fisherman_1 \cdot fishmlwk\).
+\(\beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot fisherman \cdot weight + \beta_3 \cdot fisherman \cdot fishmlwk\).
 
 \subsubsection{Difference between fisherman and control
 populations}\label{difference-between-fisherman-and-control-populations}
@@ -328,11 +296,11 @@ observables have a really different effect on both populations.
 \subsubsection{Number of fish meals per
 week}\label{number-of-fish-meals-per-week}
 
-On the other side, the number of meal composed of fish (\emph{fishmlwk})
-seems to be contributing to the mercury levels of both populations
-(\emph{p}-values of 0.03 for non-fisherman and 0.06 for fisherman).
-However, we can see that there is a huge difference between the two
-contributions of a factor 16.
+TOUTE CETTE PARTIE DOIT ETRE REVUE On the other side, the number of
+meals composed of fish (\emph{fishmlwk}) seems to be contributing to the
+mercury levels of both populations (\emph{p}-values of XXXXXXX for
+non-fisherman and XXXXXX for fisherman). However, we can see that there
+is a huge difference between the two contributions of a factor XXXXX.
 
 Here again, we can come up with some possible explanations, needing
 further inquiries:
@@ -357,7 +325,7 @@ hypotheses.
 \subsubsection{Weight}\label{weight}
 
 However, the most significant coefficient is for \emph{weight} for
-fisherman population, with a \emph{p}-value of 8e-07. This coefficient
+fisherman population, with a \emph{p}-value of 7e-02. This coefficient
 suggests a high positive correlation between the weight of the fisherman
 and the concentration of mercury in its hair.
 
@@ -400,10 +368,10 @@ the frequency at which they eat fish. The former can seem surprising
 even though some hypotheses can be formed to account for the influence
 of weight on mercury levels. The latter may be the main explanation for
 the differences observed between our two groups: fishermen eat fish much
-more often than non-fishermen and since fish is a well-known source of
-mercury, it seems logical to see a positive correlation between fish
-meal frequency and mercury levels and thus to observe higher mercury
-levels in fishermen populations compared to non-fishermen.
+more often than non-fishermen, since fish is a well-known source of
+mercury it seems logical to see a positive correlation between fish meal
+frequency and mercury levels and thus to observe higher mercury levels
+in fishermen populations compared to non-fishermen.
 
 \subsection*{References}\label{references}
 \addcontentsline{toc}{subsection}{References}
