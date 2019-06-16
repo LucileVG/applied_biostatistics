@@ -1,0 +1,11 @@
+@book{mittelbach_latex_2009,
+address = {Boston},
+edition = {2nd ed., 9th print},
+series = {Addison-Wesley series on tools and techniques for computer typesetting},
+title = {The LATEX companion},
+isbn = {0-201-36299-6},
+language = {anglais},
+publisher = {Addison-Wesley},
+author = {Mittelbach, Frank and Goossens, Michel and Braams, Johannes and Detig, Christine and Rahtz, Sebastian},
+year = {2009},
+}
