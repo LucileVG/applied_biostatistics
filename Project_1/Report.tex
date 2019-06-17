@@ -25,7 +25,7 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={Factors influencing the levels of mercury in the hair of fishermen and non-fishermen},
-            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué},
+            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -78,7 +78,7 @@
 non-fishermen}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué}
+    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
     \date{}
@@ -209,9 +209,6 @@ determine possible differences between the fishermen and non-fishermen,
 a model based on the interactions between the \emph{fisherman} variable
 and all the others is proposed. The best model is now
 \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\).
-In order to check the dependency of the selected model to the selection
-technique, we have applied backward and forward selection and obtained
-similar models.
 
 \begin{table}[t]
 
@@ -274,21 +271,25 @@ correlated to total Hg levels. Eventually the value of \(\beta_1\)
 that the fact of being a fisherman gives you -9.00 mg/g Hg compared to
 non-fishermen. Yet this comes from the increased value of
 \emph{fisherman:weight}, which will make the overall Hg concentration
-more important among fishermen, as expected. Another surprising result
-is the negative value of \(\beta_5\) (corresponding to
-\emph{fisherman}:\emph{fishmlwk} interaction): it suggests that among
-fishermen the number of fish meals per week has a weak impact on total
-Hg levels (\(\beta_3+\beta_5 = 0.1\)) while it has a much stronger
-impact on non-fishermen (\(\beta_3 = 1.53\)). However, we have to
-remember that the number of fish meals per week is completely separable
-by population group. The simplest explanation could be that the relation
-between the number of fish meals per week and total Hg levels is
-positive but not linear: it increases fast for low numbers of fish meals
-(i.e.~for non-fishermen) and more slowly for high numbers of fish meals
-(i.e.~for fishermen). Furthermore, the observable does not reflect
-entirely the quantity of fish eaten, since one can eat more or less fish
-per meal. The weight of fish eaten per week, might be a more accurate
-observable to study.
+more important among fishermen, as expected.
+
+\subsubsection{Number of fish meals per
+week}\label{number-of-fish-meals-per-week}
+
+The negative value of \(\beta_5\) (corresponding to
+\emph{fisherman}:\emph{fishmlwk} interaction) is also a surprising
+result: it suggests that among fishermen the number of fish meals per
+week has a weak impact on total Hg levels (\(\beta_3+\beta_5 = 0.1\))
+while it has a much stronger impact on non-fishermen
+(\(\beta_3 = 1.53\)). However, we have to remember that the number of
+fish meals per week is completely separable by population group. The
+simplest explanation could be that the relation between the number of
+fish meals per week and total Hg levels is positive but not linear: it
+increases fast for low numbers of fish meals (i.e.~for non-fishermen)
+and more slowly for high numbers of fish meals (i.e.~for fishermen).
+Furthermore, the observable does not reflect entirely the quantity of
+fish eaten, since one can eat more or less fish per meal. The weight of
+fish eaten per week, might be a more accurate observable to study.
 
 \subsubsection{Weight}\label{weight}
 
@@ -307,14 +308,21 @@ mercury concentration in hair.
 \includegraphics{Report_files/figure-latex/unnamed-chunk-18-1.pdf}
 \includegraphics{Report_files/figure-latex/unnamed-chunk-18-2.pdf}
 
-The model does not seem to be really homoscedastic. Variance is much
-higher for fishermen than for non-fishermen. However, within each class,
-the variance is overall well distributed, even if it tends to be a
-little more spread for high fitted values.
+The plot of the residuals against the fitted values help us to assess
+the 3 assumptions of the residuals. For the first one, which is that the
+mean of the residuals is 0, the plot confirms it. For the second one
+which is the homoscedasticity of the model, it does not seem to be
+really homoscedastic. Indeed, a model is homoscedastic if the variance
+is the same for all the values, and here, the variance is much higher
+for fishermen than for non-fishermen. However, within each class, the
+variance is overall similar, even if it tends to be a little more spread
+for high fitted values. At last, for the third one, which is the
+uncorrelation between the X variables and the residuals, we can again
+confirm it with the plot.
 
-We have a heavy tailed distribution of residuals, with a very heavy
-right tail. It could be explained by a non-linear relation between the
-variables and the concentration of mercury.
+The QQ plot shows that we have a heavy tailed distribution of residuals,
+with a very heavy right tail. It could be explained by a non-linear
+relation between the variables and the concentration of mercury.
 
 \subsection{Conclusion}\label{conclusion}
 
