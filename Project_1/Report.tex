@@ -25,7 +25,7 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={Factors influencing the levels of mercury in the hair of fishermen and non-fishermen},
-            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©},
+            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -78,7 +78,7 @@
 non-fishermen}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©}
+    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
     \date{}
@@ -192,10 +192,15 @@ TotHg & 0.23 & 0.16 & 0.06 & 0.19 & 0.41 & 0.30 & 0.11 & 1.00\\
 
 \subsection{Model selection}\label{model-selection}
 
-We now use the different methods of model selection to select the more
+We now use a stepwise method of model selection to select the more
 relevant variables to explain the \emph{TotHg} variations within the
-population. We first apply a stepwise selection based on a formula with
-all the variables. With stepwise selection, the selected model is :
+population. The selection of the model is based on the AIC score of the
+model, which means that after having added or delected an explanatory
+variable from the model, the algorithm keeps the new model if the AIC
+score is better. In the end, it is an otpimisation problem in which we
+want to find the model with the best AIC score possible. We begin our
+process of model selection with a formula with all the variables. After
+this stepwise selection, the selected model is :
 \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\).
 The intercept and the two coefficients are highly significant. Moreover
 the signs of the coefficients are not absurd: while it is not really
@@ -209,21 +214,10 @@ is now
 The coefficients for \emph{fisherman}, \emph{fisherman:weight} and the
 intercept are very significant. On the contrary,
 \emph{fisherman:fishmlwk} is barely significant, this may be due to the
-fact that both variables are highly correlated as explained before.
-
-TOUT LE PARAGRAPHE QUI SUIT NE FAIT PLUS SENS MANTENANT Moreover, when
-looking at the values of the coefficients, it appears that for the
-non-fishermen, the number of fish meal per week has a very preponderant
-effect compared to the weight influence, while among fishermen, the
-contribution of \emph{weight} is twice the one of \emph{fishmlwk}.
-Eventually the value of \(\beta_1\) (corresponding to \emph{fisherman1}
-variable) is surprising: it implies that the fact of being a fisherman
-gives you -8.99 mg/g Hg compared to non-fishermen. Yet this comes from
-the increased value of fisherman1:weight, which will make the overall Hg
-concentration more important among fishermen, as expected. In order to
-check the dependency of the selected model to the selection technique,
-we have applied backward and forward selection and obtained similar
-models.
+fact that both variables are highly correlated as explained before. In
+order to check the dependency of the selected model to the selection
+technique, we have applied backward and forward selection and obtained
+similar models.
 
 \begin{table}[t]
 
@@ -275,10 +269,11 @@ We now turn to discussing the results of the model:
 \subsubsection{Difference between fisherman and control
 populations}\label{difference-between-fisherman-and-control-populations}
 
-First, we get two coefficients very significantly different from 0
-(\emph{p} \textless{} 0.001), both concerning fisherman population. The
-fact that there are less significant coefficients for non-fisherman
-population could be explained by several causes:
+CETTE PARTIE DOIT ETRE REVUE First, we get two coefficients very
+significantly different from 0 (\emph{p} \textless{} 0.001), both
+concerning fisherman population. The fact that there are less
+significant coefficients for non-fisherman population could be explained
+by several causes:
 
 \begin{itemize}
 \tightlist
@@ -294,6 +289,15 @@ However, those are only suppositions in order to explain the
 distribution of the \emph{p}-values, but none of them have been proven.
 Further experiments are needed in order to show whether or not those
 observables have a really different effect on both populations.
+
+NOUVELLE PROPOSITION: According to our model fitting, there is a
+significant difference between the fisherman and the non fisherman
+population. Eventually the value of \(\beta_1\) (corresponding to
+\emph{fisherman} variable) is surprising: it implies that the fact of
+being a fisherman gives you -13.03 mg/g Hg compared to non-fishermen.
+Yet this comes from the increased value of \emph{fisherman:weight},
+which will make the overall Hg concentration more important among
+fishermen, as expected.
 
 \subsubsection{Number of fish meals per
 week}\label{number-of-fish-meals-per-week}
@@ -324,6 +328,22 @@ further inquiries:
 Here again, more experiments are required to confirm or reject those
 hypotheses.
 
+NOUVELLE PROPOSITION: As the variable \emph{fishmlwk} only appears in
+interaction with the variable \emph{fisherman}, it means that we are not
+able to prove any effect of this variable on the non fisherman
+population, whereas there is a positive effect on the fisherman
+population, meaning that an increasing weight in the fisherman
+population will lead to an increased level of mercury. The fact that
+there is not significant effect on the non fisherman population could be
+due to the fact that in this population, nobody eats more that 2 meals
+of fish per week, whereas in the fisherman population, nobody eats less
+than 3 meals of fish per week. Thus, we can hypothesize that with less
+than 3 meals of fish per week, the effect is not significant. More
+experiments would be required to validate this hypothesis. Furthermore,
+the observable does not reflect entirely the quantity of fish eaten,
+since one can eat more or less fish per meal. The weight of fish eaten
+per week, might be a more accurate observable to study.
+
 \subsubsection{Weight}\label{weight}
 
 However, the most significant coefficient is for \emph{weight} for
@@ -345,6 +365,25 @@ concentration in hair.
 
 Here again, further experiments are needed in order to support or reject
 those hypotheses.
+
+NOUVELLE PROPOSITION: The same goes for \emph{weight} because again, we
+were not abl to prove a significant effect for the non fisherman
+population. We can hypothesize that it is due to the fact that we
+observe more of high weight in the fisherman population than in the non
+fisherman population, and that, as for the variable \emph{fishmlwk}, the
+effect of the \emph{weight} is statisticaly significant only for high
+values of the weight. Moreover, we find a significant positive impact of
+the \emph{weight} on the mercury levels in the fisherman population,
+which was unexpected, since a concentration and not an absolute quantity
+was measured.
+
+However, even though it was unexpected it has many possible explanations
+such as the fact that weight is much likely correlated with adiposity
+more susceptible to catch toxins than other tissues. Another explanation
+could be that the fatter, the more one eats and possibly ingests mercury
+that could fix in the hair; since hair weight isn't likely to be
+correlated with body weight, it could explain the high mercury
+concentration in hair.
 
 \subsubsection{Diagnostic plots}\label{diagnostic-plots}
 

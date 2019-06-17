@@ -229,7 +229,7 @@ First, we get two coefficients very significantly different from 0 (_p_ < 0.001)
 However, those are only suppositions in order to explain the distribution of the _p_-values, but none of them have been proven. Further experiments are needed in order to show whether or not those observables have a really different effect on both populations.
 
 NOUVELLE PROPOSITION:
-According to our model fitting, there is a significant difference between the fisherman and the non fisherman population.  Eventually the value of \beta_1 (corresponding to _fisherman_ variable) is surprising: it implies that the fact of being a fisherman gives you -13.03 mg/g Hg compared to non-fishermen. Yet this comes
+According to our model fitting, there is a significant difference between the fisherman and the non fisherman population.  Eventually the value of $\beta_1$ (corresponding to _fisherman_ variable) is surprising: it implies that the fact of being a fisherman gives you -13.03 mg/g Hg compared to non-fishermen. Yet this comes
 from the increased value of _fisherman:weight_, which will make the overall Hg concentration more important among fishermen, as expected.
 
 ### Number of fish meals per week
