@@ -25,7 +25,7 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={Factors influencing the levels of mercury in the hair of fishermen and non-fishermen},
-            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©},
+            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigue},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -66,7 +66,7 @@
 \usepackage{titling}
 
 % Create subtitle command for use in maketitle
-\newcommand{\subtitle}[1]{
+\providecommand{\subtitle}[1]{
   \posttitle{
     \begin{center}\large#1\end{center}
     }
@@ -78,7 +78,7 @@
 non-fishermen}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile ViguÃ©}
+    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigue}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
     \date{}
@@ -98,12 +98,11 @@ non-fishermen}
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
-\usepackage{float}
 
 \usepackage{fancyhdr}
-\usepackage{wrapfig}
+\usepackage{wrapfig, subfig}
 \pagestyle{fancy}
-\fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigué}
+\fancyhead[LE,RO]{Christen, Goffeney, Vermeil, Vigue}
 
 \begin{document}
 \maketitle
@@ -126,17 +125,8 @@ residence time in Kuwait) and two categorical variables (being a
 fisherman or not, fish consumption habits). All study participants are
 male.
 
+\begin{table}[t]
 
-
-\subsection{Exploratory analysis}\label{exploratory-analysis}
-
-Before fitting a model, we first look at the data. Table
-\ref{tbl:fishmlwk} shows the distribution of individuals according to
-the number of fish meals per week and the two groups. We note that for
-some values, there are very few people. For instance, only two people
-eat fish three times per week. 
-
-\begin{table}[H]
 \caption{\label{tab:unnamed-chunk-6}\label{tbl:fishmlwk}Distribution of the number of fish meals accross fishermen and non-fishermen populations}
 \centering
 \begin{tabular}{lrrrrrrrr}
@@ -149,10 +139,9 @@ fisherman & 0 & 0 & 0 & 2 & 12 & 70 & 5 & 11\\
 \end{tabular}
 \end{table}
 
-\begin{table}[H]
-\begin{center}
+\begin{table}[t]
+
 \caption{\label{tab:unnamed-chunk-7}\label{tbl:correlation}Correlation matrix}
-\end{center}
 \centering
 \begin{tabular}{l|r|r|r|r|r|r|r|r}
 \hline
@@ -176,23 +165,33 @@ TotHg & 0.23 & 0.16 & 0.06 & 0.19 & 0.41 & 0.30 & 0.11 & 1.00\\
 \hline
 \end{tabular}
 \end{table}
-We also see that the number of fish meals
-per week is completely separable by population group. This is
-illustrated and quantified by the correlation matrix (Table
-\ref{tbl:correlation}) and the pair plots (Figure \ref{fig:pair_plots}).
-They reveal the strong correlation observed between \emph{fisherman} and
-\emph{fishmlwk}. Moreover other expected correlation appears, between
-\emph{height} and \emph{weight} or \emph{age} and \emph{restime}
-especially, but they stay quite weak. To quantify this multicolinearity
-of variables, we use the variance inflation factor (VIF). We set the
-following criteria: we keep only the variables that have a result below
-5. We observe that all the variables have a variance inflation factor
-below 2, so we do not eliminate any variable, for the moment.
 
-\begin{figure}
-\centering
-\includegraphics{Report_files/figure-latex/unnamed-chunk-8-1.pdf}
-\caption{\label{fig:pair_plots}Pair plots}
+\subsection{Exploratory analysis}\label{exploratory-analysis}
+
+Before fitting a model, we first look at the data. Table
+\ref{tbl:fishmlwk} shows the distribution of individuals according to
+the number of fish meals per week and the two groups. We note that for
+some values, there are very few people. For instance, only two people
+eat fish three times per week. We also see that the number of fish meals
+per week is completely separable by population group. This is quantified
+and illustrated by the correlation matrix (Table \ref{tbl:correlation})
+and the pair plots (Figure \ref{fig:pair_plots}). They reveal the strong
+correlation observed between \emph{fisherman} and \emph{fishmlwk}.
+Moreover other expected correlations appear, between \emph{height} and
+\emph{weight} or \emph{age} and \emph{restime} especially, but they stay
+quite weak. To quantify this multicolinearity of variables, we use the
+variance inflation factor (VIF). We set the following criterion: we keep
+only the variables that have a result below 5. We observe that all the
+variables have a variance inflation factor below 2, so we do not
+eliminate any variable, for the moment.
+
+\begin{figure}[htbp]
+
+{\centering \includegraphics{Report_files/figure-latex/unnamed-chunk-8-1} 
+
+}
+
+\caption{\label{fig:pair_plots}Pair plots}\label{fig:unnamed-chunk-8}
 \end{figure}
 
 \subsection{Model selection}\label{model-selection}
@@ -206,7 +205,14 @@ score is better. In the end, it is an optimisation problem in which we
 want to find the model with the lowest possible AIC score. We begin our
 process of model selection with a formula with all the variables to the
 first order. After this stepwise selection, the selected model is:
-\(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\)
+
+\begin{equation}
+\label{eqn:fullmodel}
+\begin{split}
+TotHg = \beta_0 + \beta_1 \cdot fisherman  + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk
+\end{split}
+\end{equation}
+
 (Table \ref{tbl:fullmodel}). The intercept and the weight coefficient
 are highly significant but the others are not. However, the signs of the
 coefficients are not absurd: while it is not really intuitive that the
@@ -214,8 +220,16 @@ weight coefficient should be positive or negative, the coefficient of
 \emph{fishmlwk} has to be positive, and it is the case here. Now, to
 determine possible differences between the fishermen and non-fishermen,
 a model based on the interactions between the \emph{fisherman} variable
-and all the others is proposed. The best model is now
-\(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\).
+and all the others is proposed. The best model is now given by model
+\ref{eqn:interactionmodel} with estimates in Table
+\ref{tbl:interactionmodel}.
+
+\begin{equation}
+\label{eqn:interactionmodel}
+\begin{split}
+TotHg = & \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight +  \beta_3 \cdot fishmlwk \\&+ \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk
+\end{split}
+\end{equation}
 
 \begin{table}[t]
 
@@ -265,9 +279,8 @@ fisherman:fishmlwk & -1.43 & 0.70 & -2.04 & 4.4e-02\\
 
 \subsection{Results and discussion}\label{results-and-discussion}
 
-We now turn to discussing the results of this model:
-
-\(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\).
+We now turn to discussing the results of model
+\ref{eqn:interactionmodel}.
 
 The coefficients and levels of signifiance of those are presented in
 Table \ref{tbl:interactionmodel}. What appears is that fishermen have a
@@ -286,7 +299,7 @@ As described previously, being a fisherman or not has an impact on how
 other variables such as \emph{weight} or \emph{fishmlwk} are correlated
 to total Hg levels. But in particular this value of \(\beta_1 = -9.00\),
 corresponding to \emph{fisherman} variable, is surprising: it seems
-counter intuitive that fishermen have -9.00 mg/g Hg compared to
+counter intuitive that fishermen have 9.00 mg/g Hg less than
 non-fishermen. Yet this is compensated by the increased value of
 \emph{fisherman:weight}, which will make the overall Hg concentration
 more important among fishermen, as expected.
@@ -320,12 +333,27 @@ more one eats and possibly ingests mercury that could fix in the hair;
 since body weight is probably not correlated with the amount of hair, it
 could explain the high mercury concentration in hair.
 
-\includegraphics{Report_files/figure-latex/unnamed-chunk-18-1.pdf}
-\includegraphics{Report_files/figure-latex/unnamed-chunk-18-2.pdf}
-
 \subsubsection{Diagnostic plots}\label{diagnostic-plots}
 
-The plot of the residuals against the fitted values help us to assess three assumptions about the residuals. First, the mean of the residuals should be 0, and the plot confirms it. Second, the model should be homoscedastic, but the plot tends to show it is not the case. Indeed, a model is homoscedastic if the variance is the same for all the values, and here, the variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall similar, even if it tends to be a little more spread for high fitted values. Eventually the uncorrelation between the X variables and the residuals is again confirmed by the plot.
+\begin{figure}[htbp]
+
+{\centering \subfloat[\label{fig:residuals}residuals\label{fig:unnamed-chunk-181}]{\includegraphics[width=.45\linewidth,height=7cm]{Report_files/figure-latex/unnamed-chunk-18-1} }\subfloat[\label{fig:QQ}QQ-plot\label{fig:unnamed-chunk-182}]{\includegraphics[width=.45\linewidth,height=7cm]{Report_files/figure-latex/unnamed-chunk-18-2} }
+
+}
+
+\caption{Diagnostic plots}\label{fig:unnamed-chunk-18}
+\end{figure}
+
+The plot of the residuals against the fitted values (Figure
+\ref{fig:residuals}) help us to assess three assumptions about the
+residuals. First, the mean of the residuals should be 0, and the plot
+confirms it. Second, the model should be homoscedastic, but the plot
+tends to show it is not the case. Indeed, a model is homoscedastic if
+the variance is the same for all the values, and here, the variance is
+much higher for fishermen than for non-fishermen. However, within each
+class, the variance is overall similar, even if it tends to be a little
+more spread for high fitted values. Eventually the uncorrelation between
+the X variables and the residuals is again confirmed by the plot.
 
 The QQ plot shows that we have a heavy tailed distribution of residuals,
 with a very heavy right tail. It could be explained by a non-linear
@@ -335,12 +363,12 @@ relation between the variables and the concentration of mercury.
 
 We have built a simple model that can help to explain the levels of
 mercury observed in a fishermen population compared to a control group.
-It appears that the variables that have the most significant influence
-over the measured levels of mercury are the weight of the individual and
-the frequency at which they eat fish. The former can seem surprising
-even though some hypotheses can be formed to account for the influence
-of weight on mercury levels. The latter may be the main explanation for
-the differences observed between our two groups: fishermen eat fish much
+It appears that the variables having the most significant influence over
+the measured levels of mercury are the weight of the individual and the
+frequency at which they eat fish. The former can seem surprising even
+though some hypotheses can be formed to account for the influence of
+weight on mercury levels. The latter may be the main explanation for the
+differences observed between our two groups: fishermen eat fish much
 more often than non-fishermen, since fish is a well-known source of
 mercury it seems logical to see a positive correlation between fish meal
 frequency and mercury levels and thus to observe higher mercury levels
