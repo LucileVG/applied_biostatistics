@@ -98,6 +98,7 @@ non-fishermen}
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage{float}
 
 \usepackage{fancyhdr}
 \usepackage{wrapfig}
@@ -125,24 +126,17 @@ residence time in Kuwait) and two categorical variables (being a
 fisherman or not, fish consumption habits). All study participants are
 male.
 
+
+
 \subsection{Exploratory analysis}\label{exploratory-analysis}
 
 Before fitting a model, we first look at the data. Table
 \ref{tbl:fishmlwk} shows the distribution of individuals according to
 the number of fish meals per week and the two groups. We note that for
 some values, there are very few people. For instance, only two people
-eat fish three times per week. We also see that the number of fish meals
-per week is completely separable by population group. This explains the
-strong correlation observed between these two variables in the
-correlation matrix (Table \ref{tbl:correlation}). To check whether we
-have multicolinear variables, we use the variance inflation factor
-(VIF). We set the following criteria: we keep only the variables that
-have a result below 5. We observe that all the variables have a variance
-inflation factor below 2, so we do not eliminate any variable, for the
-moment.
+eat fish three times per week. 
 
-\begin{table}[t]
-
+\begin{table}[H]
 \caption{\label{tab:unnamed-chunk-6}\label{tbl:fishmlwk}Distribution of the number of fish meals accross fishermen and non-fishermen populations}
 \centering
 \begin{tabular}{lrrrrrrrr}
@@ -155,9 +149,10 @@ fisherman & 0 & 0 & 0 & 2 & 12 & 70 & 5 & 11\\
 \end{tabular}
 \end{table}
 
-\begin{table}[t]
-
+\begin{table}[H]
+\begin{center}
 \caption{\label{tab:unnamed-chunk-7}\label{tbl:correlation}Correlation matrix}
+\end{center}
 \centering
 \begin{tabular}{l|r|r|r|r|r|r|r|r}
 \hline
@@ -181,6 +176,18 @@ TotHg & 0.23 & 0.16 & 0.06 & 0.19 & 0.41 & 0.30 & 0.11 & 1.00\\
 \hline
 \end{tabular}
 \end{table}
+We also see that the number of fish meals
+per week is completely separable by population group. This is
+illustrated and quantified by the correlation matrix (Table
+\ref{tbl:correlation}) and the pair plots (Figure \ref{fig:pair_plots}).
+They reveal the strong correlation observed between \emph{fisherman} and
+\emph{fishmlwk}. Moreover other expected correlation appears, between
+\emph{height} and \emph{weight} or \emph{age} and \emph{restime}
+especially, but they stay quite weak. To quantify this multicolinearity
+of variables, we use the variance inflation factor (VIF). We set the
+following criteria: we keep only the variables that have a result below
+5. We observe that all the variables have a variance inflation factor
+below 2, so we do not eliminate any variable, for the moment.
 
 \begin{figure}
 \centering
@@ -196,9 +203,9 @@ population. The selection of the model is based on the AIC score of the
 model, which means that after having added or delected an explanatory
 variable from the model, the algorithm keeps the new model if the AIC
 score is better. In the end, it is an optimisation problem in which we
-want to find the model with the best AIC score possible. We begin our
-process of model selection with a formula with all the variables. After
-this stepwise selection, the selected model is:
+want to find the model with the lowest possible AIC score. We begin our
+process of model selection with a formula with all the variables to the
+first order. After this stepwise selection, the selected model is:
 \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\)
 (Table \ref{tbl:fullmodel}). The intercept and the weight coefficient
 are highly significant but the others are not. However, the signs of the
@@ -212,7 +219,7 @@ and all the others is proposed. The best model is now
 
 \begin{table}[t]
 
-\caption{\label{tab:unnamed-chunk-12}\label{tbl:fullmodel}Full model regression results}
+\caption{\label{tab:unnamed-chunk-12}\label{tbl:fullmodel}First order model regression results}
 \centering
 \begin{tabular}{l|l|l|l|l}
 \hline
@@ -258,67 +265,67 @@ fisherman:fishmlwk & -1.43 & 0.70 & -2.04 & 4.4e-02\\
 
 \subsection{Results and discussion}\label{results-and-discussion}
 
-We now turn to discussing the results of the model:
+We now turn to discussing the results of this model:
+
 \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\).
+
+The coefficients and levels of signifiance of those are presented in
+Table \ref{tbl:interactionmodel}. What appears is that fishermen have a
+basal -9.00 mg/g Hg compared to non-fishermen. Then, \emph{weight} has a
+high impact in fishermen: \(\beta_2+\beta_4 = 0.19\), whereas in non
+fishermen case only \(\beta_2 = 0.3\) remains. Conversely,
+\emph{fishmlwk} is the factor with the highest impact for non-fishermen:
+\(\beta_3 = 1.53\) whereas for fishermen \(\beta_3+\beta_5 = 0.1\). In
+terms of signifiance only the coefficient concerning \emph{fishmlwk}
+appears really reliable.
 
 \subsubsection{Difference between fisherman and control
 populations}\label{difference-between-fisherman-and-control-populations}
 
-According to our model fitting, being a fisherman or not has an impact
-on how other variables such as \emph{weight} or \emph{fishmlwk} are
-correlated to total Hg levels. Eventually the value of \(\beta_1\)
-(corresponding to \emph{fisherman} variable) is surprising: it implies
-that the fact of being a fisherman gives you -9.00 mg/g Hg compared to
-non-fishermen. Yet this comes from the increased value of
+As described previously, being a fisherman or not has an impact on how
+other variables such as \emph{weight} or \emph{fishmlwk} are correlated
+to total Hg levels. But in particular this value of \(\beta_1 = -9.00\),
+corresponding to \emph{fisherman} variable, is surprising: it seems
+counter intuitive that fishermen have -9.00 mg/g Hg compared to
+non-fishermen. Yet this is compensated by the increased value of
 \emph{fisherman:weight}, which will make the overall Hg concentration
 more important among fishermen, as expected.
 
 \subsubsection{Number of fish meals per
 week}\label{number-of-fish-meals-per-week}
 
-The negative value of \(\beta_5\) (corresponding to
-\emph{fisherman}:\emph{fishmlwk} interaction) is also a surprising
-result: it suggests that among fishermen the number of fish meals per
-week has a weak impact on total Hg levels (\(\beta_3+\beta_5 = 0.1\))
-while it has a much stronger impact on non-fishermen
-(\(\beta_3 = 1.53\)). However, we have to remember that the number of
-fish meals per week is completely separable by population group. The
-simplest explanation could be that the relation between the number of
-fish meals per week and total Hg levels is positive but not linear: it
-increases fast for low numbers of fish meals (i.e.~for non-fishermen)
-and more slowly for high numbers of fish meals (i.e.~for fishermen).
-Furthermore, the observable does not reflect entirely the quantity of
-fish eaten, since one can eat more or less fish per meal. The weight of
-fish eaten per week, might be a more accurate observable to study.
+The negative value of \(\beta_5\), corresponding to
+\emph{fisherman}:\emph{fishmlwk} interaction, is also surprising: it
+suggests that among fishermen the number of fish meals per week has a
+weak impact on total Hg levels (\(\beta_3+\beta_5 = 0.1\)) while it has
+a much stronger impact on non-fishermen (\(\beta_3 = 1.53\)). However,
+previous exploration of data showed that the number of fish meals per
+week is completely separable by population group. A simple explanation
+could be that the relation between the number of fish meals per week and
+total Hg levels is positive but not linear: it increases fast for low
+numbers of fish meals (i.e.~for non-fishermen) and more slowly for high
+numbers of fish meals (i.e.~for fishermen). Furthermore, the observable
+does not reflect entirely the quantity of fish eaten, since one can eat
+more or less fish per meal. The weight of fish eaten per week might be a
+more accurate observable to study.
 
 \subsubsection{Weight}\label{weight}
 
-The fact that the weight has a positive influence on this concentration
-was unexpected, since a concentration and not an absolute quantity was
-measured. However, even though it was unexpected it has many possible
-explanations such as the fact that weight is much likely correlated with
-adiposity more susceptible to catch toxins than other tissues. Another
-explanation could be that the fatter, the more one eats and possibly
-ingests mercury that could fix in the hair; since hair weight isn't
-likely to be correlated with body weight, it could explain the high
-mercury concentration in hair.
-
-\subsubsection{Diagnostic plots}\label{diagnostic-plots}
+The positive influence of weight on this concentration was unexpected,
+since a concentration and not an absolute quantity was measured. However
+it could have many possible explanations. Weight is much likely
+correlated with adiposity, and adipose tissue more susceptible to retain
+toxins than others. Another explanation could be that the fatter, the
+more one eats and possibly ingests mercury that could fix in the hair;
+since body weight is probably not correlated with the amount of hair, it
+could explain the high mercury concentration in hair.
 
 \includegraphics{Report_files/figure-latex/unnamed-chunk-18-1.pdf}
 \includegraphics{Report_files/figure-latex/unnamed-chunk-18-2.pdf}
 
-The plot of the residuals against the fitted values help us to assess
-the 3 assumptions of the residuals. For the first one, which is that the
-mean of the residuals is 0, the plot confirms it. For the second one
-which is the homoscedasticity of the model, it does not seem to be
-really homoscedastic. Indeed, a model is homoscedastic if the variance
-is the same for all the values, and here, the variance is much higher
-for fishermen than for non-fishermen. However, within each class, the
-variance is overall similar, even if it tends to be a little more spread
-for high fitted values. At last, for the third one, which is the
-uncorrelation between the X variables and the residuals, we can again
-confirm it with the plot.
+\subsubsection{Diagnostic plots}\label{diagnostic-plots}
+
+The plot of the residuals against the fitted values help us to assess three assumptions about the residuals. First, the mean of the residuals should be 0, and the plot confirms it. Second, the model should be homoscedastic, but the plot tends to show it is not the case. Indeed, a model is homoscedastic if the variance is the same for all the values, and here, the variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall similar, even if it tends to be a little more spread for high fitted values. Eventually the uncorrelation between the X variables and the residuals is again confirmed by the plot.
 
 The QQ plot shows that we have a heavy tailed distribution of residuals,
 with a very heavy right tail. It could be explained by a non-linear

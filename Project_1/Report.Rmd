@@ -75,11 +75,6 @@ t.test(x=dataset[which(dataset$fisherman==1),]$TotHg, y=dataset[which(dataset$fi
 ggplot(dataset, aes(group=as.factor(fisherman), y=TotHg, fill=as.factor(fisherman))) + geom_boxplot() + labs(y = "Total Hg concentration in the hair (mg/g)") + scale_x_discrete() + scale_fill_discrete(name = "Population", labels = c("Control group", "Fishermen")) + theme_bw()
 ```
 
-## Exploratory analysis
-
-Before fitting a model, we first look at the data. Table \ref{tbl:fishmlwk} shows the distribution of individuals according to the number of fish meals per week and the two groups. We note that for some values, there are very few people. For instance, only two people eat fish three times per week. We also see that the number of fish meals per week is completely separable by population group. This is illustrated and quantified by the correlation matrix (Table \ref{tbl:correlation}) and the pair plots (Figure \ref{fig:pair_plots}). They reveal the strong correlation observed between _fisherman_ and _fishmlwk_. Moreover other expected correlation appears, between _height_ and _weight_ or _age_ and _restime_ especially, but they stay quite weak. To quantify this multicolinearity of variables, we use the variance inflation factor (VIF). We set the following criteria: we keep only the variables that have a result below 5. We observe that all the variables have a variance inflation factor below 2, so we do not eliminate any variable, for the moment.
-
-
 ```{r, echo=FALSE, message=FALSE, result='asis, fig.pos= "htbp"'}
 data.table = table(dataset$fisherman, dataset$fishmlwk)
 row.names(data.table) <- c("non-fisherman", "fisherman")
@@ -87,12 +82,14 @@ kable(data.table, format = "latex", booktabs = T, caption = "\\label{tbl:fishmlw
   kable_styling(latex_options = "striped")
 ```
 
-
 ```{r, echo=FALSE, results='asis'}
   kable(cor(dataset.unfactored), format = "latex", digits = 2, caption = "\\label{tbl:correlation}Correlation matrix")%>% 
   kable_styling(latex_options = "striped")
 ```
 
+## Exploratory analysis
+
+Before fitting a model, we first look at the data. Table \ref{tbl:fishmlwk} shows the distribution of individuals according to the number of fish meals per week and the two groups. We note that for some values, there are very few people. For instance, only two people eat fish three times per week. We also see that the number of fish meals per week is completely separable by population group. This is illustrated and quantified by the correlation matrix (Table \ref{tbl:correlation}) and the pair plots (Figure \ref{fig:pair_plots}). They reveal the strong correlation observed between _fisherman_ and _fishmlwk_. Moreover other expected correlation appears, between _height_ and _weight_ or _age_ and _restime_ especially, but they stay quite weak. To quantify this multicolinearity of variables, we use the variance inflation factor (VIF). We set the following criteria: we keep only the variables that have a result below 5. We observe that all the variables have a variance inflation factor below 2, so we do not eliminate any variable, for the moment.
 
 ```{r, fig.width=5, fig.height = 4, fig.cap = "\\label{fig:pair_plots}Pair plots", echo=F, fig.pos= "htbp"}
 plot(dataset)
@@ -220,7 +217,7 @@ We now turn to discussing the results of this model:
 
 \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\). 
 
-The coefficients and levels of signifiance of those are presented in Table \ref{tbl:interactionmodel}. What appears is that fishermen have a basal -9.00 mg/g Hg compared to non-fishermen. Then _weight_ has a high impact in fishermen: $\beta_2+\beta_4 = 0.19$, whereas in non fishermen case only $\beta_2 = 0.3$ remains. Conversely, _fishmlwk_ is the factor with the highest impact for non-fishermen: $\beta_3 = 1.53$ whereas for fishermen $\beta_3+\beta_5 = 0.1$. In terms of signifiance only the coefficient concerning _fishmlwk_ appears really reliable.
+The coefficients and levels of signifiance of those are presented in Table \ref{tbl:interactionmodel}. What appears is that fishermen have a basal -9.00 mg/g Hg compared to non-fishermen. Then, _weight_ has a high impact in fishermen: $\beta_2+\beta_4 = 0.19$, whereas in non fishermen case only $\beta_2 = 0.3$ remains. Conversely, _fishmlwk_ is the factor with the highest impact for non-fishermen: $\beta_3 = 1.53$ whereas for fishermen $\beta_3+\beta_5 = 0.1$. In terms of signifiance only the coefficient concerning _fishmlwk_ appears really reliable.
 
 
 ### Difference between fisherman and control populations
@@ -247,7 +244,7 @@ qplot(hg.lm.selected.model$fitted.values, hg.lm.selected.model$residuals, colour
 plot(hg.lm.selected.model, which=2, xlab = "Theoretical quantiles")#QQ plot
 ```
 
-The plot of the residuals against the fitted values help us to assess 3 assumptions about the residuals. First, the mean of the residuals should be 0, and the plot confirms it. Second, the model should be homoscedastic, but the plot tends to show it is not the case. Indeed, a model is homoscedastic if the variance is the same for all the values, and here, the variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall similar, even if it tends to be a little more spread for high fitted values. At last, for the third one, which is the uncorrelation between the X variables and the residuals, we can again confirm it with the plot.
+The plot of the residuals against the fitted values help us to assess three assumptions about the residuals. First, the mean of the residuals should be 0, and the plot confirms it. Second, the model should be homoscedastic, but the plot tends to show it is not the case. Indeed, a model is homoscedastic if the variance is the same for all the values, and here, the variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall similar, even if it tends to be a little more spread for high fitted values. Eventually the uncorrelation between the X variables and the residuals is again confirmed by the plot.
 
 
 The QQ plot shows that we have a heavy tailed distribution of residuals, with a very heavy right tail. It could be explained by a non-linear relation between the variables and the concentration of mercury. 
