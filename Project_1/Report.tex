@@ -25,7 +25,7 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={Factors influencing the levels of mercury in the hair of fishermen and non-fishermen},
-            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigue},
+            pdfauthor={Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -78,12 +78,13 @@
 non-fishermen}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigue}
+    \author{Urvan Christen, Amandine Goffeney, Joseph Vermeil, Lucile Vigué}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
-    \date{}
-    \predate{}\postdate{}
-  
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{June 2019}
+
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -199,7 +200,7 @@ eliminate any variable, for the moment.
 We now use a stepwise method of model selection to select the more
 relevant variables to explain the \emph{TotHg} variations within the
 population. The selection of the model is based on the AIC score of the
-model, which means that after having added or delected an explanatory
+model, which means that after having added or deleted an explanatory
 variable from the model, the algorithm keeps the new model if the AIC
 score is better. In the end, it is an optimisation problem in which we
 want to find the model with the lowest possible AIC score. We begin our
@@ -227,7 +228,7 @@ and all the others is proposed. The best model is now given by model
 \begin{equation}
 \label{eqn:interactionmodel}
 \begin{split}
-TotHg = & \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight +  \beta_3 \cdot fishmlwk \\&+ \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk
+TotHg = &\beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight +  \beta_3 \cdot fishmlwk \\&+ \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk
 \end{split}
 \end{equation}
 
@@ -280,13 +281,13 @@ fisherman:fishmlwk & -1.43 & 0.70 & -2.04 & 4.4e-02\\
 \subsection{Results and discussion}\label{results-and-discussion}
 
 We now turn to discussing the results of model
-\ref{eqn:interactionmodel}.
+(\ref{eqn:interactionmodel}).
 
-The coefficients and levels of signifiance of those are presented in
-Table \ref{tbl:interactionmodel}. What appears is that fishermen have a
-basal -9.00 mg/g Hg compared to non-fishermen. Then, \emph{weight} has a
-high impact in fishermen: \(\beta_2+\beta_4 = 0.19\), whereas in non
-fishermen case only \(\beta_2 = 0.3\) remains. Conversely,
+The corresponding coefficients and levels of significance are presented
+in Table \ref{tbl:interactionmodel}. What appears is that fishermen have
+a basal -9.00 mg/g Hg compared to non-fishermen. Then, \emph{weight} has
+a high impact in fishermen: \(\beta_2+\beta_4 = 0.19\), whereas in non
+fishermen case only \(\beta_2 = 0.03\) remains. Conversely,
 \emph{fishmlwk} is the factor with the highest impact for non-fishermen:
 \(\beta_3 = 1.53\) whereas for fishermen \(\beta_3+\beta_5 = 0.1\). In
 terms of signifiance only the coefficient concerning \emph{fishmlwk}
@@ -345,7 +346,7 @@ could explain the high mercury concentration in hair.
 \end{figure}
 
 The plot of the residuals against the fitted values (Figure
-\ref{fig:residuals}) help us to assess three assumptions about the
+\ref{fig:residuals}) helps us to assess three assumptions about the
 residuals. First, the mean of the residuals should be 0, and the plot
 confirms it. Second, the model should be homoscedastic, but the plot
 tends to show it is not the case. Indeed, a model is homoscedastic if
