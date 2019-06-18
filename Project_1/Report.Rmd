@@ -77,7 +77,7 @@ ggplot(dataset, aes(group=as.factor(fisherman), y=TotHg, fill=as.factor(fisherma
 
 ## Exploratory analysis
 
-Before fitting a model, we first look at the data. Table \ref{tbl:fishmlwk} shows the distribution of individuals according to the number of fish meals per week and the two groups. We note that for some values, there are very few people. For instance, only two people eat fish three times per week. We also see that the number of fish meals per week is completely separable by population group. This explains the strong correlation observed between these two variables in the correlation matrix (Table \ref{tbl:correlation}). To check whether we have multicolinear variables, we use the variance inflation factor (VIF). We set the following criteria: we keep only the variables that have a result below 5. We observe that all the variables have a variance inflation factor below 2, so we do not eliminate any variable, for the moment.
+Before fitting a model, we first look at the data. Table \ref{tbl:fishmlwk} shows the distribution of individuals according to the number of fish meals per week and the two groups. We note that for some values, there are very few people. For instance, only two people eat fish three times per week. We also see that the number of fish meals per week is completely separable by population group. This is illustrated and quantified by the correlation matrix (Table \ref{tbl:correlation}) and the pair plots (Figure \ref{fig:pair_plots}). They reveal the strong correlation observed between _fisherman_ and _fishmlwk_. Moreover other expected correlation appears, between _height_ and _weight_ or _age_ and _restime_ especially, but they stay quite weak. To quantify this multicolinearity of variables, we use the variance inflation factor (VIF). We set the following criteria: we keep only the variables that have a result below 5. We observe that all the variables have a variance inflation factor below 2, so we do not eliminate any variable, for the moment.
 
 
 ```{r, echo=FALSE, message=FALSE, result='asis, fig.pos= "htbp"'}
@@ -127,7 +127,7 @@ vif(lm(hg.form.full,data=dataset))
 ## Model selection
 
 
-We now use a stepwise method of model selection to select the more relevant variables to explain the _TotHg_ variations within the population. The selection of the model is based on the AIC score of the model, which means that after having added or delected an explanatory variable from the model, the algorithm keeps the new model if the AIC score is better. In the end, it is an optimisation problem in which we want to find the model with the best AIC score possible. We begin our process of model selection with a formula with all the variables. After this stepwise selection, the selected model is: \(TotHg = \beta_0 + \beta_1 \cdot fisherman  + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\) (Table \ref{tbl:fullmodel}). The intercept and the weight coefficient are highly significant but the others are not. However, the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ has to be positive, and it is the case here. Now, to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. The best model is now \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\). 
+We now use a stepwise method of model selection to select the more relevant variables to explain the _TotHg_ variations within the population. The selection of the model is based on the AIC score of the model, which means that after having added or delected an explanatory variable from the model, the algorithm keeps the new model if the AIC score is better. In the end, it is an optimisation problem in which we want to find the model with the lowest possible AIC score. We begin our process of model selection with a formula with all the variables to the first order. After this stepwise selection, the selected model is: \(TotHg = \beta_0 + \beta_1 \cdot fisherman  + \beta_2 \cdot age + \beta_3 \cdot restime + \beta_4 \cdot weight + \beta_5 \cdot fishmlwk\) (Table \ref{tbl:fullmodel}). The intercept and the weight coefficient are highly significant but the others are not. However, the signs of the coefficients are not absurd: while it is not really intuitive that the weight coefficient should be positive or negative, the coefficient of _fishmlwk_ has to be positive, and it is the case here. Now, to determine possible differences between the fishermen and non-fishermen, a model based on the interactions between the _fisherman_ variable and all the others is proposed. The best model is now \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\). 
 
 
 
@@ -143,7 +143,7 @@ tbl.formatted <- as.matrix(tbl)
 # Formatting each column
 tbl.formatted[1:n, 1:3] <- format(tbl[1:n, 1:3], digits = 1)
 tbl.formatted[1:n, 4] <- format(tbl[1:n, 4], digits = 2, scientific = T)
-kable(tbl.formatted, caption = "\\label{tbl:fullmodel}Full model regression results") %>%
+kable(tbl.formatted, caption = "\\label{tbl:fullmodel}First order model regression results") %>%
   kable_styling(latex_options = "striped")
 ```
 
@@ -216,20 +216,24 @@ hg.lm.selected.summary$coefficients
 ```
 
 
-We now turn to discussing the results of the model: \(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\).
+We now turn to discussing the results of this model: 
+
+\(TotHg = \beta_0 + \beta_1 \cdot fisherman + \beta_2 \cdot weight + \beta_3 \cdot fishmlwk + \beta_4 \cdot fisherman \cdot weight + \beta_5 \cdot fisherman \cdot fishmlwk\). 
+
+The coefficients and levels of signifiance of those are presented in Table \ref{tbl:interactionmodel}. What appears is that fishermen have a basal -9.00 mg/g Hg compared to non-fishermen. Then _weight_ has a high impact in fishermen: $\beta_2+\beta_4 = 0.19$, whereas in non fishermen case only $\beta_2 = 0.3$ remains. Conversely, _fishmlwk_ is the factor with the highest impact for non-fishermen: $\beta_3 = 1.53$ whereas for fishermen $\beta_3+\beta_5 = 0.1$. In terms of signifiance only the coefficient concerning _fishmlwk_ appears really reliable.
+
 
 ### Difference between fisherman and control populations
 
-According to our model fitting, being a fisherman or not has an impact on how other variables such as _weight_ or _fishmlwk_ are correlated to total Hg levels.  Eventually the value of $\beta_1$ (corresponding to _fisherman_ variable) is surprising: it implies that the fact of being a fisherman gives you -9.00 mg/g Hg compared to non-fishermen. Yet this comes
-from the increased value of _fisherman:weight_, which will make the overall Hg concentration more important among fishermen, as expected. 
+As described previously, being a fisherman or not has an impact on how other variables such as _weight_ or _fishmlwk_ are correlated to total Hg levels. But in particular this value of $\beta_1 = -9.00$, corresponding to _fisherman_ variable, is surprising: it seems counter intuitive that fishermen have -9.00 mg/g Hg compared to non-fishermen. Yet this is compensated by the increased value of _fisherman:weight_, which will make the overall Hg concentration more important among fishermen, as expected.
 
 ### Number of fish meals per week 
 
-The negative value of $\beta_5$ (corresponding to _fisherman_:_fishmlwk_ interaction) is also a surprising result: it suggests that among fishermen the number of fish meals per week has a weak impact on total Hg levels ($\beta_3+\beta_5 = 0.1$) while it has a much stronger impact on non-fishermen ($\beta_3 = 1.53$). However, we have to remember that the number of fish meals per week is completely separable by population group. The simplest explanation could be that the relation between the number of fish meals per week and total Hg levels is positive but not linear: it increases fast for low numbers of fish meals (i.e. for non-fishermen) and more slowly for high numbers of fish meals (i.e. for fishermen). Furthermore, the observable does not reflect entirely the quantity of fish eaten, since one can eat more or less fish per meal. The weight of fish eaten per week, might be a more accurate observable to study.
+The negative value of $\beta_5$, corresponding to _fisherman_:_fishmlwk_ interaction, is also surprising: it suggests that among fishermen the number of fish meals per week has a weak impact on total Hg levels ($\beta_3+\beta_5 = 0.1$) while it has a much stronger impact on non-fishermen ($\beta_3 = 1.53$). However, previous exploration of data showed that the number of fish meals per week is completely separable by population group. A simple explanation could be that the relation between the number of fish meals per week and total Hg levels is positive but not linear: it increases fast for low numbers of fish meals (i.e. for non-fishermen) and more slowly for high numbers of fish meals (i.e. for fishermen). Furthermore, the observable does not reflect entirely the quantity of fish eaten, since one can eat more or less fish per meal. The weight of fish eaten per week might be a more accurate observable to study.
 
 ### Weight
 
-The fact that the weight has a positive influence on this concentration was unexpected, since a concentration and not an absolute quantity was measured. However, even though it was unexpected it has many possible explanations such as the fact that weight is much likely correlated with adiposity more susceptible to catch toxins than other tissues. Another explanation could be that the fatter, the more one eats and possibly ingests mercury that could fix in the hair; since hair weight isn't likely to be correlated with body weight, it could explain the high mercury concentration in hair.
+The positive influence of weight on this concentration was unexpected, since a concentration and not an absolute quantity was measured. However it could have many possible explanations. Weight is much likely correlated with adiposity, and adipose tissue more susceptible to retain toxins than others. Another explanation could be that the fatter, the more one eats and possibly ingests mercury that could fix in the hair; since body weight is probably not correlated with the amount of hair, it could explain the high mercury concentration in hair.
 
 
 ### Diagnostic plots
@@ -243,9 +247,7 @@ qplot(hg.lm.selected.model$fitted.values, hg.lm.selected.model$residuals, colour
 plot(hg.lm.selected.model, which=2, xlab = "Theoretical quantiles")#QQ plot
 ```
 
-The plot of the residuals against the fitted values help us to assess the 3 assumptions of the residuals. For the first one, which is that the mean of the residuals is 0, the plot confirms it. 
-For the second one which is the homoscedasticity of the model, it does not seem to be really homoscedastic. Indeed, a model is homoscedastic if the variance is the same for all the values, and here, the variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall similar, even if it tends to be a little more spread for high fitted values. 
-At last, for the third one, which is the uncorrelation between the X variables and the residuals, we can again confirm it with the plot.
+The plot of the residuals against the fitted values help us to assess 3 assumptions about the residuals. First, the mean of the residuals should be 0, and the plot confirms it. Second, the model should be homoscedastic, but the plot tends to show it is not the case. Indeed, a model is homoscedastic if the variance is the same for all the values, and here, the variance is much higher for fishermen than for non-fishermen. However, within each class, the variance is overall similar, even if it tends to be a little more spread for high fitted values. At last, for the third one, which is the uncorrelation between the X variables and the residuals, we can again confirm it with the plot.
 
 
 The QQ plot shows that we have a heavy tailed distribution of residuals, with a very heavy right tail. It could be explained by a non-linear relation between the variables and the concentration of mercury. 
