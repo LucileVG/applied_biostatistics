@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.10)  18 JUN 2019 20:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.10)  20 JUN 2019 18:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -985,39 +985,39 @@ Package caption Info: wrapfig package is loaded.
 )
 
 Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 106.
+less on input line 107.
 
 (./Report.aux)
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 108.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 108.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 109.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 109.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 108.
-LaTeX Font Info:    ... okay on input line 108.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 108.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 109.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 108.
+LaTeX Info: Redefining \microtypecontext on input line 109.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
@@ -1066,7 +1066,7 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box44
-Package hyperref Info: Link coloring OFF on input line 108.
+Package hyperref Info: Link coloring OFF on input line 109.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
@@ -1074,9 +1074,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count143
 )
-LaTeX Info: Redefining \ref on input line 108.
-LaTeX Info: Redefining \pageref on input line 108.
-LaTeX Info: Redefining \nameref on input line 108.
+LaTeX Info: Redefining \ref on input line 109.
+LaTeX Info: Redefining \pageref on input line 109.
+LaTeX Info: Redefining \nameref on input line 109.
 (./Report.out) (./Report.out)
 \@outlinefile=\write3
 \openout3 = `Report.out'.
@@ -1110,39 +1110,39 @@ e
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 133.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 134.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 133.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 134.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 133
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 134
 .
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 133
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 134
 .
 (/usr/local/texlive/2016/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 133.
+(Font)              <12> on input line 134.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 133.
+(Font)              <8> on input line 134.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 133.
-LaTeX Font Info:    Try loading font information for U+msa on input line 133.
+(Font)              <6> on input line 134.
+LaTeX Font Info:    Try loading font information for U+msa on input line 134.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 133.
+LaTeX Font Info:    Try loading font information for U+msb on input line 134.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/local/texlive/2016/texmf-dist/tex/latex/microtype/mt-msb.cfg
@@ -1153,7 +1153,7 @@ t>
 File: Report_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-8-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-8-1.pdf used o
-n input line 191.
+n input line 192.
 (pdftex.def)             Requested size: 311.16174pt x 238.8919pt.
 [1
 
@@ -1165,32 +1165,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2] [3 <./Report_files/figure-latex/unnamed-chunk-8-1.pdf>]
-<Report_files/figure-latex/unnamed-chunk-18-1.pdf, id=93, 235.88126pt x 194.727
+<Report_files/figure-latex/unnamed-chunk-18-1.pdf, id=93, 376.40625pt x 411.537
 5pt>
 File: Report_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-18-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-18-1.pdf used 
-on input line 341.
-(pdftex.def)             Requested size: 212.41713pt x 175.3571pt.
+on input line 342.
+(pdftex.def)             Requested size: 182.16624pt x 199.16844pt.
 
-<Report_files/figure-latex/unnamed-chunk-18-2.pdf, id=94, 223.83624pt x 161.603
-74pt>
+<Report_files/figure-latex/unnamed-chunk-18-2.pdf, id=94, 361.35pt x 375.4025pt
+>
 File: Report_files/figure-latex/unnamed-chunk-18-2.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-18-2.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-18-2.pdf used 
-on input line 341.
-(pdftex.def)             Requested size: 212.4178pt x 153.35994pt.
+on input line 342.
+(pdftex.def)             Requested size: 191.7186pt x 199.17432pt.
 [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 393.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 394.
 [5 <./Report_files/figure-latex/unnamed-chunk-18-1.pdf> <./Report_files/figure-
 latex/unnamed-chunk-18-2.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 393.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 394.
 (./Report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 393.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 393.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 394.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 394.
 Package rerunfilecheck Info: File `Report.out' has not changed.
 (rerunfilecheck)             Checksum: DADD56400D8983A3F98D3CB9FB03FC57;1492.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 393.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 394.
  ) 
 Here is how much of TeX's memory you used:
  15559 strings out of 493014
@@ -1199,7 +1199,7 @@ Here is how much of TeX's memory you used:
  18743 multiletter control sequences out of 15000+600000
  50823 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,15n,51p,406b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,15n,51p,404b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
 texlive/2016/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/20
 16/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2016/texmf-dist/
@@ -1212,7 +1212,7 @@ al/texlive/2016/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/
 ist/fonts/type1/public/lm/lmri12.pfb></usr/local/texlive/2016/texmf-dist/fonts/
 type1/public/lm/lmro12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publ
 ic/lm/lmsy10.pfb>
-Output written on Report.pdf (5 pages, 449556 bytes).
+Output written on Report.pdf (5 pages, 449923 bytes).
 PDF statistics:
  166 PDF objects out of 1000 (max. 8388607)
  139 compressed objects within 2 object streams

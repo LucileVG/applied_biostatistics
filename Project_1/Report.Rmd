@@ -10,6 +10,7 @@ output:
     df_print: paged
 geometry: margin=2.5cm
 header-includes:
+- \usepackage{float}
 - \usepackage{fancyhdr}
 - \usepackage{wrapfig, subfig}
 - \pagestyle{fancy}
@@ -250,12 +251,13 @@ The positive influence of weight on this concentration was unexpected, since a c
 
 ### Diagnostic plots
 
-```{r echo = F, warning = F, message = F, fig.width=3.5, fig.height = 3, fig.cap = "Diagnostic plots", fig.subcap=c("\\label{fig:residuals}residuals", "\\label{fig:QQ}QQ-plot"), fig.pos= "htbp", out.height="7cm", out.width=".45\\linewidth", fig.align="center"}
+```{r echo = F, warning = F, message = F, fig.width=6, fig.height = 6, fig.cap = "Diagnostic plots", fig.subcap=c("\\label{fig:residuals}residuals", "\\label{fig:QQ}QQ-plot"), fig.pos= "htbp", out.height="7cm", out.width=".7\\linewidth", fig.align="center"}
 library(ggplot2)
 # plot(hg.lm.selected.model, which=1) #residuals vs fitted
 qplot(hg.lm.selected.model$fitted.values, hg.lm.selected.model$residuals, colour=revalue(as.factor(dataset$fisherman), c("0"="non-fisherman", "1"="fisherman")), xlab = "fitted values", ylab = "residuals") + 
   labs(colour = '') +
-  theme(legend.position="bottom")
+  theme(legend.position="bottom", aspect.ratio = 1)
+par(pty="s")
 plot(hg.lm.selected.model, which=2, xlab = "Theoretical quantiles", main="", sub="")#QQ plot
 ```
 
